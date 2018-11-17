@@ -26,6 +26,13 @@ public class Message {
         this.emotion = ":P";
     }
 
+    public Message(APIResponse response) {
+        this.chatBotName = response.getMessage().chatBotName;
+        this.chatBotID = response.getMessage().chatBotID;
+        this.message = response.getMessage().message;
+        this.emotion = response.getMessage().emotion;
+    }
+
     public String getChatBotName() {
         return chatBotName;
     }

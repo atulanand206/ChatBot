@@ -1,19 +1,22 @@
 package com.creations.chatbot.ui;
 
+import com.creations.chatbot.callbacks.ObjectResponseCallback;
+import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
 import com.creations.chatbot.utils.FakeDataProvider;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class MainPresenter implements MainContract.Presenter {
 
-    private WeakReference<MainContract.View> view;
+    private MainContract.View view;
+    private MainRepository repository;
 
     private List<ListItem> items;
 
-    public MainPresenter(MainContract.View view) {
-        this.view = new WeakReference<>(view);
+    public MainPresenter(MainContract.View view, MainRepository repository) {
+        this.view = view;
+        this.repository = repository;
         this.items = FakeDataProvider.getFakeChats(10);
     }
 
@@ -32,10 +35,27 @@ public class MainPresenter implements MainContract.Presenter {
         ListItem item = new ListItem(newEntry);
         items.add(item);
 
-        MainContract.View mainView = view.get();
-        if(view!=null) {
-            mainView.onItemsLoaded();
-        }
+        repository.sendMessage(item, new ObjectResponseCallback<APIResponse>() {
+            @Override
+            public void onSuccess(APIResponse response) {
+                onReplyReceived(response);
+            }
 
+            @Override
+            public void onError(int responseCode, String errorMessage) {
+
+            }
+        });
+
+        view.onItemsLoaded();
+
+    }
+
+    @Override
+    public void onReplyReceived(APIResponse response) {
+        ListItem item = new ListItem(response);
+        items.add(item);
+
+        view.onItemsLoaded();
     }
 }

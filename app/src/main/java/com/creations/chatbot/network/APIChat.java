@@ -2,18 +2,26 @@ package com.creations.chatbot.network;
 
 import com.creations.chatbot.callbacks.ListResponseCallback;
 import com.creations.chatbot.callbacks.ObjectResponseCallback;
+import com.creations.chatbot.constants.AppConstants;
+import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.Request;
-import com.creations.chatbot.model.Response;
 
 public class APIChat implements IAPIChat {
 
-    @Override
-    public void getChatReply(Request request, ObjectResponseCallback<Response> responseCallback) {
+    private final NetworkManager networkManager;
 
+    public APIChat(NetworkManager networkManager) {
+        this.networkManager = networkManager;
     }
 
     @Override
-    public void getChats(ListResponseCallback<Response> responseCallback) {
+    public void getChatReply(Request request, ObjectResponseCallback<APIResponse> responseCallback) {
+        networkManager.makeObjectRequest(com.android.volley.Request.Method.GET,
+                AppConstants.URL,request,responseCallback,APIResponse.class);
+    }
+
+    @Override
+    public void getChats(ListResponseCallback<APIResponse> responseCallback) {
 
     }
 }

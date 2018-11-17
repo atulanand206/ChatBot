@@ -18,6 +18,11 @@ public class ListItem {
         message = new Message(newEntry);
     }
 
+    public ListItem(APIResponse response) {
+        isUser = false;
+        message = new Message(response);
+    }
+
 
     public boolean isUser() {
         return isUser;

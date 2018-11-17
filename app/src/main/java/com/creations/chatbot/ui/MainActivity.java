@@ -37,13 +37,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Inject IAPIChat apiChat;
 
+    @Inject MainRepository mainRepository;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(this, mainRepository);
 
         entryView = findViewById(R.id.form_entry);
         sendButton = findViewById(R.id.send);

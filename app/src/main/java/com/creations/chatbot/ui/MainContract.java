@@ -1,5 +1,6 @@
 package com.creations.chatbot.ui;
 
+import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface MainContract {
         List<ListItem> getItems();
 
         void onSendClicked(String newEntry);
+
+        void onReplyReceived(APIResponse response);
     }
 }

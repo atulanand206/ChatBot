@@ -17,7 +17,7 @@ public abstract class NetworkManager {
      * @param classOfT class of the expected response type.
      * @param <T> expected response type.
      */
-    public abstract <T> void makeObjectRequest(@NonNull @RequestMethod.HTTPRequestMethod String method,
+    public abstract <T> void makeObjectRequest(@NonNull int method,
                            @NonNull String url,
                            @Nullable Object requestBody,
                            @NonNull ObjectResponseCallback<T> callback,
@@ -33,7 +33,7 @@ public abstract class NetworkManager {
      * @param classOfT class of the expected response type.
      * @param <T> expected response type.
      */
-    public abstract <T> void makeListRequest(@NonNull @RequestMethod.HTTPRequestMethod String method,
+    public abstract <T> void makeListRequest(@NonNull int method,
                                                @NonNull String url,
                                                @Nullable Object requestBody,
                                                @NonNull ListResponseCallback<T> callback,

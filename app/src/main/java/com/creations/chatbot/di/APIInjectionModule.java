@@ -3,6 +3,7 @@ package com.creations.chatbot.di;
 import com.creations.chatbot.di.scopes.AppScope;
 import com.creations.chatbot.network.APIChat;
 import com.creations.chatbot.network.IAPIChat;
+import com.creations.chatbot.network.NetworkManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,7 +12,7 @@ import dagger.Provides;
 public class APIInjectionModule {
 
     @Provides @AppScope
-    public static IAPIChat providesAPIChats() {
-        return new APIChat();
+    public static IAPIChat providesAPIChats(NetworkManager networkManager) {
+        return new APIChat(networkManager);
     }
 }

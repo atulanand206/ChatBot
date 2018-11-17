@@ -2,6 +2,7 @@ package com.creations.chatbot.di;
 
 import com.creations.chatbot.ChatBotApplication;
 import com.creations.chatbot.di.scopes.AppScope;
+import com.creations.chatbot.network.NetworkModule;
 
 import dagger.BindsInstance;
 import dagger.Component;
@@ -12,7 +13,10 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         ActivityInjectionModule.class,
-        APIInjectionModule.class
+        APIInjectionModule.class,
+        RepositoryModule.class,
+        NetworkModule.class,
+        AppModule.class
 })
 public interface AppComponent {
 
