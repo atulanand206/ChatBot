@@ -37,7 +37,6 @@ public class ChatPresenter implements ChatContract.Presenter {
     @Override
     public void onSendClicked(String newEntry) {
         ListItem item = new ListItem(newEntry);
-        items.add(item);
 
         repository.sendMessage(user, item, new ObjectResponseCallback<APIResponse>() {
             @Override
@@ -58,7 +57,7 @@ public class ChatPresenter implements ChatContract.Presenter {
     @Override
     public void onReplyReceived(APIResponse response) {
         ListItem item = new ListItem(response);
-        items.add(item);
+//        items.add(item);
 
         view.onItemsLoaded();
     }

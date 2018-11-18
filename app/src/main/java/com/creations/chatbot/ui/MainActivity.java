@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.creations.chatbot.ChatBotApplication;
 import com.creations.chatbot.R;
+import com.creations.chatbot.data.ChatRepository;
 import com.creations.chatbot.model.User;
+import com.creations.chatbot.network.ConnectivityReceiver;
 import com.creations.chatbot.ui.chat.ChatFragment;
 import com.creations.chatbot.ui.list.ChatsFragment;
 
@@ -19,9 +22,12 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector,
-        ChatFragment.OnFragmentInteractionListener, ChatsFragment.OnListInteractionListener {
+        ChatFragment.OnFragmentInteractionListener, ChatsFragment.OnListInteractionListener,
+        ConnectivityReceiver.ConnectivityReceiverListener {
 
     @Inject DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    @Inject ChatRepository repository;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     protected void onResume() {
         super.onResume();
+        ChatBotApplication.getInstance().setConnectivityListener(this);
     }
 
     @Override
@@ -80,5 +87,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        repository.sendMessages();
     }
 }

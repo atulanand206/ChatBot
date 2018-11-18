@@ -61,7 +61,7 @@ class CBRequest<T> extends JsonRequest<T> {
     @Override
     public void deliverError(VolleyError error) {
         try {
-            if(error.networkResponse.statusCode==301) {
+            if(error.networkResponse!=null && error.networkResponse.statusCode==301) {
                 retryPolicy.retry(new ServerError(error.networkResponse));
             }
         } catch (VolleyError error1) {

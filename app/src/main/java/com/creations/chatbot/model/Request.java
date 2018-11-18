@@ -1,6 +1,9 @@
 package com.creations.chatbot.model;
 
-public class Request {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Request extends RealmObject {
 
     private String apiKey;
 
@@ -15,6 +18,11 @@ public class Request {
     private String lastName;
 
     private String gender;
+
+    private boolean isLeft = false;
+
+    @PrimaryKey
+    private int isLeftId;
 
     public String getApiKey() {
         return apiKey;
@@ -72,6 +80,22 @@ public class Request {
         this.gender = gender;
     }
 
+    public boolean isLeft() {
+        return isLeft;
+    }
+
+    public void setLeft(boolean left) {
+        isLeft = left;
+    }
+
+    public int getIsLeftId() {
+        return isLeftId;
+    }
+
+    public void setIsLeftId(int isLeftId) {
+        this.isLeftId = isLeftId;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -81,7 +105,8 @@ public class Request {
                 ",\"message\":" + message +
                 ",\"firstName\":" + firstName +
                 ",\"lastName\":" + lastName +
-                ",\"gender\":" + gender+
+                ",\"gender\":" + gender +
+                ",\"isLeft\":" + isLeftId +
                 '}';
     }
 }

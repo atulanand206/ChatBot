@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.creations.chatbot.di.DaggerAppComponent;
+import com.creations.chatbot.network.ConnectivityReceiver;
 
 import javax.inject.Inject;
 
@@ -15,11 +16,15 @@ import io.realm.RealmConfiguration;
 
 public class ChatBotApplication extends Application implements HasActivityInjector {
 
+    private static ChatBotApplication mInstance;
+
     @Inject DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mInstance = this;
 
         DaggerAppComponent.builder()
                 .application(this)
@@ -37,5 +42,13 @@ public class ChatBotApplication extends Application implements HasActivityInject
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return activityDispatchingAndroidInjector;
+    }
+
+    public static synchronized ChatBotApplication getInstance() {
+        return mInstance;
+    }
+
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 }
