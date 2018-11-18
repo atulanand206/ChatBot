@@ -1,106 +1,69 @@
 package com.creations.chatbot.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.creations.chatbot.R;
-import com.creations.chatbot.network.IAPIChat;
-import com.creations.chatbot.utils.ViewUtils;
+import com.creations.chatbot.model.User;
+import com.creations.chatbot.ui.chat.ChatFragment;
+import com.creations.chatbot.ui.list.ChatsFragment;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View,
-        View.OnClickListener, TextView.OnEditorActionListener {
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector,
+        ChatFragment.OnFragmentInteractionListener, ChatsFragment.OnListInteractionListener {
 
-    private EditText entryView;
-
-    private ImageButton sendButton;
-
-    private RecyclerView recyclerView;
-    private ChatRecyclerAdapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    private MainContract.Presenter presenter;
-
-    @Inject IAPIChat apiChat;
-
-    @Inject MainRepository mainRepository;
+    @Inject DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        retrieveFragments();
+    }
 
-        presenter = new MainPresenter(this, mainRepository);
+    private void retrieveFragments() {
 
-        entryView = findViewById(R.id.form_entry);
-        sendButton = findViewById(R.id.send);
-        recyclerView = findViewById(R.id.messages);
+        FragmentManager fm = getSupportFragmentManager();
+        ChatsFragment fragment = (ChatsFragment) fm.findFragmentById(R.id.main_container);
 
-        layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerAdapter = new ChatRecyclerAdapter(presenter.getItems(),getApplicationContext());
+        if(fragment == null) {
+            fragment = ChatsFragment.newInstance();
+            fm.beginTransaction()
+                    .add(R.id.main_container, fragment)
+                    .commit();
+        }
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        sendButton.setOnClickListener(this);
-        entryView.setOnEditorActionListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.start();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.send:
-                String newEntry = entryView.getText().toString();
-                entryView.setText(null);
-                presenter.onSendClicked(newEntry);
-                hideKeyboard(entryView);
-        }
     }
 
     @Override
-    public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            String newEntry = entryView.getText().toString();
-            entryView.setText(null);
-            presenter.onSendClicked(newEntry);
-            hideKeyboard(entryView);
-        }
-        return true;
+    public void onUserClicked(User user) {
+        FragmentManager fm = getSupportFragmentManager();
+
+        ChatFragment fragment = ChatFragment.newInstance(user);
+
+        fm.beginTransaction()
+                .add(R.id.main_container, fragment)
+                .addToBackStack("Chat for " + user.getUser())
+                .commit();
     }
 
     @Override
-    public void onItemsLoaded() {
-        recyclerAdapter.notifyDataSetChanged();
-    }
-
-    private void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (ViewUtils.isKeyboardShown(view.getRootView())) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 }
