@@ -1,11 +1,14 @@
 package com.creations.chatbot.data;
 
+import android.os.Handler;
+
 import com.creations.chatbot.callbacks.ObjectResponseCallback;
 import com.creations.chatbot.constants.AppConstants;
 import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
 import com.creations.chatbot.model.Request;
 import com.creations.chatbot.model.User;
+import com.creations.chatbot.network.ConnectivityReceiver;
 import com.creations.chatbot.network.IAPIChat;
 import com.creations.chatbot.utils.FakeDataProvider;
 
@@ -22,6 +25,7 @@ public class ChatRepository {
     public ChatRepository(IAPIChat apiChat) {
         this.apiChat = apiChat;
         realm = Realm.getDefaultInstance();
+        startNetworkChecks();
 //        addFakeUsers();
     }
 
@@ -115,8 +119,8 @@ public class ChatRepository {
                             .equalTo("user",request.getExternalID())
                             .findFirst();
                     if(user!=null) {
-                        user.getMessages().add(new ListItem(response));
                         realm.executeTransaction(realm1 -> {
+                            user.getMessages().add(new ListItem(response));
                             realm1.insertOrUpdate(user);
                             realm1.insertOrUpdate(request);
                         });
@@ -139,6 +143,30 @@ public class ChatRepository {
     @Override
     protected void finalize() throws Throwable {
         realm.close();
+        stopNetworkChecks();
         super.finalize();
+    }
+
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            checkConnection();
+            mHandler.postDelayed(this, 5000);
+        }
+    };
+
+    private void checkConnection() {
+        if(ConnectivityReceiver.isConnected())
+            sendMessages();
+    }
+
+    private void startNetworkChecks() {
+        stopNetworkChecks();
+        mHandler.post(mRunnable);
+    }
+
+    private void stopNetworkChecks() {
+        mHandler.removeCallbacks(mRunnable);
     }
 }
