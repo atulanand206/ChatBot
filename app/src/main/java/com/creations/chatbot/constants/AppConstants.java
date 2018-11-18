@@ -10,6 +10,8 @@ public class AppConstants {
     public static final String CHAT_BOT_ID = "63906";
     public static final String EXTERNAL_ID = "abc";
     public static final String DEFAULT_TAG = "Chat Bot";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String CONTENT_TYPE_JSON = "application/json";
 
     public static class Request {
         public static final String API_KEY = "apiKey";
@@ -18,4 +20,5 @@ public class AppConstants {
         public static final String MESSAGE = "message";
     }
 
+    public static final String CHAT_API = "Fetching chatbot reply";
 }

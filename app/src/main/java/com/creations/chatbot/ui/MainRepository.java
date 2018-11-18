@@ -20,6 +20,8 @@ public class MainRepository {
         Request request = new Request();
         request.setMessage(message.getMessage().getMessage());
         request.setExternalID(AppConstants.EXTERNAL_ID);
+        request.setApiKey(AppConstants.API_KEY);
+        request.setChatBotID(AppConstants.CHAT_BOT_ID);
 
         apiChat.getChatReply(request, callback);
     }
