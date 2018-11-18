@@ -3,8 +3,8 @@ package com.creations.chatbot.ui;
 import com.creations.chatbot.callbacks.ObjectResponseCallback;
 import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
-import com.creations.chatbot.utils.FakeDataProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainPresenter implements MainContract.Presenter {
@@ -17,7 +17,7 @@ public class MainPresenter implements MainContract.Presenter {
     public MainPresenter(MainContract.View view, MainRepository repository) {
         this.view = view;
         this.repository = repository;
-        this.items = FakeDataProvider.getFakeChats(10);
+        this.items = new ArrayList<>();
     }
 
     @Override
