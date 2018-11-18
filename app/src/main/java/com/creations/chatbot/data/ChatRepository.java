@@ -22,12 +22,17 @@ public class ChatRepository {
     public ChatRepository(IAPIChat apiChat) {
         this.apiChat = apiChat;
         realm = Realm.getDefaultInstance();
-        addFakeUsers();
+//        addFakeUsers();
     }
 
     public void addFakeUsers() {
         List<User> users = FakeDataProvider.getFakeUsers();
         realm.executeTransaction(realm1 -> realm1.insertOrUpdate(users));
+    }
+
+    public void addUser(String userName) {
+        User user= new User(userName);
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(user));
     }
 
     public List<User> getUsersFromLocal() {

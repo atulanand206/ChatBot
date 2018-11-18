@@ -4,6 +4,7 @@ import com.creations.chatbot.data.ChatRepository;
 import com.creations.chatbot.model.User;
 
 import java.util.List;
+import java.util.Random;
 
 public class ListPresenter implements ListContract.Presenter {
 
@@ -20,11 +21,25 @@ public class ListPresenter implements ListContract.Presenter {
 
     @Override
     public void start() {
-        view.onItemsLoaded();
+        onItemsListChanged();
     }
 
     @Override
     public List<User> getUsers() {
         return users;
+    }
+
+    @Override
+    public void addUser() {
+        repository.addUser("User" + new Random().nextInt());
+        onItemsListChanged();
+    }
+
+    @Override
+    public void onItemsListChanged() {
+        List<User> userList = repository.getUsersFromLocal();
+        users.clear();
+        users.addAll(userList);
+        view.onItemsLoaded();
     }
 }

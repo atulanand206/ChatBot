@@ -14,6 +14,11 @@ public class User extends RealmObject {
     public User() {
     }
 
+    public User(String user) {
+        this.user = user;
+        this.messages = new RealmList<>();
+    }
+
     public User(String user, RealmList<ListItem> messages) {
         this.user = user;
         this.messages = messages;

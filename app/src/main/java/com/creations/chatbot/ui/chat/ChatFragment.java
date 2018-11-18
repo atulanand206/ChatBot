@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -90,6 +92,7 @@ public class ChatFragment extends Fragment implements ChatContract.View,
         entryView = view.findViewById(R.id.form_entry);
         sendButton = view.findViewById(R.id.send);
         recyclerView = view.findViewById(R.id.messages);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -114,6 +117,12 @@ public class ChatFragment extends Fragment implements ChatContract.View,
     public void onResume() {
         super.onResume();
         presenter.start();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

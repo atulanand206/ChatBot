@@ -16,5 +16,9 @@ public interface ListContract {
         void start();
 
         List<User> getUsers();
+
+        void addUser();
+
+        void onItemsListChanged();
     }
 }

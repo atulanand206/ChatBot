@@ -9,6 +9,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -61,6 +64,7 @@ public class ChatsFragment extends Fragment implements ListContract.View, ListRe
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.chats);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -82,6 +86,23 @@ public class ChatsFragment extends Fragment implements ListContract.View, ListRe
     public void onResume() {
         super.onResume();
         presenter.start();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_user,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_user:
+                presenter.addUser();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

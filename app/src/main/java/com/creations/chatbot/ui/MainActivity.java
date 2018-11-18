@@ -60,6 +60,21 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                 .add(R.id.main_container, fragment)
                 .addToBackStack("Chat for " + user.getUser())
                 .commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(user.getUser());
+    }
+
+    @Override
+    public void onBackPressed() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        setTitle("ChatBot");
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        this.onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     @Override
