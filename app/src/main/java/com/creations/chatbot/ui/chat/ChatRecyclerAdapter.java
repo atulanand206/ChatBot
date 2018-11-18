@@ -1,4 +1,4 @@
-package com.creations.chatbot.ui;
+package com.creations.chatbot.ui.chat;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

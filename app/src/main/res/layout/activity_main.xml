@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
-        android:layout_marginBottom="50dp"/>
-
-    <LinearLayout
+    <FrameLayout
         android:background="@android:color/white"
-        android:id="@+id/bottom_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"/>
 
-        <EditText
-            android:id="@+id/form_entry"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/entry_padding_start"
-            android:paddingEnd="@dimen/entry_padding_start"
-            android:imeOptions="actionDone"
-            android:hint="@string/enter_message" />
-
-        <ImageButton
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_send_black_24dp"
-            android:backgroundTint="@android:color/white"/>
-
-    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

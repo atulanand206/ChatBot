@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class ChatBotApplication extends Application implements HasActivityInjector {
 
@@ -23,6 +25,13 @@ public class ChatBotApplication extends Application implements HasActivityInject
                 .application(this)
                 .build()
                 .inject(this);
+
+        Realm.init(this);
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+//        Realm.deleteRealm(configuration);
+        Realm.setDefaultConfiguration(configuration);
     }
 
     @Override

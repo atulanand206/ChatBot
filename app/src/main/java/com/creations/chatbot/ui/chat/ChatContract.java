@@ -1,11 +1,11 @@
-package com.creations.chatbot.ui;
+package com.creations.chatbot.ui.chat;
 
 import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
 
 import java.util.List;
 
-public interface MainContract {
+public interface ChatContract {
 
     interface View {
 

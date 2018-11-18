@@ -1,28 +1,32 @@
-package com.creations.chatbot.ui;
+package com.creations.chatbot.ui.chat;
 
 import com.creations.chatbot.callbacks.ObjectResponseCallback;
+import com.creations.chatbot.data.ChatRepository;
 import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
+import com.creations.chatbot.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainPresenter implements MainContract.Presenter {
+public class ChatPresenter implements ChatContract.Presenter {
 
-    private MainContract.View view;
-    private MainRepository repository;
+    private ChatContract.View view;
+    private ChatRepository repository;
+    private User user;
 
     private List<ListItem> items;
 
-    public MainPresenter(MainContract.View view, MainRepository repository) {
+    public ChatPresenter(ChatContract.View view, ChatRepository repository, User user) {
         this.view = view;
         this.repository = repository;
-        this.items = new ArrayList<>();
+        this.user = user;
+        this.items = user.getMessages();
     }
 
     @Override
     public void start() {
-
+        if(items.size()!=0)
+            view.onItemsLoaded();
     }
 
     @Override
@@ -35,7 +39,7 @@ public class MainPresenter implements MainContract.Presenter {
         ListItem item = new ListItem(newEntry);
         items.add(item);
 
-        repository.sendMessage(item, new ObjectResponseCallback<APIResponse>() {
+        repository.sendMessage(user, item, new ObjectResponseCallback<APIResponse>() {
             @Override
             public void onSuccess(APIResponse response) {
                 onReplyReceived(response);

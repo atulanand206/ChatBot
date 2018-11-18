@@ -2,7 +2,9 @@ package com.creations.chatbot.model;
 
 import com.creations.chatbot.constants.AppConstants;
 
-public class Message {
+import io.realm.RealmObject;
+
+public class Message extends RealmObject{
 
     private String chatBotName;
 

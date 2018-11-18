@@ -2,7 +2,9 @@ package com.creations.chatbot.model;
 
 import java.util.Random;
 
-public class ListItem {
+import io.realm.RealmObject;
+
+public class ListItem extends RealmObject{
 
     private boolean isUser;
 
