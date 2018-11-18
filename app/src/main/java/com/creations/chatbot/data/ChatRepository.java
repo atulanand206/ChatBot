@@ -1,6 +1,7 @@
 package com.creations.chatbot.data;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.creations.chatbot.callbacks.ObjectResponseCallback;
 import com.creations.chatbot.constants.AppConstants;
@@ -10,6 +11,7 @@ import com.creations.chatbot.model.Request;
 import com.creations.chatbot.model.User;
 import com.creations.chatbot.network.ConnectivityReceiver;
 import com.creations.chatbot.network.IAPIChat;
+import com.creations.chatbot.ui.MainActivity;
 import com.creations.chatbot.utils.FakeDataProvider;
 
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.List;
 import io.realm.Realm;
 
 public class ChatRepository {
+
+    private static final String TAG = ChatRepository.class.getSimpleName();
 
     private IAPIChat apiChat;
 
@@ -129,9 +133,10 @@ public class ChatRepository {
 
                 @Override
                 public void onError(int responseCode, String errorMessage) {
-
+                    Log.d(TAG,errorMessage);
                 }
             });
+        MainActivity.getInstance().notifyActiveChatScreen();
     }
 
     private int nextLeftId() {
