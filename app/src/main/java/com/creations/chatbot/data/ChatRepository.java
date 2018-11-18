@@ -1,17 +1,15 @@
 package com.creations.chatbot.data;
 
-import android.os.Handler;
 import android.util.Log;
 
+import com.creations.chatbot.callbacks.CompletionListener;
 import com.creations.chatbot.callbacks.ObjectResponseCallback;
 import com.creations.chatbot.constants.AppConstants;
 import com.creations.chatbot.model.APIResponse;
 import com.creations.chatbot.model.ListItem;
 import com.creations.chatbot.model.Request;
 import com.creations.chatbot.model.User;
-import com.creations.chatbot.network.ConnectivityReceiver;
 import com.creations.chatbot.network.IAPIChat;
-import com.creations.chatbot.ui.MainActivity;
 import com.creations.chatbot.utils.FakeDataProvider;
 
 import java.util.List;
@@ -29,7 +27,6 @@ public class ChatRepository {
     public ChatRepository(IAPIChat apiChat) {
         this.apiChat = apiChat;
         realm = Realm.getDefaultInstance();
-        startNetworkChecks();
 //        addFakeUsers();
     }
 
@@ -107,7 +104,7 @@ public class ChatRepository {
      * Method to publish all the unsent messages when
      * Connection Receiver notifies that app is back online.
      */
-    public void sendMessages() {
+    public void sendMessages(CompletionListener callback) {
         List<Request> requests = realm.copyFromRealm(
                 realm.where(Request.class)
                 .equalTo("isLeft",true)
@@ -129,6 +126,7 @@ public class ChatRepository {
                             realm1.insertOrUpdate(request);
                         });
                     }
+                    callback.onSuccess();
                 }
 
                 @Override
@@ -136,7 +134,6 @@ public class ChatRepository {
                     Log.d(TAG,errorMessage);
                 }
             });
-        MainActivity.getInstance().notifyActiveChatScreen();
     }
 
     private int nextLeftId() {
@@ -148,30 +145,6 @@ public class ChatRepository {
     @Override
     protected void finalize() throws Throwable {
         realm.close();
-        stopNetworkChecks();
         super.finalize();
-    }
-
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            checkConnection();
-            mHandler.postDelayed(this, 5000);
-        }
-    };
-
-    private void checkConnection() {
-        if(ConnectivityReceiver.isConnected())
-            sendMessages();
-    }
-
-    private void startNetworkChecks() {
-        stopNetworkChecks();
-        mHandler.post(mRunnable);
-    }
-
-    private void stopNetworkChecks() {
-        mHandler.removeCallbacks(mRunnable);
     }
 }

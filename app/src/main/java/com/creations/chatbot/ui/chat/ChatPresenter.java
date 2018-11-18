@@ -35,6 +35,14 @@ public class ChatPresenter implements ChatContract.Presenter {
     }
 
     @Override
+    public void refreshItems() {
+        List<ListItem> list = repository.getUser(user.getUser()).getMessages();
+        items.clear();
+        items.addAll(list);
+        view.onItemsLoaded();
+    }
+
+    @Override
     public void onSendClicked(String newEntry) {
         ListItem item = new ListItem(newEntry);
 

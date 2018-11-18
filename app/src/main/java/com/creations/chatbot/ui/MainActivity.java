@@ -1,12 +1,18 @@
 package com.creations.chatbot.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.android.volley.VolleyError;
 import com.creations.chatbot.R;
+import com.creations.chatbot.callbacks.CompletionListener;
 import com.creations.chatbot.data.ChatRepository;
 import com.creations.chatbot.model.User;
 import com.creations.chatbot.ui.chat.ChatFragment;
@@ -26,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Inject ChatRepository repository;
 
-    private static MainActivity mInstance;
-
     private ChatFragment fragment;
 
     @Override
@@ -36,11 +40,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         retrieveFragments();
-        mInstance = this;
-    }
-
-    public static synchronized MainActivity getInstance() {
-        return mInstance;
     }
 
     private void retrieveFragments() {
@@ -60,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     protected void onResume() {
         super.onResume();
+        startNetworkChecks();
+    }
+
+    @Override
+    protected void onPause() {
+        stopNetworkChecks();
+        super.onPause();
     }
 
     @Override
@@ -95,6 +101,48 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     public void notifyActiveChatScreen() {
         if(fragment!=null && fragment.getUserVisibleHint())
-            fragment.onItemsLoaded();
+            fragment.refreshItems();
+    }
+
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            checkConnection();
+            mHandler.postDelayed(this, 5000);
+        }
+    };
+
+    private void checkConnection() {
+        if(isConnected())
+            repository.sendMessages(new CompletionListener() {
+                @Override
+                public void onSuccess() {
+                    notifyActiveChatScreen();
+                }
+
+                @Override
+                public void onError(VolleyError error) {
+
+                }
+            });
+    }
+
+    private void startNetworkChecks() {
+        stopNetworkChecks();
+        mHandler.post(mRunnable);
+    }
+
+    private void stopNetworkChecks() {
+        mHandler.removeCallbacks(mRunnable);
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager
+                cm = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null
+                && activeNetwork.isConnectedOrConnecting();
     }
 }

@@ -10,6 +10,8 @@ public interface ChatContract {
     interface View {
 
         void onItemsLoaded();
+
+        void refreshItems();
     }
 
     interface Presenter {
@@ -21,5 +23,7 @@ public interface ChatContract {
         void onSendClicked(String newEntry);
 
         void onReplyReceived(APIResponse response);
+
+        void refreshItems();
     }
 }

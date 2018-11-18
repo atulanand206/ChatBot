@@ -170,6 +170,11 @@ public class ChatFragment extends Fragment implements ChatContract.View,
         recyclerAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void refreshItems() {
+        presenter.refreshItems();
+    }
+
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (ViewUtils.isKeyboardShown(view.getRootView())) {
