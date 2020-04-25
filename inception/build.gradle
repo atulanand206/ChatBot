@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'realm-android'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.creations.chatbot"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.squareup.okhttp3:okhttp:${okhttp}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    implementation "com.google.dagger:dagger:${dagger}"
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+
+    implementation "androidx.annotation:annotation:${annotationVersion}"
+    implementation "androidx.legacy:legacy-support-v4:${legacySupportVersion}"
+
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
+    implementation "androidx.recyclerview:recyclerview:${recyclerViewVersion}"
+    implementation "com.google.android.material:material:${supportLibraryVersion}"
+    implementation "androidx.cardview:cardview:${cardViewVersion}"
+    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
+
+    implementation "com.google.firebase:firebase-core:${firebaseCore}"
+    implementation "com.google.firebase:firebase-messaging:${firebaseMessaging}"
+    implementation("com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar") {
+        transitive = true
+    }
+    testImplementation "junit:junit:${jUnit}"
+    testImplementation "org.mockito:mockito-core:${mockito}"
+    androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
+
+    implementation project(path: ':network')
+    implementation project(path: ':application')
+    implementation project(path: ':dagger')
+    implementation project(path: ':mvvm')
+    implementation project(path: ':condition')
+}

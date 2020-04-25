@@ -1,15 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.3.72'
+    ext.gradleVersion = '3.5.3'
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath "io.realm:realm-gradle-plugin:5.8.0"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:${gradleVersion}"
+        classpath "io.realm:realm-gradle-plugin:6.1.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'io.fabric.tools:gradle:1.28.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -25,5 +31,77 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+//    minSdkVersion = 23
+//    targetSdkVersion = 26
+//    compileSdkVersion = 28
+//    buildToolsVersion = '28.0.3'
+    supportAnnotationsVersion = '28.0.0'
+//    supportVersion = '28.0.0'
+//    constraintLayoutVersion = '1.1.3'
+//    annotationVersion = '1.0.2'
+//    cardViewVersion = '1.0.0'
+//    recyclerViewVersion = '1.1.0-alpha04'
+//    apacheCommonsVersion = '4.4'
+//    dexmakerVersion = '2.19.0'
+//
+//    playServices = '16.0.0'
+//    mapboxSdkVersion = '7.3.2'
+//    mapboxServices = '4.1.0'
+//
+//    easyPermissions = '1.2.0'
+
+
+    minSdkVersion = 25
+    targetSdkVersion = 28
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.3'
+//
+    supportLibraryVersion = '1.2.0-alpha06'
+    annotationVersion = '1.1.0'
+    legacySupportVersion = '1.0.0'
+    appCompatVersion = '1.2.0-beta01'
+    constraintLayoutVersion = '1.1.3'
+    cardViewVersion = '1.0.0'
+    recyclerViewVersion = '1.2.0-alpha02'
+//    pinEditTextVersion = '1.1.3'
+//    easyPermissionVersion = '1.2.0'
+//
+    gmsVersion = '11.6.0'
+//    volleyVersion = '1.1.0'
+//
+//    apacheCommonsCollectionsVersion = '4.4'
+//    apacheCommonsTextVersion = '1.4'
+    dagger = '2.16'
+    dexmakerVersion = '2.19.0'
+    lifecycleExtensions = '1.1.1'
+
+    playServices = '16.0.0'
+    playServicesMapsVersion = '16.1.0'
+//
+//    mapboxSdkVersion = '8.5.0'
+//    mapboxServices = '4.7.0'
+//    mapboxLocationLayerVersion = '0.5.3'
+//    mapboxGeoJsonVersion = '0.3.0'
+//
+    firebaseMessaging = '20.1.6'
+    firebaseCore = '17.4.0'
+    crashlyticsVersion = '2.10.1'
+//
+//    exoPlayerVersion = '2.11.3'
+//
+    gsonVersion = '2.8.6'
+    okhttp = '4.5.0'
+    easyPermissions = '1.2.0'
+//
+    inject = '1'
+    espresso = '3.3.0-beta01'
+    testRunner = '1.1.0-alpha4'
+    jUnit = '4.13'
+    jUnitAndroid = '1.1.1'
+    mockito = '2.6.3'
+    archTesting = '1.1.1'
 }
 

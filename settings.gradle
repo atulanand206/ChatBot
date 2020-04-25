@@ -1,1 +1,2 @@
-include ':app'
+include ':inception', ':network', ':dagger', ':application', ':mvvm'
+include ':condition'

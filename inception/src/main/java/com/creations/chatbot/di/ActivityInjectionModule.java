@@ -1,0 +1,16 @@
+package com.creations.chatbot.di;
+
+import com.creations.chatbot.ui.MainActivity;
+import com.example.dagger.scopes.ActivityScope;
+
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
+
+@Module
+public abstract class ActivityInjectionModule {
+
+    @ActivityScope
+    @ContributesAndroidInjector()
+    public abstract MainActivity contributeMainActivityInjector();
+
+}
