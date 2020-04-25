@@ -98,4 +98,13 @@ public enum DateFormatter {
         }
         return "";
     }
+
+    @Nullable
+    public static DateFormatter getFromAvailableFormatters(@NonNull final String dateString) {
+        for (DateFormatter formatter : DateFormatter.values()) {
+            if (formatter.getDateFromString(dateString) != null)
+                return formatter;
+        }
+        return null;
+    }
 }

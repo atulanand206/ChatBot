@@ -43,6 +43,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.RecyclerView
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
         Preconditions.requiresNonNull(holder, "Holder").bind(mViewModels.get(position));
+        mViewModels.get(position).getClickedEvent().listen(holder,
+                () -> onClick(holder.getAdapterPosition()));
+    }
+
+    private void onClick(final int adapterPosition) {
+        mViewModels.get(adapterPosition).changeState();
     }
 
     @Override

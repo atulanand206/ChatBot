@@ -3,24 +3,25 @@ package com.creations.inception;
 import android.app.Activity;
 import android.app.Application;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.creations.inception.di.DaggerAppComponent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
-import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class ChatBotApplication extends Application implements HasActivityInjector {
+public class App extends Application implements HasActivityInjector {
 
-    private static ChatBotApplication mInstance;
+    private static App mInstance;
 
     @Inject DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @Override
     public void onCreate() {
@@ -31,12 +32,8 @@ public class ChatBotApplication extends Application implements HasActivityInject
                 .build()
                 .inject(this);
 
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder().build())
-                .build();
-
-        Fabric.with(this, crashlyticsKit);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        
         Realm.init(this);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
@@ -52,7 +49,11 @@ public class ChatBotApplication extends Application implements HasActivityInject
         return activityDispatchingAndroidInjector;
     }
 
-    public static synchronized ChatBotApplication getInstance() {
+    public FirebaseAnalytics getFirebaseAnalytics() {
+        return mFirebaseAnalytics;
+    }
+
+    public static synchronized App getInstance() {
         return mInstance;
     }
 }

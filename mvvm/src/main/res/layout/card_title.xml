@@ -4,6 +4,9 @@
         <variable
             name="text"
             type="String" />
+        <variable
+            name="textSize"
+            type="Integer" />
     </data>
     <TextView
         android:layout_width="match_parent"
@@ -11,6 +14,7 @@
         android:layout_marginTop="@dimen/margin_x_large"
         android:layout_marginBottom="@dimen/margin_normal"
         android:text="@{text}"
+        android:textSize="@{textSize ?? @dimen/font_large}"
         style="@style/App.Component.Form.Title"
         xmlns:android="http://schemas.android.com/apk/res/android" />
 </layout>

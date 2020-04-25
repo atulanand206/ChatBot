@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.R;
 import com.creations.mvvm.form.FormViewModelBase;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
@@ -38,7 +39,7 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     private final MutableLiveData<String> mDescription = new MutableLiveData<>();
 
     @NonNull
-    private final LiveRunnable.Mutable mUpdateEvent = new LiveRunnable.Mutable();
+    private final LiveRunnable.Mutable mClickEvent = new LiveRunnable.Mutable();
 
     @NonNull
     private final MutableLiveData<View.OnClickListener> mClickListener = new MutableLiveData<>();
@@ -56,10 +57,17 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
         mImageUrl.setValue(imageData.getUrl());
         mTitle.setValue(imageData.getTitle());
         mDescription.setValue(imageData.getDescription());
+        setBackground(getApplication().getDrawable(R.drawable.image_background));
+    }
+
+    @Override
+    public void changeState() {
+        setBackground(getApplication().getDrawable(R.drawable.image_background_yellow));
     }
 
     @Override
     public void setPosition(final int position) {
+
     }
 
     @NonNull
@@ -68,7 +76,6 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
         return mMessage;
     }
 
-    @NonNull
     @Override
     public void setMessage(final String message) {
         mMessage.postValue(message);
@@ -95,12 +102,12 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     @NonNull
     @Override
     public LiveRunnable.Mutable getClickedEvent() {
-        return mUpdateEvent;
+        return mClickEvent;
     }
 
     @Override
     public void onItemClick() {
-        mUpdateEvent.postEvent();
+        mClickEvent.postEvent();
     }
 
     @NonNull

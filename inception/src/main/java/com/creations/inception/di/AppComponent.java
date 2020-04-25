@@ -1,6 +1,6 @@
 package com.creations.inception.di;
 
-import com.creations.inception.ChatBotApplication;
+import com.creations.inception.App;
 import com.creations.inception.network.NetworkModule;
 import com.example.dagger.scopes.AppScope;
 
@@ -23,12 +23,12 @@ import dagger.android.support.AndroidSupportInjectionModule;
 })
 public interface AppComponent {
 
-    void inject(ChatBotApplication application);
+    void inject(App application);
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        Builder application(ChatBotApplication application);
+        Builder application(App application);
 
         AppComponent build();
     }

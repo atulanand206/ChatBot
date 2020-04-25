@@ -49,4 +49,5 @@ dependencies {
     implementation project(path: ':condition')
     implementation project(path: ':dagger')
     implementation project(path: ':application')
+    implementation project(path: ':network')
 }

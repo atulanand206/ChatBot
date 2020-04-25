@@ -14,4 +14,6 @@ public interface ApplicationConstants {
         public static final String DURATION_TIME_INTERVAL = "^([0-9][0-9]|[0-9]):([0-5][0-9]|[0-9])$";
         public static final String PHONE_US = "^((\\+1|1)?( |-)?)?(\\([2-9][0-9]{2}\\)|[2-9][0-9]{2})( |-)?([2-9][0-9]{2}( |-)?[0-9]{4})$";
     }
+
+    String FAKE_URL = "https://twitter.com/XfouzV/status/455285567534944256/photo/1";
 }

@@ -2,6 +2,8 @@ package com.creations.mvvm.models.props;
 
 import java.io.Serializable;
 
+import static com.example.application.constants.ApplicationConstants.FAKE_URL;
+
 public class ImageData implements Serializable {
 
     private final String mUrl;
@@ -11,7 +13,7 @@ public class ImageData implements Serializable {
     private final String mDescription;
 
     public ImageData() {
-        mUrl = "https://twitter.com/XfouzV/status/455285567534944256/photo/1";
+        mUrl = FAKE_URL;
         mTitle = "Trends for you";
         mDescription = "Select some topics you're interested in to help personalize your Twitter experience, starting with finding people to follow.";
     }

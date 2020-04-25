@@ -46,6 +46,9 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
 
     @NonNull
     private final List<ImageContract.ViewModel> mImageViewModels = new ArrayList<>();
+
+    @NonNull
+    private ImageViewModel mImageViewModel;
     @NonNull
     private final ImageAdapter mImageAdapter = new ImageAdapter(mImageViewModels);
 
@@ -78,10 +81,15 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
         mAirspaceApi.getBlogPosts(new ListResponseCallback<Post>() {
             @Override
             public void onSuccess(@NonNull List<Post> response) {
+                if (!response.isEmpty())
+                    addPost(response.get(0));
                 for (Post post : response) {
-                    ImageViewModel imageViewModel = mImageFactory.create();
-                    imageViewModel.setData(imageData(post));
-                    mImageAdapter.addItem(imageViewModel);
+                    addPost(post);
+                    addPost(post);
+                    addPost(post);
+                    addPost(post);
+                    addPost(post);
+                    addPost(post);
                 }
             }
 
@@ -89,8 +97,20 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
             public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
 
             }
+
+            private void addPost(@NonNull final Post post) {
+                ImageViewModel imageViewModel = mImageFactory.create();
+                imageViewModel.setData(imageData(post));
+                mImageAdapter.addItem(imageViewModel);
+            }
         });
 
+    }
+
+    @NonNull
+    @Override
+    public ImageViewModel getImageViewModel() {
+        return mImageViewModel;
     }
 
     @NonNull
@@ -103,11 +123,6 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
     @Override
     public NavigationBarViewModel getNavigationBar() {
         return mAdvisoryNavigation;
-    }
-
-    @Override
-    public void setNavigationProps(@NonNull NavigationBarProps props) {
-        mAdvisoryNavigation.setProps(props);
     }
 
     public static class Factory extends MVVMViewModel.Factory<RequestViewModel> {

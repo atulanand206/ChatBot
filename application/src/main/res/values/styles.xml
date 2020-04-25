@@ -19,6 +19,7 @@
     <style name="AppTheme.Component.Fragment" parent="AppTheme.Component">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="android:animateLayoutChanges">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

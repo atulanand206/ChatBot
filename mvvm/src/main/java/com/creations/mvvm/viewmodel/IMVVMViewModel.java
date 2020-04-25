@@ -22,12 +22,14 @@ import android.widget.TextView;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
+import com.creations.tools.network.ImageLoadTask;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,10 +90,37 @@ public interface IMVVMViewModel {
         }
     }
 
+    @BindingAdapter("imageFromUrl")
+    static void imageFromUrl(@NonNull final ImageView imageView, @NonNull final String url) {
+        new ImageLoadTask(url, imageView).execute();
+    }
+
+    @BindingAdapter("relativeHeight")
+    static void relativeHeight(@NonNull final View view, final float height) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = (int) height;
+        view.setLayoutParams(layoutParams);
+    }
+
+    @BindingAdapter("relativeWidth")
+    static void relativeWidth(@NonNull final View view, final float width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = (int) width;
+        view.setLayoutParams(layoutParams);
+    }
+
+
+
+
+//    @BindingAdapter("zoomOut")
+//    static void zoomOut(@NonNull final View imageView) {
+////        new Animations().zoomImageFromThumb(imageView, 1, R.id.title_small, R.id.title_initial);
+//    }
+
     @BindingAdapter("adapter")
     static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
         recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
         recyclerView.setAdapter(adapter);
     }
 

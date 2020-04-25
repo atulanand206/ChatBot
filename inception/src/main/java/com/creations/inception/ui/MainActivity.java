@@ -1,8 +1,10 @@
 package com.creations.inception.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.creations.condition.Preconditions;
+import com.creations.inception.App;
 import com.creations.inception.R;
 import com.creations.inception.ui.form.RequestContract;
 import com.creations.inception.ui.form.RequestFragment;
@@ -10,6 +12,7 @@ import com.example.application.base.BaseActivity;
 import com.example.application.fragments.HomePagerAdapter;
 import com.example.application.utils.DisabledViewPager;
 import com.example.application.utils.MVVMInjector;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,8 @@ import static com.creations.inception.utils.FragmentHelper.getRequestFragment;
 public class MainActivity extends BaseActivity implements HasSupportFragmentInjector,
         RequestContract.InteractionListener, MVVMInjector {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     @Inject DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     private HomePagerAdapter mPagerAdapter;
@@ -46,7 +51,9 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mPagerAdapter = new HomePagerAdapter(getSupportFragmentManager(), mFragmentList);
-
+//        Crashlytics.sharedInstance().crash();
+        Log.d(TAG, String.valueOf(getIntent().getExtras()));
+        App.getInstance().getFirebaseAnalytics().logEvent(FirebaseAnalytics.Event.PURCHASE, getIntent().getExtras());
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.main_pager);
         mViewPager.setAdapter(mPagerAdapter);

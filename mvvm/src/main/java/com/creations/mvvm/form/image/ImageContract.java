@@ -65,6 +65,8 @@ public interface ImageContract {
 
 
         void setData(@NonNull final ImageData imageData);
+
+        void changeState();
     }
 
 }
