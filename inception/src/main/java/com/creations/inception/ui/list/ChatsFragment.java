@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.creations.inception.R;
 import com.creations.inception.data.ChatRepository;
-import com.creations.inception.model.User;
+import com.creations.inception.models.User;
 
 import javax.inject.Inject;
 

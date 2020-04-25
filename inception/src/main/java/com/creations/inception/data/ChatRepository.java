@@ -2,18 +2,18 @@ package com.creations.inception.data;
 
 import android.util.Log;
 
+import com.creations.blogger.IAPIChat;
+import com.creations.blogger.callback.EmptyResponseCallback;
+import com.creations.blogger.callback.ListResponseCallback;
+import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Info;
 import com.creations.inception.constants.AppConstants;
-import com.creations.inception.model.APIResponse;
-import com.creations.inception.model.ListItem;
-import com.creations.inception.model.Request;
-import com.creations.inception.model.User;
-import com.creations.inception.network.IAPIChat;
+import com.creations.inception.models.APIResponse;
+import com.creations.inception.models.ListItem;
+import com.creations.inception.models.Request;
+import com.creations.inception.models.User;
 import com.creations.inception.utils.FakeDataProvider;
-import com.creations.tools.models.APIResponseBody;
-import com.creations.tools.network.EmptyResponseCallback;
-import com.creations.tools.network.ListResponseCallback;
-import com.creations.tools.network.ObjectResponseCallback;
 
 import java.util.List;
 
@@ -97,25 +97,25 @@ public class ChatRepository {
             }
         });
 
-        apiChat.getChatReply(request, new ObjectResponseCallback<APIResponse>() {
-            @Override
-            public void onSuccess(APIResponse response) {
-                user.getMessages().add(new ListItem(response));
-                realm.executeTransaction(realm1 -> realm1.insertOrUpdate(user));
-                callback.onSuccess(response);
-            }
-
-            @Override
-            public void onError(int responseCode, @NonNull String errorMessage, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
-                callback.onError(responseCode,  errorMessage, serializedErrorResponse, e);
-                if(responseCode == 500) {
-                    request.setLeft(true);
-                    request.setIsLeftId(nextLeftId());
-                    realm.executeTransaction(realm1 -> realm1.insertOrUpdate(request));
-                }
-            }
-
-        });
+//        apiChat.getChatReply(request, new ObjectResponseCallback<APIResponse>() {
+//            @Override
+//            public void onSuccess(APIResponse response) {
+//                user.getMessages().add(new ListItem(response));
+//                realm.executeTransaction(realm1 -> realm1.insertOrUpdate(user));
+//                callback.onSuccess(response);
+//            }
+//
+//            @Override
+//            public void onError(int responseCode, @NonNull String errorMessage, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+//                callback.onError(responseCode,  errorMessage, serializedErrorResponse, e);
+//                if(responseCode == 500) {
+//                    request.setLeft(true);
+//                    request.setIsLeftId(nextLeftId());
+//                    realm.executeTransaction(realm1 -> realm1.insertOrUpdate(request));
+//                }
+//            }
+//
+//        });
     }
 
     /**
@@ -129,29 +129,29 @@ public class ChatRepository {
                 .findAll()
         );
 
-        for(Request request : requests)
-            apiChat.getChatReply(request, new ObjectResponseCallback<APIResponse>() {
-                @Override
-                public void onSuccess(APIResponse response) {
-                    request.setLeft(false);
-                    User user = realm.where(User.class)
-                            .equalTo("user",request.getExternalID())
-                            .findFirst();
-                    if(user!=null) {
-                        realm.executeTransaction(realm1 -> {
-                            user.getMessages().add(new ListItem(response));
-                            realm1.insertOrUpdate(user);
-                            realm1.insertOrUpdate(request);
-                        });
-                    }
-                    callback.onSuccess();
-                }
-
-                @Override
-                public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
-
-                }
-            });
+//        for(Request request : requests)
+//            apiChat.getChatReply(request, new ObjectResponseCallback<APIResponse>() {
+//                @Override
+//                public void onSuccess(APIResponse response) {
+//                    request.setLeft(false);
+//                    User user = realm.where(User.class)
+//                            .equalTo("user",request.getExternalID())
+//                            .findFirst();
+//                    if(user!=null) {
+//                        realm.executeTransaction(realm1 -> {
+//                            user.getMessages().add(new ListItem(response));
+//                            realm1.insertOrUpdate(user);
+//                            realm1.insertOrUpdate(request);
+//                        });
+//                    }
+//                    callback.onSuccess();
+//                }
+//
+//                @Override
+//                public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+//
+//                }
+//            });
     }
 
     private int nextLeftId() {

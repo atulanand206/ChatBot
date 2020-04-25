@@ -34,4 +34,5 @@ dependencies {
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
+    implementation project(path: ':blogger')
 }

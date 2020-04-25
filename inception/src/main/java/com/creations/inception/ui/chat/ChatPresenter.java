@@ -1,11 +1,11 @@
 package com.creations.inception.ui.chat;
 
+import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.inception.data.ChatRepository;
-import com.creations.inception.model.APIResponse;
-import com.creations.inception.model.ListItem;
-import com.creations.inception.model.User;
-import com.creations.tools.models.APIResponseBody;
-import com.creations.tools.network.ObjectResponseCallback;
+import com.creations.inception.models.APIResponse;
+import com.creations.inception.models.ListItem;
+import com.creations.inception.models.User;
 
 import java.util.List;
 

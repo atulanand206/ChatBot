@@ -16,17 +16,27 @@ public interface AppConstants extends NetworkConstants {
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String CONTENT_TYPE_JSON = "application/json";
 
+    interface Request {
+        String API_KEY = "apiKey";
+        String CHAT_BOT_ID = "chatBotID";
+        String EXTERNAL_ID = "externalID";
+        String MESSAGE = "message";
+        String KEY = "key";
+    }
+
+    interface ENDPOINT {
+        String AIRSPACE = "airspace";
+        String POSTS = "posts";
+        String BLOGS = "blogs";
+    }
+
+    String URL_BLOGGER = "https://www.googleapis.com/blogger/v3/";
+    String API_KEY_BLOGGER = "AIzaSyBcsl4pv7brf-JMiqpb_MyTsA6ggGgzRQ4";
+    String BLOG_ID = "4827629343886704615";
+    String URL_BLOGGER_GET_POSTS = URL_BLOGGER + ENDPOINT.BLOGS + '/' + BLOG_ID + '/' + ENDPOINT.POSTS + '?' + Request.KEY + '=' + API_KEY_BLOGGER;
     String URL_GET_AIRSPACE = AppConstants.LOCALHOST + AppConstants.ENDPOINT.AIRSPACE;
 
-    public static class Request {
-        public static final String API_KEY = "apiKey";
-        public static final String CHAT_BOT_ID = "chatBotID";
-        public static final String EXTERNAL_ID = "externalID";
-        public static final String MESSAGE = "message";
-    }
 
-    public static class ENDPOINT {
-        public static final String AIRSPACE = "airspace";
-    }
-    public static final String CHAT_API = "Fetching chatbot reply";
+
+    String CHAT_API = "Fetching chatbot reply";
 }

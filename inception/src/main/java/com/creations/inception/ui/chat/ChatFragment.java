@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.creations.inception.R;
 import com.creations.inception.data.ChatRepository;
-import com.creations.inception.model.User;
+import com.creations.inception.models.User;
 import com.example.application.utils.ViewUtils;
 
 import javax.inject.Inject;

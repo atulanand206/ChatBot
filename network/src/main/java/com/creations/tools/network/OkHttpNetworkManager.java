@@ -2,8 +2,11 @@ package com.creations.tools.network;
 
 import android.util.Log;
 
+import com.creations.blogger.callback.ErrorResponseCallback;
+import com.creations.blogger.callback.ListResponseCallback;
+import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.tools.NetworkConstants;
-import com.creations.tools.models.APIResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

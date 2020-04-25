@@ -1,7 +1,7 @@
 package com.creations.inception.ui.list;
 
 import com.creations.inception.data.ChatRepository;
-import com.creations.inception.model.User;
+import com.creations.inception.models.User;
 
 import java.util.List;
 import java.util.Random;

@@ -1,7 +1,7 @@
 package com.creations.inception.utils;
 
-import com.creations.inception.model.ListItem;
-import com.creations.inception.model.User;
+import com.creations.inception.models.ListItem;
+import com.creations.inception.models.User;
 
 import java.util.ArrayList;
 import java.util.List;

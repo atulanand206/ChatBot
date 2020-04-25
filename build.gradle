@@ -124,6 +124,12 @@ ext {
     vc_networkVc = 1
     vc_networkVn = '1.0'
 
+    vc_apisVc = 1
+    vc_apisVn = '1.0'
+
+    vc_bloggerVc = 1
+    vc_bloggerVn = '1.0'
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 

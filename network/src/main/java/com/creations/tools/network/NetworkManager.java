@@ -1,5 +1,8 @@
 package com.creations.tools.network;
 
+import com.creations.blogger.callback.ListResponseCallback;
+import com.creations.blogger.callback.ObjectResponseCallback;
+
 import java.util.Map;
 import java.util.Objects;
 

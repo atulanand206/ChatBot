@@ -66,4 +66,5 @@ dependencies {
     implementation project(path: ':dagger')
     implementation project(path: ':mvvm')
     implementation project(path: ':condition')
+    implementation project(path: ':blogger')
 }

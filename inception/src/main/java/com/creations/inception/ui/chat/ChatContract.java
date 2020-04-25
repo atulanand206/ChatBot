@@ -1,7 +1,7 @@
 package com.creations.inception.ui.chat;
 
-import com.creations.inception.model.APIResponse;
-import com.creations.inception.model.ListItem;
+import com.creations.inception.models.APIResponse;
+import com.creations.inception.models.ListItem;
 
 import java.util.List;
 

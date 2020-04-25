@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         Fragment hostFrag = getViewPagerFragmentById(1, 1);
 
         mFragmentList.add(hostFrag != null ? hostFrag : getRequestFragment(this));
-
+        setStatusBarColor(R.color.black);
         mPagerAdapter.notifyDataSetChanged();
 
     }

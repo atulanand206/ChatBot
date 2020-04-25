@@ -1,23 +1,26 @@
 package com.creations.inception.ui.form;
 
+import com.creations.blogger.IAPIChat;
 import com.creations.condition.Info;
 import com.creations.condition.Preconditions;
-import com.creations.inception.network.IAPIChat;
 import com.creations.mvvm.form.button.ButtonModule;
 import com.creations.mvvm.form.button.ButtonViewModel;
 import com.creations.mvvm.form.contact.ContactModule;
+import com.creations.mvvm.form.contact.ContactViewModel;
 import com.creations.mvvm.form.daterange.DateRangeModule;
 import com.creations.mvvm.form.daterange.DateRangeViewModel;
 import com.creations.mvvm.form.editable.EditableModule;
 import com.creations.mvvm.form.editable.EditableViewModel;
+import com.creations.mvvm.form.image.ImageModule;
+import com.creations.mvvm.form.image.ImageViewModel;
 import com.creations.mvvm.form.navigation.NavigationBarModule;
 import com.creations.mvvm.form.navigation.NavigationBarViewModel;
 import com.creations.mvvm.form.spinner.SpinnerModule;
-import com.creations.mvvm.form.spinner.SpinnerViewModel;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.props.ButtonProps;
 import com.creations.mvvm.models.props.DateRangeProps;
 import com.creations.mvvm.models.props.EditableProps;
+import com.creations.mvvm.models.props.ImageData;
 import com.creations.mvvm.models.props.SpinnerProps;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.example.application.messages.IMessageManager;
@@ -44,7 +47,8 @@ public interface RequestModule extends MVVMModule {
             DateRangeModule.InjectViewModelFactory.class,
             SpinnerModule.InjectViewModelFactory.class,
             ButtonModule.InjectViewModelFactory.class,
-            NavigationBarModule.InjectViewModelFactory.class
+            NavigationBarModule.InjectViewModelFactory.class,
+            ImageModule.InjectViewModelFactory.class
     })
     abstract class InjectViewModelFactory {
         @Provides
@@ -79,6 +83,12 @@ public interface RequestModule extends MVVMModule {
             return new ButtonProps("");
         }
 
+        @Provides
+        @NonNull
+        public static ImageData provideImageData() {
+            return new ImageData();
+        }
+
 
         @Provides
         @NonNull
@@ -87,8 +97,9 @@ public interface RequestModule extends MVVMModule {
                 @NonNull final Info info,
                 @NonNull final NavigationBarProps navigationBarProps,
                 @NonNull final NavigationBarViewModel.Factory navigationFactory,
-                @NonNull final SpinnerViewModel.Factory spinnerFactory,
+                @NonNull final ContactViewModel.Factory spinnerFactory,
                 @NonNull final ButtonViewModel.Factory buttonFactory,
+                @NonNull final ImageViewModel.Factory imageFactory,
                 @NonNull final IAPIChat apiAirspace,
                 @NonNull final DateRangeViewModel.Factory dateRangeFactory,
                 @NonNull final EditableViewModel.Factory editableFactory,
@@ -100,11 +111,12 @@ public interface RequestModule extends MVVMModule {
             Preconditions.requiresNonNull(dateRangeFactory, "DateRangeFactory");
             Preconditions.requiresNonNull(editableFactory, "EditableViewModelFactory");
             Preconditions.requiresNonNull(buttonFactory, "ButtonFactory");
+            Preconditions.requiresNonNull(imageFactory, "ImageFactory");
             Preconditions.requiresNonNull(messageManager, "IMessageManager");
 
             return new RequestViewModel.Factory(activity.getApplication(), info,
                     navigationBarProps, navigationFactory, spinnerFactory, dateRangeFactory, editableFactory,
-                    buttonFactory, messageManager, apiAirspace);
+                    buttonFactory, imageFactory, messageManager, apiAirspace);
         }
     }
 

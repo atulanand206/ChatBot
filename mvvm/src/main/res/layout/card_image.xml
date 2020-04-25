@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.image.ImageContract.ViewModel" />
+        <variable
+            name="background"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <LinearLayout
+        android:layout_margin="@dimen/margin_normal"
+        android:background="@drawable/image_background"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:visibility="@{safeUnbox(viewmodel.visibility)}"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/reset_filters_btn"
+            android:onClick="@{() -> viewmodel.onItemClick()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@{viewmodel.background != null ? viewmodel.background : background}"
+            android:paddingStart="@dimen/label_reset_filters_button"
+            android:paddingEnd="@dimen/label_reset_filters_button"
+            android:src="@{viewmodel.imageUrl}"/>
+
+        <include layout="@layout/card_title" bind:text="@{viewmodel.title}"/>
+
+        <include layout="@layout/card_message" bind:text="@{viewmodel.description}"/>
+    </LinearLayout>
+</layout>

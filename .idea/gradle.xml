@@ -11,6 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/application" />
+            <option value="$PROJECT_DIR$/application/apis" />
+            <option value="$PROJECT_DIR$/blogger" />
             <option value="$PROJECT_DIR$/condition" />
             <option value="$PROJECT_DIR$/dagger" />
             <option value="$PROJECT_DIR$/inception" />

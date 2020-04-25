@@ -1,2 +1,4 @@
 include ':inception', ':network', ':dagger', ':application', ':mvvm'
 include ':condition'
+include ':blogger'
+include ':application:apis'

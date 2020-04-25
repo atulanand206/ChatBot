@@ -16,12 +16,13 @@ import com.example.application.utils.ViewUtils;
 
 import javax.inject.Inject;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-public abstract class BaseActivity extends FragmentActivity implements IMessageManager {
+public abstract class BaseActivity extends AppCompatActivity implements IMessageManager {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     private ConnectivityManager connectivityManager;
@@ -128,11 +129,21 @@ public abstract class BaseActivity extends FragmentActivity implements IMessageM
         messageManager.hideSnackBar();
     }
 
-    public void hideKeyboard(View view) {
+    protected void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null)
+            return;
         if (ViewUtils.isKeyboardShown(view.getRootView())) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    protected void setStatusBarColor(@ColorRes int colorInt) {
+        ViewUtils.setStatusBarColor(this, colorInt);
+    }
+
+    protected void fullScreen() {
+        ViewUtils.fullScreen(this);
     }
 
     protected abstract void onNetworkStatusChanged(boolean isConnected);

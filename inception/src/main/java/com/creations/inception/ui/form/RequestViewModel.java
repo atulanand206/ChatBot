@@ -2,19 +2,31 @@ package com.creations.inception.ui.form;
 
 import android.app.Application;
 
+import com.creations.blogger.IAPIChat;
+import com.creations.blogger.callback.ListResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
+import com.creations.blogger.model.blogger.Post;
 import com.creations.condition.Info;
 import com.creations.condition.Preconditions;
-import com.creations.inception.network.IAPIChat;
 import com.creations.mvvm.form.button.ButtonViewModel;
+import com.creations.mvvm.form.contact.ContactViewModel;
 import com.creations.mvvm.form.daterange.DateRangeViewModel;
 import com.creations.mvvm.form.editable.EditableViewModel;
+import com.creations.mvvm.form.image.ImageAdapter;
+import com.creations.mvvm.form.image.ImageContract;
+import com.creations.mvvm.form.image.ImageViewModel;
 import com.creations.mvvm.form.navigation.NavigationBarViewModel;
-import com.creations.mvvm.form.spinner.SpinnerViewModel;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.messages.IMessageManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import static com.creations.inception.models.convertor.BloggerConverter.imageData;
 
 public class RequestViewModel extends MVVMViewModel implements RequestContract.ViewModel {
     private static final String TAG = RequestViewModel.class.getName();
@@ -29,14 +41,23 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
     private final IMessageManager mMessageManager;
     @NonNull
     private final NavigationBarViewModel mAdvisoryNavigation;
+    @NonNull
+    private final ImageViewModel.Factory mImageFactory;
+
+    @NonNull
+    private final List<ImageContract.ViewModel> mImageViewModels = new ArrayList<>();
+    @NonNull
+    private final ImageAdapter mImageAdapter = new ImageAdapter(mImageViewModels);
+
 
 
     public RequestViewModel(@NonNull final Application application,
                             @NonNull final Info info,
                             @NonNull final NavigationBarProps navigationBarProps,
                             @NonNull final NavigationBarViewModel.Factory navigationFactory,
-                            @NonNull final SpinnerViewModel.Factory spinnerFactory,
+                            @NonNull final ContactViewModel.Factory spinnerFactory,
                             @NonNull final ButtonViewModel.Factory buttonFactory,
+                            @NonNull final ImageViewModel.Factory imageFactory,
                             @NonNull final DateRangeViewModel.Factory dateRangeFactory,
                             @NonNull final EditableViewModel.Factory editableFactory,
                             @NonNull final IMessageManager messageManager,
@@ -53,25 +74,29 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
         mAdvisoryNavigation.setProps(navigationBarProps);
         mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "ApiAirspace");
         mMessageManager = Preconditions.requiresNonNull(messageManager, "MessageManager");
+        mImageFactory = Preconditions.requiresNonNull(imageFactory, "ImageFactory");
+        mAirspaceApi.getBlogPosts(new ListResponseCallback<Post>() {
+            @Override
+            public void onSuccess(@NonNull List<Post> response) {
+                for (Post post : response) {
+                    ImageViewModel imageViewModel = mImageFactory.create();
+                    imageViewModel.setData(imageData(post));
+                    mImageAdapter.addItem(imageViewModel);
+                }
+            }
+
+            @Override
+            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+
+            }
+        });
 
     }
 
-    private void addFieldValidations() {
-
-        disableSubmitButtonIfError();
-    }
-
-    private void mapDisableOnFields() {
-
-    }
-
-    private void disableSubmitButtonIfError() {
-
-    }
-
-
-    private boolean canSave() {
-        return true;
+    @NonNull
+    @Override
+    public ImageAdapter getImageAdapter() {
+        return mImageAdapter;
     }
 
     @NonNull
@@ -96,9 +121,11 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
         @NonNull
         private final IAPIChat mAirspaceApi;
         @NonNull
-        private final SpinnerViewModel.Factory mSpinnerFactory;
+        private final ContactViewModel.Factory mListFactory;
         @NonNull
         private final ButtonViewModel.Factory mButtonFactory;
+        @NonNull
+        private final ImageViewModel.Factory mImageFactory;
         @NonNull
         private final NavigationBarViewModel.Factory mNavigationFactory;
         @NonNull
@@ -110,10 +137,11 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
                        @NonNull final Info info,
                        @NonNull final NavigationBarProps navigationBarProps,
                        @NonNull final NavigationBarViewModel.Factory navigationFactory,
-                       @NonNull final SpinnerViewModel.Factory spinnerFactory,
+                       @NonNull final ContactViewModel.Factory spinnerFactory,
                        @NonNull final DateRangeViewModel.Factory dateRangeFactory,
                        @NonNull final EditableViewModel.Factory editableFactory,
                        @NonNull final ButtonViewModel.Factory buttonFactory,
+                       @NonNull final ImageViewModel.Factory imageFactory,
                        @NonNull final IMessageManager messageManager,
                        @NonNull final IAPIChat airspaceApi) {
             super(RequestViewModel.class, application);
@@ -122,8 +150,9 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
             mDateRangeFactory = Preconditions.requiresNonNull(dateRangeFactory, "DateRangeFactory");
             mEditableFactory = Preconditions.requiresNonNull(editableFactory, "EditableFactory");
             mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "AirspaceApi");
-            mSpinnerFactory = Preconditions.requiresNonNull(spinnerFactory, "EventType");
+            mListFactory = Preconditions.requiresNonNull(spinnerFactory, "EventType");
             mButtonFactory = Preconditions.requiresNonNull(buttonFactory, "ButtonFactory");
+            mImageFactory = Preconditions.requiresNonNull(imageFactory, "ImageFactory");
             mNavigationFactory = Preconditions.requiresNonNull(navigationFactory, "NavigationFactory");
             mMessageManager = Preconditions.requiresNonNull(messageManager, "IMessageManager");
         }
@@ -132,8 +161,8 @@ public class RequestViewModel extends MVVMViewModel implements RequestContract.V
         @Override
         public RequestViewModel create() {
             return new RequestViewModel(mApplication, mInfo,
-                    mNavigationProps, mNavigationFactory, mSpinnerFactory,
-                    mButtonFactory, mDateRangeFactory, mEditableFactory,
+                    mNavigationProps, mNavigationFactory, mListFactory,
+                    mButtonFactory, mImageFactory, mDateRangeFactory, mEditableFactory,
                     mMessageManager, mAirspaceApi);
         }
     }

@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.creations.inception.R;
-import com.creations.inception.model.ListItem;
+import com.creations.inception.models.ListItem;
 
 import java.util.List;
 
