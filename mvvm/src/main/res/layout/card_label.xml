@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="show"
+            type="Integer" />
+        <variable
+            name="text"
+            type="String" />
+        <variable
+            name="onClick"
+            type="java.lang.Runnable" />
+    </data>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="@{text}"
+        android:visibility="@{show ?? View.VISIBLE}"
+        android:onClick="@{() -> onClick.run()}"
+        android:clickable="@{onClick != null}"
+        android:focusable="@{onClick != null}"
+        style="@style/App.Component.Form.Label"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+</layout>

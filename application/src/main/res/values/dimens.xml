@@ -1,4 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <dimen name="font_xx_small">11sp</dimen>
+    <dimen name="font_extra_small">12sp</dimen>
+    <dimen name="font_smaller">13sp</dimen>
+    <dimen name="font_small">14sp</dimen>
+    <dimen name="font_normal">15sp</dimen>
+    <dimen name="font_large">16sp</dimen>
+    <dimen name="font_larger">17sp</dimen>
+    <dimen name="font_lager">18sp</dimen>
+    <dimen name="font_x_large">20sp</dimen>
+    <dimen name="font_xx_large">22sp</dimen>
+    <dimen name="font_xxx_large">24sp</dimen>
+
+    <dimen name="margin_xx_small">2dp</dimen>
+    <dimen name="margin_x_small">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_normal">12dp</dimen>
+    <dimen name="margin_norm">14dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_x_large">20dp</dimen>
+    <dimen name="margin_xx_large">24dp</dimen>
+    <dimen name="margin_xxx_large">30dp</dimen>
+    <dimen name="margin_34">34dp</dimen>
+    <dimen name="margin_xxxxx_large">50dp</dimen>
+
+    <dimen name="padding_extra_small">2dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_5">5dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_large">12dp</dimen>
+    <dimen name="padding_extra_large">16dp</dimen>
+    <dimen name="padding_xx_large">20dp</dimen>
+    <dimen name="padding_xx_larger">24dp</dimen>
+    <dimen name="padding_xxx_large">28dp</dimen>
+
+    <dimen name="zero">0dp</dimen>
+    <dimen name="height_divider">1dp</dimen>
+    <dimen name="label_reset_filters_button">80dp</dimen>
     <dimen name="view_minimum_space">24dp</dimen>
 </resources>

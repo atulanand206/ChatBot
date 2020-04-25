@@ -59,6 +59,7 @@ ext {
     compileSdkVersion = 28
     buildToolsVersion = '28.0.3'
 //
+    androidXCore = '1.2.0'
     supportLibraryVersion = '1.2.0-alpha06'
     annotationVersion = '1.1.0'
     legacySupportVersion = '1.0.0'
@@ -71,9 +72,9 @@ ext {
 //
     gmsVersion = '11.6.0'
 //    volleyVersion = '1.1.0'
-//
-//    apacheCommonsCollectionsVersion = '4.4'
-//    apacheCommonsTextVersion = '1.4'
+
+    apacheCommonsCollectionsVersion = '4.4'
+    apacheCommonsTextVersion = '1.8'
     dagger = '2.16'
     dexmakerVersion = '2.19.0'
     lifecycleExtensions = '1.1.1'
@@ -94,6 +95,7 @@ ext {
 //
     gsonVersion = '2.8.6'
     okhttp = '4.5.0'
+    conscrypt = '2.2.1'
     easyPermissions = '1.2.0'
 //
     inject = '1'
@@ -103,5 +105,37 @@ ext {
     jUnitAndroid = '1.1.1'
     mockito = '2.6.3'
     archTesting = '1.1.1'
+
+    vc_applicationVc = 1
+    vc_applicationVn = '1.0'
+
+    vc_conditionVc = 1
+    vc_conditionVn = '1.0'
+
+    vc_daggerVc = 1
+    vc_daggerVn = '1.0'
+
+    vc_inceptionVc = 1
+    vc_inceptionVn = '1.0'
+
+    vc_mvvmVc = 1
+    vc_mvvmVn = '1.0'
+
+    vc_networkVc = 1
+    vc_networkVn = '1.0'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+}
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == "com.android.support") {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion "26.+"
+            }
+        }
+    }
 }
 

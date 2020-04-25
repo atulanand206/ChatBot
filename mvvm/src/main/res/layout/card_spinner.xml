@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <data>
+        <import type="android.view.View" />
+        <import type="android.graphics.drawable.Drawable" />
+        <import type="com.example.application.utils.TextUtils"/>
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.spinner.SpinnerContract.ViewModel" />
+        <variable
+            name="prompt"
+            type="String" />
+        <variable
+            name="showDescribe"
+            type="Integer" />
+        <variable
+            name="margin"
+            type="Boolean" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal" >
+
+        <include
+            layout="@layout/card_label"
+            android:id="@+id/spinner_label"
+            bind:text="@{viewmodel.prompt ?? prompt}"/>
+
+        <Spinner
+            android:id="@+id/spinner_value"
+            android:layout_below="@id/spinner_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-4dp"
+            android:layout_marginEnd="-4dp"
+            android:prompt="@{viewmodel.hint}"
+            app:onItemSelected="@{viewmodel.itemSelectedListener}"
+            app:selectedItemPosition="@{viewmodel.position}"
+            app:entries="@{viewmodel.entries}"
+            android:textSize="@dimen/font_normal"
+            android:enabled="@{!viewmodel.disabled}"
+            android:background="@{viewmodel.disabled ? @drawable/transparent : @drawable/spinner}" />
+
+        <include
+            android:id="@+id/divider"
+            layout="@layout/content_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_divider"
+            android:layout_marginStart="@dimen/margin_x_small"
+            android:layout_marginEnd="@dimen/margin_x_small"
+            android:layout_below="@id/spinner_value" />
+
+        <include
+            layout="@layout/card_editable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            bind:margin="@{margin}"
+            bind:prompt="@{viewmodel.prompt}"
+            bind:visibility="@{viewmodel.describeVisibility ?? showDescribe ?? View.GONE}"
+            bind:viewmodel="@{viewmodel.customOptionViewModel}" />
+        <include
+            layout="@layout/card_editable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            bind:margin="@{margin}"
+            bind:prompt="@{viewmodel.prompt}"
+            bind:visibility="@{viewmodel.customOptionViewModelManual == null ? View.GONE : viewmodel.describeVisibility}"
+            bind:viewmodel="@{viewmodel.customOptionViewModelManual}" />
+    </RelativeLayout>
+</layout>

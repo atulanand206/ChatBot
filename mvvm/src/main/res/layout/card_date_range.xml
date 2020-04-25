@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.daterange.DateRangeContract.ViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/card_label"
+            bind:text="@{@string/sgi_start_time_label}" />
+
+        <include
+            layout="@layout/card_text"
+            bind:text="@{viewmodel.startString}"
+            bind:onClick="@{() -> viewmodel.pickStartTime()}"
+            bind:drawableEnd="@{viewmodel.disabled ? null : @drawable/today}" />
+
+        <include
+            layout="@layout/content_divider" />
+
+        <include
+            layout="@layout/card_label"
+            bind:text="@{@string/sgi_end_time_label}" />
+
+        <include
+            layout="@layout/card_text"
+            bind:text="@{viewmodel.endString}"
+            bind:onClick="@{() -> viewmodel.pickEndTime()}"
+            bind:drawableEnd="@{viewmodel.disabled ? null : @drawable/today}" />
+
+        <include
+            layout="@layout/content_divider" />
+
+    </LinearLayout>
+</layout>

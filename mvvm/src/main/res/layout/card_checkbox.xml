@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.checkbox.CheckboxContract.ViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/card_filters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:layout_marginBottom="@dimen/margin_x_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:onClick="@{() -> viewmodel.onItemClick()}"
+            app:cardCornerRadius="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/content_tick">
+
+                <ImageView
+                    android:id="@+id/card_checkbox_tick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:visibility="@{viewmodel.isChecked() ? View.VISIBLE : View.GONE}"
+                    android:src="@drawable/ic_check_blue_14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:contentDescription="@string/filters" />
+
+                <ImageView
+                    android:id="@+id/card_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{viewmodel.isChecked() ? @drawable/ic_check_box_outline_blank_blue_24dp : @drawable/ic_check_box_outline_blank_grey_24dp}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:contentDescription="@string/filters" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/content_tick"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_centerVertical="true"
+                android:id="@+id/content_text">
+
+                <include
+                    android:id="@+id/card_label"
+                    layout="@layout/card_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/card_title"
+                    bind:show="@{viewmodel.titleVisibility}"
+                    bind:text="@{viewmodel.title}"/>
+
+                <TextView
+                    android:id="@+id/card_title"
+                    android:layout_below="@id/card_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_label"
+                    android:text="@{viewmodel.message}"
+                    android:textSize="@dimen/font_normal"
+                    android:textColor="@color/black"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+        <include
+            layout="@layout/card_editable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
+            android:layout_marginStart="@dimen/margin_xxx_large"
+            android:layout_marginEnd="@dimen/margin_xxx_large"
+            android:layout_below="@id/card_filters"
+            bind:viewmodel="@{viewmodel.customOptionViewModel}"
+            bind:visibility="@{viewmodel.describeVisibility}"/>
+    </RelativeLayout>
+</layout>

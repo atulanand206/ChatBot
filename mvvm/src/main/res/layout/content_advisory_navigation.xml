@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="visibility"
+            type="Integer" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.navigation.NavigationBarContract.ViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="@{viewmodel.headerVisibility}"
+        style="@style/App.Component.Navigation.Recycler" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:navigationAdapter="@{viewmodel.adapter}"/>
+    </RelativeLayout>
+
+</layout>

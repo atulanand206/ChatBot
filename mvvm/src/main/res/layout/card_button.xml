@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.button.ButtonContract.ViewModel" />
+        <variable
+            name="background"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:visibility="@{safeUnbox(viewmodel.visibility)}"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/reset_filters_btn"
+            app:buttonClickListener="@{viewmodel.clickListener}"
+            android:onClick="@{() -> viewmodel.onItemClick()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@{viewmodel.background != null ? viewmodel.background : background}"
+            android:paddingStart="@dimen/label_reset_filters_button"
+            android:paddingEnd="@dimen/label_reset_filters_button"
+            android:textAllCaps="false"
+            android:textColor="@{viewmodel.textColor != null ? viewmodel.textColor : @color/colorBottomButton}"
+            android:text="@{viewmodel.message}"/>
+    </LinearLayout>
+</layout>

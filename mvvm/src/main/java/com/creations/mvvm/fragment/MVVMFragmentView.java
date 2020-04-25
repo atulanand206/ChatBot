@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.viewmodel.IMVVMViewModel;
-import com.creations.mvvm.viewmodel.MVVMInjector;
 import com.example.application.base.BaseContract;
 import com.example.application.base.BaseFragment;
+import com.example.application.utils.MVVMInjector;
 
 import java.lang.ref.WeakReference;
 

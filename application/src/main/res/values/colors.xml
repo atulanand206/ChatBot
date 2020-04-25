@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#fff</color>
+    <color name="colorPrimary">#1b2a33</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#e2e8ed</color>
+    <color name="colorMenuText">#007aff</color>
 
+    <color name="white">#fff</color>
+    <color name="black">#000000</color>
+    <color name="grey_hint">#9D9D9D</color>
     <color name="message_progress">#0a9ec1</color>
+
+    <color name="history">#757575</color>
+    <color name="hint">#59717f</color>
+    <color name="gray6">#748b99</color>
+    <color name="red">#e53838</color>
+
+    <color name="primary">#0a9ec1</color>
+
+    <color name="colorBottomButton">@color/primary</color>
+
+    <color name="gray2">#e2e8ed</color>
 </resources>

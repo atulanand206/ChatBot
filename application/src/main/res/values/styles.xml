@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:titleTextColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="AppTheme.Component">
+
+    </style>
+
+    <style name="AppTheme.Component.Fragment" parent="AppTheme.Component">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="TextAppearance.App.XSmall" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_extra_small</item>
+    </style>
+
+    <style name="TextAppearance.App.Small" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+    <style name="TextAppearance.App.Normal" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+    <style name="TextAppearance.App.Large" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="TextAppearance.App.Larger" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_larger</item>
+    </style>
+
+    <style name="TextAppearance.App.XLarge" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_x_large</item>
+    </style>
+
+    <style name="TextAppearance.App.XXLarge" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_xx_large</item>
+    </style>
+
+    <style name="TextAppearance.App.XXXLarge" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/font_xxx_large</item>
+    </style>
+
+    <style name="TextAppearance.App.Input.Light" parent="TextAppearance.App.Normal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextAppearance.App.Input.Dark" parent="TextAppearance.App.Small">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextAppearance.App.Input.Disabled" parent="TextAppearance.App.Small">
+        <item name="android:textColor">@color/gray6</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextAppearance.App.Input.Light.MultiLine" parent="TextAppearance.App.Normal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
+    <style name="TextAppearance.App.Input.Dark.MultiLine" parent="TextAppearance.App.Normal">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
+    <style name="TextAppearance.App.Input.Hint" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/hint</item>
+        <item name="android:textSize">@dimen/font_extra_small</item>
+        <item name="android:textColorHint">@color/hint</item>
+    </style>
+
+    <style name="App.Input.Text.Light" parent="TextAppearance.App.Input.Light">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="App.Input.Email.Light" parent="TextAppearance.App.Input.Light">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="App.Input.Password.Light" parent="TextAppearance.App.Input.Light">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="App.Input.Number.Light" parent="TextAppearance.App.Input.Light">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="App.Input.NumberDecimal.Light" parent="TextAppearance.App.Input.Light">
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="App.Input.Spinner.Light" parent="Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="App.Input.Text.Dark" parent="TextAppearance.App.Input.Dark">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="App.Input.Description.Light" parent="TextAppearance.App.Input.Light.MultiLine">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="App.Input.Description.Dark" parent="TextAppearance.App.Input.Dark.MultiLine">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="App.Input.Email.Dark" parent="TextAppearance.App.Input.Dark">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="App.Input.Password.Dark" parent="TextAppearance.App.Input.Dark">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="App.Input.Number.Dark" parent="TextAppearance.App.Input.Dark">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="App.Input.NumberDecimal.Dark" parent="TextAppearance.App.Input.Dark">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="App.Input.Spinner.Dark" parent="@style/Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>

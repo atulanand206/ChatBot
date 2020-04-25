@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto" >
+    <data>
+        <import type="android.view.View" />
+        <import type="android.text.InputType" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.form.editable.EditableContract.ViewModel" />
+        <variable
+            name="prompt"
+            type="String" />
+        <variable
+            name="hint"
+            type="String" />
+        <variable
+            name="inputType"
+            type="Integer" />
+        <variable
+            name="disabled"
+            type="Boolean" />
+        <variable
+            name="textEnabled"
+            type="Boolean" />
+        <variable
+            name="visibility"
+            type="Integer" />
+        <variable
+            name="margin"
+            type="Boolean" />
+        <variable
+            name="drawableLeftIcon"
+            type="android.graphics.drawable.Drawable" />
+        <variable
+            name="textColor"
+            type="Integer" />
+    </data>
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/margin_xx_small"
+        android:layout_marginBottom="@dimen/margin_xx_small"
+        app:marginTop="@{(int)(margin ? @dimen/zero : @dimen/margin_normal)}"
+        app:marginStart="@{(int)(margin ? @dimen/margin_xxx_large : @dimen/zero)}"
+        app:marginEnd="@{(int)(margin ? @dimen/margin_xxx_large : @dimen/zero)}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        visibility="@{(viewmodel.fieldVisibility == View.VISIBLE &amp;&amp; visibility == View.VISIBLE) ? View.VISIBLE : View.GONE}">
+
+        <include
+            android:id="@+id/editable_label"
+            layout="@layout/card_label"
+            bind:text="@{viewmodel.promptText ?? prompt}"
+            bind:show="@{(viewmodel.promptText ?? prompt) == null || margin ? View.GONE : View.VISIBLE}" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_below="@id/editable_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_layout"
+            app:errorTextAppearance="@style/App.Input.ErrorText"
+            app:error="@{viewmodel.textError}"
+            app:errorEnabled="@{!safeUnbox(viewmodel.disabled ?? disabled) &amp;&amp; safeUnbox(viewmodel.textEnabledError)}"
+            app:hintEnabled="false"
+            android:backgroundTint="@color/black"
+            app:startIconDrawable="@{drawableLeftIcon}"
+            app:endIconDrawable="@{@drawable/ic_cancel_grey_14dp}"
+            app:endIconMode="custom"
+            app:endIconClicked="@{() -> viewmodel.clearText()}"
+            app:endIconVisibility="@{!safeUnbox(viewmodel.disabled ?? disabled) &amp;&amp; safeUnbox(viewmodel.clearVisibility)}" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@{viewmodel.disabled ? null : (viewmodel.hintText ?? hint)}"
+                android:text="@{viewmodel.text}"
+                android:maxLength="@{viewmodel.textLength != null ? viewmodel.textLength : 1000000}"
+                android:onTextChanged="@{viewmodel::onTextChangedPhone}"
+                android:afterTextChanged="@{viewmodel::afterTextChangedText}"
+                android:scrollHorizontally="false"
+                android:textColor="@{safeUnbox(viewmodel.textColor != null) ? viewmodel.textColor : @color/black}"
+                android:inputType="@{safeUnbox(viewmodel.disabled ?? disabled) ? InputType.TYPE_NULL : (viewmodel.inputType ?? inputType)}"
+                android:focusable="@{!safeUnbox(viewmodel.disabled ?? disabled)}"
+                android:textAppearance="@style/TextAppearance.App.Input.Dark"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
+</layout>

@@ -5,9 +5,9 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
+        versionCode rootProject.ext.vc_networkVc
+        versionName rootProject.ext.vc_networkVn
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -29,7 +29,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.squareup.okhttp3:okhttp:${okhttp}"
     implementation "com.google.code.gson:gson:${gsonVersion}"
-    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
+    implementation "androidx.core:core:${androidXCore}"
+    implementation "org.conscrypt:conscrypt-android:${conscrypt}"
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"

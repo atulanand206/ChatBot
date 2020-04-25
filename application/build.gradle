@@ -5,9 +5,9 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
+        versionCode rootProject.ext.vc_applicationVc
+        versionName rootProject.ext.vc_applicationVn
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -18,7 +18,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion = buildToolsVersion
 
 }
 
@@ -27,11 +26,19 @@ dependencies {
 
     implementation "javax.inject:javax.inject:${inject}"
 
+    implementation "com.google.dagger:dagger:${dagger}"
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+
+    implementation "org.apache.commons:commons-collections4:${apacheCommonsCollectionsVersion}"
+    implementation "org.apache.commons:commons-text:${apacheCommonsTextVersion}"
+
+    implementation "androidx.core:core:${androidXCore}"
 
     implementation "androidx.annotation:annotation:${annotationVersion}"
     implementation "androidx.legacy:legacy-support-v4:${legacySupportVersion}"
     implementation "com.google.android.material:material:${supportLibraryVersion}"
-    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
 
     implementation "androidx.cardview:cardview:${cardViewVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerViewVersion}"
@@ -40,4 +47,5 @@ dependencies {
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
+    implementation project(path: ':condition')
 }

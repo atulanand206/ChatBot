@@ -2,7 +2,7 @@ package com.creations.tools.network;
 
 import android.util.Log;
 
-import com.creations.tools.Constants;
+import com.creations.tools.NetworkConstants;
 import com.creations.tools.models.APIResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -78,13 +78,13 @@ public class OkHttpNetworkManager extends NetworkManager {
                 }
             }
             requestBody = formBodyBuilder.build();
-            requestBuilder.addHeader(Constants.APIHeaders.CONTENT_TYPE,
-                    Constants.APIHeaders.CONTENT_TYPE_FORM_URL_ENCODED);
+            requestBuilder.addHeader(NetworkConstants.APIHeaders.CONTENT_TYPE,
+                    NetworkConstants.APIHeaders.CONTENT_TYPE_FORM_URL_ENCODED);
         } else if (contentType == ContentType.DOCS) {
             requestBody = null;
         } else {
-            requestBuilder.addHeader(Constants.APIHeaders.CONTENT_TYPE,
-                    Constants.APIHeaders.CONTENT_TYPE_JSON);
+            requestBuilder.addHeader(NetworkConstants.APIHeaders.CONTENT_TYPE,
+                    NetworkConstants.APIHeaders.CONTENT_TYPE_JSON);
             requestBody = requestObject == null ? null :
                     RequestBody.create(JSON, gson.toJson(requestObject));
         }

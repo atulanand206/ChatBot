@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">MVVM</string>
+
+    <string name="error_invalid_email">Please enter a valid email address!</string>
+    <string name="error_phone_us">Please enter a valid US phone number!</string>
+    <string name="error_name_mandatory">Name cannot be empty</string>
+
+    <string name="title_observer">OBSERVER %d</string>
+    <string name="button_delete">Delete</string>
+
+    <string name="pilot_name_label">NAME *</string>
+    <string name="pilot_phone_label">PHONE *</string>
+    <string name="pilot_email_label">EMAIL *</string>
+
+    <string name="sgi_start_time_label">START DATE &amp; TIME *</string>
+    <string name="sgi_end_time_label">END DATE &amp; TIME *</string>
+
+    <string name="hint_name">Enter name</string>
+    <string name="hint_phone">Enter phone number</string>
+    <string name="hint_email">Enter email</string>
+
+    <string name="filters">Filters</string>
+
 </resources>
