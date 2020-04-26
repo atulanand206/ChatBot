@@ -132,7 +132,12 @@ public interface IMVVMViewModel {
 
     @BindingAdapter("bkgrndColor")
     static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
-        view.setBackgroundColor(ContextCompat.getColor(view.getContext(), colorResId));
+        try {
+            int color = ContextCompat.getColor(view.getContext(), colorResId);
+            view.setBackgroundColor(color);
+        } catch (android.content.res.Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -150,10 +155,10 @@ public interface IMVVMViewModel {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter("navigationAdapter")
+    @BindingAdapter("verticalAdapter")
     static void bindRecyclerAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
         recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 

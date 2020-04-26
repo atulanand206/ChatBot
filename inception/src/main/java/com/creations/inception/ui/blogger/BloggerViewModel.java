@@ -10,6 +10,8 @@ import com.creations.condition.Preconditions;
 import com.creations.mvvm.databinding.CardImageBinding;
 import com.creations.mvvm.databinding.ContentAdvisoryNavigationBinding;
 import com.creations.mvvm.live.MutableLiveData;
+import com.creations.mvvm.models.navigation.NavigationBarProps;
+import com.creations.mvvm.models.navigation.NavigationState;
 import com.creations.mvvm.ui.animate.AnimatorViewModel;
 import com.creations.mvvm.ui.exp.NavigationRecycler;
 import com.creations.mvvm.ui.image.ImageAdapter;
@@ -89,7 +91,28 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
             }
         });
         animate(false);
-//        mNavigationListAdapter.addItem(navigationFactory.create());
+        NavigationBarViewModel viewModel = navigationFactory.create();
+        viewModel.setProps(new NavigationBarProps.Builder()
+                .withADVANCED(NavigationState.COMPLETED)
+                .withEXPERT(NavigationState.CURRENT)
+                .build());
+        mNavigationListAdapter.addItem(viewModel);
+
+        NavigationBarViewModel viewModel2 = navigationFactory.create();
+        viewModel2.setProps(new NavigationBarProps.Builder()
+                .withNOVICE(NavigationState.COMPLETED)
+                .withINTERMEDIATE(NavigationState.COMPLETED)
+                .withINTERMEDIATE(NavigationState.COMPLETED)
+                .withINTERMEDIATE(NavigationState.COMPLETED)
+                .withINTERMEDIATE(NavigationState.COMPLETED)
+                .withINTERMEDIATE(NavigationState.COMPLETED)
+                .withADVANCED(NavigationState.CURRENT)
+                .build());
+        mNavigationListAdapter.addItem(viewModel2);
+        mNavigationListAdapter.addItem(viewModel);
+        mNavigationListAdapter.addItem(viewModel);
+        mNavigationListAdapter.addItem(viewModel2);
+        mNavigationListAdapter.addItem(viewModel2);
     }
 
     @NonNull

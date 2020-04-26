@@ -2,6 +2,8 @@ package com.creations.mvvm.ui.navigation;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
+import com.creations.mvvm.ui.navigation.item.NavItemModule;
+import com.creations.mvvm.ui.navigation.item.NavItemViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
 
 import androidx.annotation.NonNull;
@@ -14,17 +16,20 @@ import dagger.Provides;
 @Module()
 public interface NavigationBarModule extends MVVMModule {
 
-    @Module
+    @Module(includes = {
+            NavItemModule.InjectViewModelFactory.class
+    })
     abstract class InjectViewModelFactory {
         @Provides
         @NonNull
         public static NavigationBarViewModel.Factory provideNavigationBarViewModelFactory(
                 @NonNull final FragmentActivity activity,
+                @NonNull final NavItemViewModel.Factory itemFactory,
                 @NonNull final NavigationBarProps navigationBarProps) {
             Preconditions.requiresNonNull(activity, "NavigationBarFragmentActivity");
             Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
 
-            return new NavigationBarViewModel.Factory(activity.getApplication(), navigationBarProps);
+            return new NavigationBarViewModel.Factory(activity.getApplication(), itemFactory, navigationBarProps);
         }
     }
 

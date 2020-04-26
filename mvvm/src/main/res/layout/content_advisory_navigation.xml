@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="visibility"
-            type="Integer" />
-        <variable
             name="viewmodel"
             type="com.creations.mvvm.ui.navigation.NavigationBarContract.ViewModel" />
     </data>
@@ -13,15 +10,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="@{viewmodel.visibility}"
-        app:bkgrndColor="@{viewmodel.backgroundColor}"
-        style="@style/App.Component.Navigation.Recycler" >
+        app:bkgrndColor="@{viewmodel.backgroundColor}" >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:navigationAdapter="@{viewmodel.adapter}"/>
+        <include layout="@layout/layout_divider"/>
+
+        <RelativeLayout
+            android:paddingTop="@dimen/margin_x_small"
+            android:paddingBottom="@dimen/margin_x_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    <!--        android:visibility="@{viewmodel.visibility}"-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:horizontalAdapter="@{viewmodel.adapter}"/>
+
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_divider"/>
+
     </RelativeLayout>
 
 </layout>

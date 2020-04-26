@@ -1,16 +1,9 @@
 package com.creations.inception.ui.form;
 
 import com.creations.condition.Preconditions;
+import com.creations.inception.di.PropsModule;
 import com.creations.inception.ui.blogger.BloggerModule;
 import com.creations.inception.ui.blogger.BloggerViewModel;
-import com.creations.mvvm.models.navigation.NavigationBarProps;
-import com.creations.mvvm.models.navigation.NavigationState;
-import com.creations.mvvm.models.props.ButtonProps;
-import com.creations.mvvm.models.props.DateRangeProps;
-import com.creations.mvvm.models.props.DrawerProps;
-import com.creations.mvvm.models.props.EditableProps;
-import com.creations.mvvm.models.props.ImageData;
-import com.creations.mvvm.models.props.SpinnerProps;
 import com.creations.mvvm.ui.button.ButtonModule;
 import com.creations.mvvm.ui.contact.ContactModule;
 import com.creations.mvvm.ui.daterange.DateRangeModule;
@@ -24,8 +17,6 @@ import com.creations.mvvm.ui.spinner.SpinnerModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.example.dagger.key.CustomFragmentKey;
 import com.example.dagger.scopes.FragmentScope;
-
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -49,7 +40,8 @@ public interface RequestModule extends MVVMModule {
             NavigationBarModule.InjectViewModelFactory.class,
             ImageModule.InjectViewModelFactory.class,
             BloggerModule.InjectViewModelFactory.class,
-            DrawerModule.InjectViewModelFactory.class
+            DrawerModule.InjectViewModelFactory.class,
+            PropsModule.class
     })
     abstract class InjectViewModelFactory {
         @Provides
@@ -58,52 +50,6 @@ public interface RequestModule extends MVVMModule {
             Preconditions.requiresNonNull(fragment, "SGIRequestFragment");
 
             return Preconditions.verifyNonNull(fragment.getActivity(), "GetActivity");
-        }
-
-        @Provides
-        @NonNull
-        public static NavigationBarProps provideNavigationProps() {
-            return new NavigationBarProps.Builder()
-                    .withNOVICE(NavigationState.COMPLETED)
-                    .withINTERMEDIATE(NavigationState.CURRENT)
-                    .withADVANCED(NavigationState.NOT_YET_OPENED)
-                    .build();
-        }
-
-        @Provides
-        @NonNull
-        public static DateRangeProps provideDateRangeProps() {
-            return new DateRangeProps(false);
-        }
-
-        @Provides
-        @NonNull
-        public static EditableProps provideEditableProps() {
-            return new EditableProps(false);
-        }
-
-        @Provides
-        @NonNull
-        public static SpinnerProps provideSpinnerProps() {
-            return new SpinnerProps(false);
-        }
-
-        @Provides
-        @NonNull
-        public static ButtonProps provideButtonProps() {
-            return new ButtonProps("");
-        }
-
-        @Provides
-        @NonNull
-        public static ImageData provideImageData() {
-            return new ImageData();
-        }
-
-        @Provides
-        @NonNull
-        public static DrawerProps provideDrawableProps() {
-            return new DrawerProps(new ArrayList<>());
         }
 
         @Provides

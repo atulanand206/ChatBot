@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.creations.mvvm.ui.navigation.NavigationBarContract.ViewModel" />
-        <variable
-            name="position"
-            type="java.lang.Integer" />
+            type="com.creations.mvvm.ui.navigation.item.NavItemContract.ViewModel" />
     </data>
 
     <RelativeLayout
+        android:visibility="visible"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:gravity="center_horizontal"
@@ -29,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@{viewmodel.getDrawable(position)}"/>
+                android:src="@{viewmodel.getDrawable()}"/>
 
             <TextView
                 android:id="@+id/title"
@@ -41,7 +40,7 @@
                 android:textSize="@dimen/font_extra_small"
                 android:layout_marginTop="@dimen/margin_x_small"
                 android:layout_marginBottom="@dimen/margin_x_small"
-                android:text="@{viewmodel.getTitle(position)}" />
+                android:text="@{viewmodel.getTitle()}" />
 
         </RelativeLayout>
 
@@ -54,7 +53,7 @@
             android:layout_marginLeft="@dimen/margin_xx_small"
             android:layout_marginRight="@dimen/margin_xx_small"
             android:src="@drawable/horizontal_navigation_divider"
-            android:visibility="@{safeUnbox(viewmodel.getLineVisibility(position))}"/>
+            app:visibility="@{viewmodel.getLineVisibility()}"/>
 
     </RelativeLayout>
 </layout>

@@ -31,7 +31,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/red"
-                        bind:adapter="@{viewmodel.navigationAdapter}" />
+                        bind:verticalAdapter="@{viewmodel.navigationAdapter}" />
 
                     <View
                         android:layout_width="match_parent"
@@ -48,13 +48,6 @@
                         android:layout_height="@dimen/divider_height"
                         android:background="@color/warm_gray" />
 
-
-
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/divider_height"-->
-<!--                        android:background="@color/warm_gray" />-->
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:padding="@dimen/margin_normal"
                         android:layout_width="match_parent"
@@ -62,29 +55,29 @@
                         android:background="#2c3e50"
                         bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
 
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/divider_height"-->
-<!--                        android:background="@color/warm_gray" />-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_height"
+                        android:background="@color/warm_gray" />
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:padding="@dimen/margin_normal"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:background="#de6262"-->
-<!--                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:padding="@dimen/margin_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#de6262"
+                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
 
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/divider_height"-->
-<!--                        android:background="@color/warm_gray" />-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_height"
+                        android:background="@color/warm_gray" />
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:padding="@dimen/margin_normal"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:background="#ffb88c"-->
-<!--                        bind:adapter="@{viewmodel.imageAdapter}" />-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:padding="@dimen/margin_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffb88c"
+                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
 
                 </LinearLayout>
 

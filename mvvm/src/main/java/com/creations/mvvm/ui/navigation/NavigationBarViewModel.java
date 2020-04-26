@@ -1,15 +1,16 @@
 package com.creations.mvvm.ui.navigation;
 
 import android.app.Application;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
+import com.creations.mvvm.databinding.CardAdvisoryNavigationBinding;
 import com.creations.mvvm.live.LiveEvent;
-import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
+import com.creations.mvvm.ui.navigation.item.NavItemContract;
+import com.creations.mvvm.ui.navigation.item.NavItemViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
@@ -17,8 +18,6 @@ import java.util.List;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -30,26 +29,35 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
     @NonNull
     private NavigationBarProps mProps;
     @NonNull
-    private MutableLiveData<RecyclerView.Adapter> mNavigationAdapter = new MutableLiveData<>(new NavigationBarAdapter(R.layout.card_advisory_navigation, this));
+    private NavigationBarAdapter<NavItemContract.ViewModel, CardAdvisoryNavigationBinding> mNavigationAdapter = new NavigationBarAdapter<>(viewModel -> {
 
+    }, R.layout.card_advisory_navigation);
+
+    @NonNull
+    private final NavItemViewModel.Factory mItemFactory;
     private int[] colors = new int[] {R.color.black, R.color.colorMenuText, R.color.colorBottomButton, R.color.colorAccent};
     private int currentColorIndex = 0;
 
     public NavigationBarViewModel(@NonNull final Application application,
+                                  @NonNull final NavItemViewModel.Factory itemFactory,
                                   @NonNull final NavigationBarProps navigationBarProps) {
         super(application);
         Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
-        mProps = navigationBarProps;
+        mItemFactory = Preconditions.requiresNonNull(itemFactory, "ItemFactory");
+        setProps(navigationBarProps);
         setTopColor(R.color.message_progress);
+        setVisibility();
     }
-
 
     @Override
     public void setProps(@NonNull final NavigationBarProps props) {
+        mNavigationAdapter.clearItems();
         mProps = Preconditions.requiresNonNull(props, "Props");
-        RecyclerView.Adapter adapter = mNavigationAdapter.getValue();
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
+        for (NavigationItem item : props.getItems()) {
+            NavItemViewModel navItemViewModel = mItemFactory.create();
+            navItemViewModel.setData(item);
+            mNavigationAdapter.addItem(navItemViewModel);
+        }
     }
 
     @NonNull
@@ -64,54 +72,23 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
         mEvent.postEvent(backgroundColorResId);
     }
 
-    @Override
-    public LiveData<Integer> getVisibility() {
+    public void setVisibility() {
         List<NavigationItem> items = mProps.getItems();
         if (items == null || items.isEmpty()) {
             setVisibility(View.GONE);
-            return super.getVisibility();
+            return;
         }
         if (items.size() == 1) {
             setVisibility(View.GONE);
-            return super.getVisibility();
+            return;
         }
         setVisibility(View.VISIBLE);
-        return super.getVisibility();
     }
 
     @NonNull
     @Override
-    public String getTitle(int position) {
-        List<NavigationItem> items = mProps.getItems();
-        if (items == null || position >= items.size())
-            return "";
-        NavigationItem navigationItem = items.get(position);
-        return navigationItem.getLabel().name();
-    }
-
-    @Override
-    public Drawable getDrawable(int position) {
-        List<NavigationItem> items = mProps.getItems();
-        if (items == null || position >= items.size())
-            return null;
-        NavigationItem navigationItem = items.get(position);
-        return navigationItem.getNavigationState().getDrawable(getApplication());
-    }
-
-    @NonNull
-    @Override
-    public LiveData<RecyclerView.Adapter> getAdapter() {
+    public NavigationBarAdapter getAdapter() {
         return mNavigationAdapter;
-    }
-
-    @Override
-    public Integer getLineVisibility(final int position) {
-        List<NavigationItem> items = mProps.getItems();
-        if (items == null || items.isEmpty())
-            return View.GONE;
-        if (position == items.size()-1)
-            return View.GONE;
-        return View.VISIBLE;
     }
 
     @NonNull
@@ -125,16 +102,21 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
         @NonNull
         private final NavigationBarProps mNavigationBarProps;
 
+        @NonNull
+        private final NavItemViewModel.Factory mItemFactory;
+
         public Factory(@NonNull final Application application,
+                       @NonNull final NavItemViewModel.Factory itemFactory,
                        @NonNull final NavigationBarProps navigationBarProps) {
             super(NavigationBarViewModel.class, application);
             mNavigationBarProps = Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
+            mItemFactory = Preconditions.requiresNonNull(itemFactory, "NavigationBarProps");
         }
 
         @NonNull
         @Override
         public NavigationBarViewModel create() {
-            return new NavigationBarViewModel(mApplication, mNavigationBarProps);
+            return new NavigationBarViewModel(mApplication, mItemFactory, mNavigationBarProps);
         }
     }
 }

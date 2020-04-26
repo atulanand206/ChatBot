@@ -90,12 +90,16 @@ public abstract class MVVMViewModel extends AndroidViewModel implements IMVVMVie
 
     protected void removeSetError(@Nullable final MutableLiveData<String> textFieldError,
                                   @Nullable final MutableLiveData<Boolean> errorEnabled) {
+        if (textFieldError == null || errorEnabled == null)
+            return;
         textFieldError.setValue(null);
         errorEnabled.setValue(false);
     }
 
     protected void removePostError(@Nullable final MutableLiveData<String> textFieldError,
                                    @Nullable final MutableLiveData<Boolean> errorEnabled) {
+        if (textFieldError == null || errorEnabled == null)
+            return;
         textFieldError.postValue(null);
         errorEnabled.postValue(false);
     }
@@ -104,6 +108,8 @@ public abstract class MVVMViewModel extends AndroidViewModel implements IMVVMVie
                             @Nullable final MutableLiveData<Boolean> errorEnabled,
                             @StringRes final int errorResId) {
         removeSetError(textFieldError, errorEnabled);
+        if (textFieldError == null || errorEnabled == null)
+            return;
         textFieldError.setValue(getApplication().getString(errorResId));
         errorEnabled.setValue(true);
     }
@@ -112,6 +118,8 @@ public abstract class MVVMViewModel extends AndroidViewModel implements IMVVMVie
                              @Nullable final MutableLiveData<Boolean> errorEnabled,
                              @StringRes final int errorResId) {
         removePostError(textFieldError, errorEnabled);
+        if (textFieldError == null || errorEnabled == null)
+            return;
         textFieldError.postValue(getApplication().getString(errorResId));
         errorEnabled.postValue(true);
     }

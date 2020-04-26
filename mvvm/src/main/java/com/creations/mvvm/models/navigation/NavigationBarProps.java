@@ -11,7 +11,6 @@ import static com.creations.mvvm.models.navigation.NavigationLabel.EXPERT;
 import static com.creations.mvvm.models.navigation.NavigationLabel.INTERMEDIATE;
 import static com.creations.mvvm.models.navigation.NavigationLabel.NOVICE;
 import static com.creations.mvvm.models.navigation.NavigationState.CURRENT;
-import static com.creations.mvvm.models.navigation.NavigationState.NOT_YET_OPENED;
 
 /**
  * This class is to be used for creating the model for the text view in EditableViewModel.
@@ -88,19 +87,6 @@ public class NavigationBarProps implements Serializable {
         public NavigationBarProps build() {
             return mProps;
         }
-    }
-
-    public static NavigationBarProps defaultProps(final boolean sgiEnabled,
-                                                  final boolean notamEnabled,
-                                                  final boolean checklistEnabled) {
-        Builder builder = new Builder().withNOVICE(CURRENT);
-        if (sgiEnabled)
-            builder = builder.withINTERMEDIATE(NOT_YET_OPENED);
-        if (notamEnabled)
-            builder = builder.withADVANCED(NOT_YET_OPENED);
-        if (checklistEnabled)
-            builder = builder.withEXPERT(NOT_YET_OPENED);
-        return builder.build();
     }
 
 }

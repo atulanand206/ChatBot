@@ -4,69 +4,57 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.BR;
-import com.creations.mvvm.models.navigation.NavigationItem;
-
-import java.util.List;
+import com.creations.mvvm.databinding.CardAdvisoryNavigationBinding;
+import com.creations.mvvm.ui.navigation.item.NavItemContract;
+import com.creations.mvvm.ui.recycler.RecyclerAdapter;
+import com.creations.mvvm.ui.recycler.RecyclerListener;
+import com.creations.mvvm.ui.recycler.RecyclerViewHolder;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.recyclerview.widget.RecyclerView;
 
-public class NavigationBarAdapter extends RecyclerView.Adapter<NavigationBarAdapter.RecyclerViewHolder>{
+public class NavigationBarAdapter<T extends NavItemContract.ViewModel, E extends CardAdvisoryNavigationBinding> extends RecyclerAdapter<T, E> {
 
-    private int mLayoutId;
-
-    @NonNull
-    private NavigationBarContract.ViewModel mViewModel;
-
-    public NavigationBarAdapter(final int layoutId,
-                                @NonNull final NavigationBarContract.ViewModel navigationBarViewModel) {
-        mLayoutId = layoutId;
-        mViewModel = Preconditions.requiresNonNull(navigationBarViewModel, "NavigationBarViewModel");
+    public NavigationBarAdapter(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
+        super(listener, layoutResId);
     }
 
     @NonNull
     @Override
-    public RecyclerViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+    public NavigationBarAdapter.ViewHolder<T, E> onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(
                 Preconditions.requiresNonNull(parent, "ViewGroup").getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, viewType, parent, false);
+        E binding = DataBindingUtil.inflate(layoutInflater, viewType, parent, false);
 
-        return new RecyclerViewHolder(binding);
+        return new NavigationBarAdapter.ViewHolder<T, E>(binding);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
-        Preconditions.requiresNonNull(holder, "Holder").bind(mViewModel, position);
-    }
+    public static class ViewHolder<T extends NavItemContract.ViewModel, E extends CardAdvisoryNavigationBinding> extends RecyclerViewHolder<T, E> {
 
-    @Override
-    public int getItemCount() {
-        List<NavigationItem> value = mViewModel.getProps().getItems();
-        return value != null ? value.size() : 0;
-    }
-
-    @Override
-    public int getItemViewType(final int position) {
-        return mLayoutId;
-    }
-
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        final ViewDataBinding mBinding;
-
-        public RecyclerViewHolder(@NonNull final ViewDataBinding binding) {
-            super(binding.getRoot());
-            mBinding = Preconditions.requiresNonNull(binding, "Binding");
+        ViewHolder(@NonNull final E binding) {
+            super(binding);
         }
 
-        void bind(@NonNull final NavigationBarContract.ViewModel viewModel,
-                  @NonNull final Integer position) {
-            mBinding.setVariable(BR.viewmodel, Preconditions.requiresNonNull(viewModel, "ViewModel"));
-            mBinding.setVariable(BR.position, Preconditions.requiresNonNull(position, "Position"));
-            mBinding.executePendingBindings();
+        @Override
+        public void bind(@NonNull T viewModel) {
+            super.bind(viewModel);
+            viewModel.setPosition(getAdapterPosition());
+            mBinding.setViewmodel(Preconditions.requiresNonNull(viewModel, "ViewModel"));
+        }
+
+        @Override
+        public void onViewAttachedToWindow() {
+            super.onViewAttachedToWindow();
+        }
+
+        @Override
+        public void onViewDetachedFromWindow() {
+            super.onViewDetachedFromWindow();
+        }
+
+        @Override
+        public void onViewRecycled() {
+            super.onViewRecycled();
         }
     }
 }

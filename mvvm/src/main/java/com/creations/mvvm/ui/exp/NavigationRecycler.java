@@ -15,8 +15,7 @@ import androidx.databinding.DataBindingUtil;
 
 public class NavigationRecycler<T extends ViewModel, E extends ContentAdvisoryNavigationBinding> extends RecyclerAdapter<T, E> {
 
-    public NavigationRecycler(@NonNull final RecyclerListener<T> listener,
-                              final int layoutResId) {
+    public NavigationRecycler(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
         super(listener, layoutResId);
     }
 

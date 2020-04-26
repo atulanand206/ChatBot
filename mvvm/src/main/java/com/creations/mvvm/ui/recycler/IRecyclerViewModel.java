@@ -4,10 +4,11 @@ import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 public interface IRecyclerViewModel extends IMVVMViewModel {
 
-    void setPosition(int position);
+    void setPosition(final int position);
     /**
      * @return liveRunnable when the readiness checklist save button is clicked.
      */
@@ -19,4 +20,11 @@ public interface IRecyclerViewModel extends IMVVMViewModel {
      */
     void onRecyclerItemClick();
 
+    @NonNull
+    LiveData<Integer> getPosition();
+
+    void setSize(@NonNull Integer size);
+
+    @NonNull
+    LiveData<Integer> getSize();
 }
