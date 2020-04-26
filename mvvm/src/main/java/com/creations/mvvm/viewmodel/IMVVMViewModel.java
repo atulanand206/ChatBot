@@ -22,12 +22,16 @@ import android.widget.TextView;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
-import com.creations.tools.network.ImageLoadTask;
+import com.creations.mvvm.models.props.ImageData;
+import com.creations.mvvm.utils.ImageLoadTask;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -90,9 +94,14 @@ public interface IMVVMViewModel {
         }
     }
 
+    @BindingAdapter("setId")
+    static void setId(@NonNull final View view, @IdRes final int idRes) {
+        view.setId(idRes);
+    }
+
     @BindingAdapter("imageFromUrl")
-    static void imageFromUrl(@NonNull final ImageView imageView, @NonNull final String url) {
-        new ImageLoadTask(url, imageView).execute();
+    static void imageFromUrl(@NonNull final ImageView imageView, @NonNull final ImageData url) {
+        new ImageLoadTask(imageView, url).execute();
     }
 
     @BindingAdapter("relativeHeight")
@@ -117,10 +126,23 @@ public interface IMVVMViewModel {
 ////        new Animations().zoomImageFromThumb(imageView, 1, R.id.title_small, R.id.title_initial);
 //    }
 
+    @BindingAdapter("bkgrndColor")
+    static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
+        view.setBackgroundColor(ContextCompat.getColor(view.getContext(), colorResId));
+    }
+
+
     @BindingAdapter("adapter")
     static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
         recyclerView.setPadding(0, 0, 0, 0);
         recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @BindingAdapter("horizontalAdapter")
+    static void horizontalAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
+        recyclerView.setPadding(0, 0, 0, 0);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
     }
 

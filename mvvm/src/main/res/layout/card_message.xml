@@ -10,11 +10,11 @@
     </data>
 
     <TextView
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginBottom="@dimen/margin_small"
         style="@style/App.Component.Form.Message"
-        android:text="@{text}"
-        android:textColor="@{textColor ?? @color/black}" />
+        android:text="@{text}" />
 </layout>

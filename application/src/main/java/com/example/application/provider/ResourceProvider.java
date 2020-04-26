@@ -21,6 +21,11 @@ public class ResourceProvider implements IResourceProvider {
     }
 
     @Override
+    public int getInteger(int integerResId) {
+        return context.getResources().getInteger(integerResId);
+    }
+
+    @Override
     public float getDimen(int dimenResId) {
         return context.getResources().getDimension(dimenResId);
     }

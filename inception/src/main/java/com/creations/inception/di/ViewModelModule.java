@@ -1,5 +1,6 @@
 package com.creations.inception.di;
 
+import com.creations.inception.ui.blogger.BloggerModule;
 import com.creations.mvvm.form.checkbox.CheckboxModule;
 import com.creations.mvvm.form.contact.ContactModule;
 import com.creations.mvvm.form.editable.EditableModule;
@@ -15,7 +16,8 @@ import dagger.Module;
         ContactModule.class,
         CheckboxModule.class,
         NavigationBarModule.class,
-        ImageModule.class
+        ImageModule.class,
+        BloggerModule.class
 })
 public class ViewModelModule {
 

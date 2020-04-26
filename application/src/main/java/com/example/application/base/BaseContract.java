@@ -52,5 +52,9 @@ public interface BaseContract {
          */
         void onVisible();
 
+        /**
+         * @param view the root view of the activity.
+         */
+        void crossfade(@NonNull View view);
     }
 }

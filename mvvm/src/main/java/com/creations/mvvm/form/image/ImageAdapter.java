@@ -25,9 +25,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.RecyclerView
 
     @NonNull
     private List<ViewModel> mViewModels;
+    @NonNull
+    private Listener mListener;
 
-    public ImageAdapter(@NonNull final List<ViewModel> viewModels) {
+    public ImageAdapter(@NonNull final List<ViewModel> viewModels,
+                        @NonNull final Listener listener) {
         mViewModels = Preconditions.requiresNonNull(viewModels, "ViewModels");
+        mListener = Preconditions.requiresNonNull(listener, "Listener");
     }
 
     @NonNull
@@ -49,6 +53,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.RecyclerView
 
     private void onClick(final int adapterPosition) {
         mViewModels.get(adapterPosition).changeState();
+        mListener.onItemClick(adapterPosition);
     }
 
     @Override
@@ -173,5 +178,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.RecyclerView
         public Lifecycle getLifecycle() {
             return mRegistry;
         }
+    }
+
+    public interface Listener {
+
+        void onItemClick(final int adapterPosition);
     }
 }

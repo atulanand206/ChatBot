@@ -2,6 +2,7 @@ package com.example.application.provider;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
+import androidx.annotation.IntegerRes;
 import androidx.annotation.StringRes;
 
 /**
@@ -13,4 +14,6 @@ public interface IResourceProvider {
     int getColor(@ColorRes int colorResId);
 
     float getDimen(@DimenRes int dimenResId);
+
+    int getInteger(@IntegerRes int integerResId);
 }

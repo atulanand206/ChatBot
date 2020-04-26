@@ -1,29 +1,24 @@
 package com.creations.inception.ui.form;
 
-import com.creations.blogger.IAPIChat;
-import com.creations.condition.Info;
 import com.creations.condition.Preconditions;
+import com.creations.inception.ui.blogger.BloggerModule;
+import com.creations.inception.ui.blogger.BloggerViewModel;
 import com.creations.mvvm.form.button.ButtonModule;
-import com.creations.mvvm.form.button.ButtonViewModel;
 import com.creations.mvvm.form.contact.ContactModule;
-import com.creations.mvvm.form.contact.ContactViewModel;
 import com.creations.mvvm.form.daterange.DateRangeModule;
-import com.creations.mvvm.form.daterange.DateRangeViewModel;
 import com.creations.mvvm.form.editable.EditableModule;
-import com.creations.mvvm.form.editable.EditableViewModel;
 import com.creations.mvvm.form.image.ImageModule;
-import com.creations.mvvm.form.image.ImageViewModel;
 import com.creations.mvvm.form.navigation.NavigationBarModule;
 import com.creations.mvvm.form.navigation.NavigationBarViewModel;
 import com.creations.mvvm.form.spinner.SpinnerModule;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
+import com.creations.mvvm.models.navigation.NavigationState;
 import com.creations.mvvm.models.props.ButtonProps;
 import com.creations.mvvm.models.props.DateRangeProps;
 import com.creations.mvvm.models.props.EditableProps;
 import com.creations.mvvm.models.props.ImageData;
 import com.creations.mvvm.models.props.SpinnerProps;
 import com.creations.mvvm.viewmodel.MVVMModule;
-import com.example.application.messages.IMessageManager;
 import com.example.dagger.key.CustomFragmentKey;
 import com.example.dagger.scopes.FragmentScope;
 
@@ -32,7 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import dagger.Binds;
-import dagger.BindsInstance;
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.AndroidInjector;
@@ -48,7 +42,8 @@ public interface RequestModule extends MVVMModule {
             SpinnerModule.InjectViewModelFactory.class,
             ButtonModule.InjectViewModelFactory.class,
             NavigationBarModule.InjectViewModelFactory.class,
-            ImageModule.InjectViewModelFactory.class
+            ImageModule.InjectViewModelFactory.class,
+            BloggerModule.InjectViewModelFactory.class
     })
     abstract class InjectViewModelFactory {
         @Provides
@@ -57,6 +52,16 @@ public interface RequestModule extends MVVMModule {
             Preconditions.requiresNonNull(fragment, "SGIRequestFragment");
 
             return Preconditions.verifyNonNull(fragment.getActivity(), "GetActivity");
+        }
+
+        @Provides
+        @NonNull
+        public static NavigationBarProps provideNavigationProps() {
+            return new NavigationBarProps.Builder()
+                    .withNOVICE(NavigationState.COMPLETED)
+                    .withINTERMEDIATE(NavigationState.CURRENT)
+                    .withADVANCED(NavigationState.NOT_YET_OPENED)
+                    .build();
         }
 
         @Provides
@@ -89,34 +94,16 @@ public interface RequestModule extends MVVMModule {
             return new ImageData();
         }
 
-
         @Provides
         @NonNull
-        public static RequestViewModel.Factory provideNotamRequestViewModelFactory(
+        public static RequestViewModel.RequestFactory provideNotamRequestViewModelFactory(
                 @NonNull final FragmentActivity activity,
-                @NonNull final Info info,
-                @NonNull final NavigationBarProps navigationBarProps,
                 @NonNull final NavigationBarViewModel.Factory navigationFactory,
-                @NonNull final ContactViewModel.Factory spinnerFactory,
-                @NonNull final ButtonViewModel.Factory buttonFactory,
-                @NonNull final ImageViewModel.Factory imageFactory,
-                @NonNull final IAPIChat apiAirspace,
-                @NonNull final DateRangeViewModel.Factory dateRangeFactory,
-                @NonNull final EditableViewModel.Factory editableFactory,
-                @NonNull final IMessageManager messageManager) {
+                @NonNull final BloggerViewModel.Factory bloggerFactory) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
-            Preconditions.requiresNonNull(info, "Airspace");
-            Preconditions.requiresNonNull(spinnerFactory, "SpinnerFactory");
-            Preconditions.requiresNonNull(apiAirspace, "ApiAirspace");
-            Preconditions.requiresNonNull(dateRangeFactory, "DateRangeFactory");
-            Preconditions.requiresNonNull(editableFactory, "EditableViewModelFactory");
-            Preconditions.requiresNonNull(buttonFactory, "ButtonFactory");
-            Preconditions.requiresNonNull(imageFactory, "ImageFactory");
-            Preconditions.requiresNonNull(messageManager, "IMessageManager");
+            Preconditions.requiresNonNull(bloggerFactory, "SpinnerFactory");
 
-            return new RequestViewModel.Factory(activity.getApplication(), info,
-                    navigationBarProps, navigationFactory, spinnerFactory, dateRangeFactory, editableFactory,
-                    buttonFactory, imageFactory, messageManager, apiAirspace);
+            return new RequestViewModel.RequestFactory(activity.getApplication(), navigationFactory, bloggerFactory);
         }
     }
 
@@ -127,12 +114,12 @@ public interface RequestModule extends MVVMModule {
         @Provides
         @NonNull
         static RequestViewModel provideNotamRequestViewModel(
-                @NonNull final RequestViewModel.Factory factory,
+                @NonNull final RequestViewModel.RequestFactory requestFactory,
                 @NonNull final RequestFragment fragment) {
-            Preconditions.requiresNonNull(factory, "NotamRequestViewModelFactory");
+            Preconditions.requiresNonNull(requestFactory, "NotamRequestViewModelFactory");
             Preconditions.requiresNonNull(fragment, "NotamRequestFragment");
 
-            RequestViewModel viewModel = ViewModelProviders.of(fragment, factory).get(RequestViewModel.class);
+            RequestViewModel viewModel = ViewModelProviders.of(fragment, requestFactory).get(RequestViewModel.class);
             return Preconditions.requiresNonNull(viewModel, "ProvidedNotamRequestViewModel");
         }
 
@@ -153,14 +140,6 @@ public interface RequestModule extends MVVMModule {
 
         @dagger.Subcomponent.Builder
         abstract class Builder extends Subcomponent.Builder<RequestFragment> {
-
-            @BindsInstance
-            @NonNull
-            public abstract Builder info(@NonNull final Info info);
-
-            @BindsInstance
-            @NonNull
-            public abstract Builder navigationProps(final NavigationBarProps props);
 
         }
 

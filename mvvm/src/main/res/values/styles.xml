@@ -48,7 +48,7 @@
     </style>
 
     <style name="App.Component.Navigation.Recycler" parent="AppTheme.Component">
-        <item name="android:background">@color/colorPrimary</item>
+
     </style>
 
 </resources>

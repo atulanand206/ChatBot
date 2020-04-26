@@ -7,6 +7,7 @@ import android.view.View;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
 import com.creations.mvvm.form.FormViewModelBase;
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
@@ -14,6 +15,7 @@ import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import java.util.List;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,15 +26,26 @@ import androidx.recyclerview.widget.RecyclerView;
 public class NavigationBarViewModel extends FormViewModelBase implements NavigationBarContract.ViewModel {
 
     @NonNull
+    private final LiveEvent.Mutable<Integer> mEvent = new LiveEvent.Mutable<>();
+    @NonNull
     private NavigationBarProps mProps;
     @NonNull
     private MutableLiveData<RecyclerView.Adapter> mNavigationAdapter = new MutableLiveData<>(new NavigationBarAdapter(R.layout.card_advisory_navigation, this));
+    private MutableLiveData<Integer> mBackgroundColor = new MutableLiveData<>(R.color.yellow);
+    @NonNull
+    private final LiveEvent.Mutable<Integer> mSetColorEvent = new LiveEvent.Mutable<>();
+    private int[] colors = new int[] {R.color.black, R.color.colorMenuText, R.color.colorBottomButton, R.color.colorAccent};
+    private int currentColorIndex = 0;
 
     public NavigationBarViewModel(@NonNull final Application application,
                                   @NonNull final NavigationBarProps navigationBarProps) {
         super(application, "navigationBarProps");
         Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
         mProps = navigationBarProps;
+        setTopColor(R.color.message_progress);
+//        int indx = currentColorIndex++;
+//        indx = indx % colors.length;
+//        mAdvisoryNavigation.setTopColor(colors[indx]);
     }
 
 
@@ -42,6 +55,29 @@ public class NavigationBarViewModel extends FormViewModelBase implements Navigat
         RecyclerView.Adapter adapter = mNavigationAdapter.getValue();
         if (adapter != null)
             adapter.notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public LiveEvent.Mutable<Integer> getStatusBarColorEvent() {
+        return mEvent;
+    }
+
+    @NonNull
+    @Override
+    public LiveEvent.Mutable<Integer> getSetColorEvent() {
+        return mSetColorEvent;
+    }
+
+    @Override
+    public LiveData<Integer> getBackgroundColor() {
+        return mBackgroundColor;
+    }
+
+    @Override
+    public void setTopColor(@ColorRes final int backgroundColorResId) {
+        mBackgroundColor.postValue(backgroundColorResId);
+        mSetColorEvent.postEvent(backgroundColorResId);
     }
 
     @Override

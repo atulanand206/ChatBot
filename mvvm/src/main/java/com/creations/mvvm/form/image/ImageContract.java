@@ -27,6 +27,12 @@ public interface ImageContract {
 
 
         @NonNull
+        LiveData<ImageData> getImageData();
+
+        @NonNull
+        MutableLiveData<Integer> getProgressBarVisibility();
+
+        @NonNull
         MutableLiveData<String> getImageUrl();
 
         @NonNull

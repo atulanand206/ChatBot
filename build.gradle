@@ -130,6 +130,9 @@ ext {
     vc_bloggerVc = 1
     vc_bloggerVn = '1.0'
 
+    vc_formulaVc = 1
+    vc_formulaVn = '1.0'
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 

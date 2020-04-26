@@ -1,16 +1,24 @@
 package com.creations.mvvm.models.props;
 
+import com.creations.blogger.callback.EmptyResponseCallback;
+
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.example.application.constants.ApplicationConstants.FAKE_URL;
 
 public class ImageData implements Serializable {
 
-    private final String mUrl;
+    private String mUrl;
 
     private final String mTitle;
 
     private final String mDescription;
+
+    @Nullable
+    private EmptyResponseCallback mImageLoadCallback;
 
     public ImageData() {
         mUrl = FAKE_URL;
@@ -40,11 +48,24 @@ public class ImageData implements Serializable {
         return mUrl;
     }
 
+    public void setUrl(String mUrl) {
+        this.mUrl = mUrl;
+    }
+
     public String getTitle() {
         return mTitle;
     }
 
     public String getDescription() {
         return mDescription;
+    }
+
+    @Nullable
+    public EmptyResponseCallback getImageLoadCallback() {
+        return mImageLoadCallback;
+    }
+
+    public void setImageLoadCallback(@NonNull EmptyResponseCallback imageLoadCallback) {
+        this.mImageLoadCallback = imageLoadCallback;
     }
 }

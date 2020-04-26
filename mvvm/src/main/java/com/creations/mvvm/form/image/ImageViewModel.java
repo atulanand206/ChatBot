@@ -4,6 +4,8 @@ import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.creations.blogger.callback.EmptyResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
 import com.creations.mvvm.form.FormViewModelBase;
@@ -13,6 +15,7 @@ import com.creations.mvvm.models.props.ImageData;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 /**
@@ -44,25 +47,54 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     @NonNull
     private final MutableLiveData<View.OnClickListener> mClickListener = new MutableLiveData<>();
 
+    @NonNull
+    private final MutableLiveData<ImageData> mImageData = new MutableLiveData<>();
+
+    @NonNull
+    private final MutableLiveData<Integer> mProgressBarVisibility = new MutableLiveData<>(View.GONE);
+
 
     public ImageViewModel(@NonNull final Application application,
                           @NonNull final ImageData imageData) {
         super(application, "Button items");
         Preconditions.requiresNonNull(imageData, "ImageData");
+//        mProgressBarVisibility.setValue(View.VISIBLE);
+//        mProgressBarVisibility.setValue(View.GONE);
         setData(imageData);
     }
 
     @Override
     public void setData(@NonNull ImageData imageData) {
-        mImageUrl.setValue(imageData.getUrl());
+        String url = imageData.getUrl();
+        url = "https://www.gstatic.com/webp/gallery/5.jpg";
+        imageData.setUrl(url);
+//        mProgressBarVisibility.setValue(View.VISIBLE);
+        imageData.setImageLoadCallback(new EmptyResponseCallback() {
+            @Override
+            public void onSuccess() {
+                String url1 = imageData.getUrl();
+            }
+
+            @Override
+            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+
+            }
+        });
+        mImageUrl.setValue(url);
         mTitle.setValue(imageData.getTitle());
         mDescription.setValue(imageData.getDescription());
+        mImageData.postValue(imageData);
         setBackground(getApplication().getDrawable(R.drawable.image_background));
     }
 
     @Override
     public void changeState() {
         setBackground(getApplication().getDrawable(R.drawable.image_background_yellow));
+        setOverlayVisibility();
+    }
+
+    private void setOverlayVisibility() {
+
     }
 
     @Override
@@ -79,6 +111,18 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     @Override
     public void setMessage(final String message) {
         mMessage.postValue(message);
+    }
+
+    @NonNull
+    @Override
+    public LiveData<ImageData> getImageData() {
+        return mImageData;
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<Integer> getProgressBarVisibility() {
+        return mProgressBarVisibility;
     }
 
     @NonNull

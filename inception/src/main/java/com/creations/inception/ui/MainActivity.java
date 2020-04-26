@@ -69,11 +69,15 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     private void retrieveFragments(Bundle bundle) {
 
         Fragment hostFrag = getViewPagerFragmentById(1, 1);
-
         mFragmentList.add(hostFrag != null ? hostFrag : getRequestFragment(this));
         setStatusBarColor(R.color.black);
         mPagerAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void setStatusBarColr(Integer colorResId) {
+        setStatusBarColor(colorResId);
     }
 
     @Override

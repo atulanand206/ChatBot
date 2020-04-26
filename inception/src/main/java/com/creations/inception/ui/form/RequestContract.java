@@ -1,7 +1,6 @@
 package com.creations.inception.ui.form;
 
-import com.creations.mvvm.form.image.ImageAdapter;
-import com.creations.mvvm.form.image.ImageViewModel;
+import com.creations.inception.ui.blogger.BloggerViewModel;
 import com.creations.mvvm.form.navigation.NavigationBarViewModel;
 import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
@@ -11,18 +10,18 @@ public interface RequestContract {
 
     interface ViewModel extends IMVVMViewModel {
 
-        @NonNull
-        ImageViewModel getImageViewModel();
+
 
         @NonNull
-        ImageAdapter getImageAdapter();
+        BloggerViewModel getBlogger();
 
         @NonNull
-        NavigationBarViewModel getNavigationBar();
+        NavigationBarViewModel getNavigation();
 
     }
 
     interface InteractionListener {
 
+        void setStatusBarColr(Integer colorResId);
     }
 }

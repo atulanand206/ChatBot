@@ -6,10 +6,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-import static com.creations.mvvm.models.navigation.NavigationLabel.Advisory;
-import static com.creations.mvvm.models.navigation.NavigationLabel.Checklist;
-import static com.creations.mvvm.models.navigation.NavigationLabel.NOTAM;
-import static com.creations.mvvm.models.navigation.NavigationLabel.SGI;
+import static com.creations.mvvm.models.navigation.NavigationLabel.ADVANCED;
+import static com.creations.mvvm.models.navigation.NavigationLabel.EXPERT;
+import static com.creations.mvvm.models.navigation.NavigationLabel.INTERMEDIATE;
+import static com.creations.mvvm.models.navigation.NavigationLabel.NOVICE;
 import static com.creations.mvvm.models.navigation.NavigationState.CURRENT;
 import static com.creations.mvvm.models.navigation.NavigationState.NOT_YET_OPENED;
 
@@ -69,20 +69,20 @@ public class NavigationBarProps implements Serializable {
             return this;
         }
 
-        public Builder withAdvisory(@NonNull final NavigationState state) {
-            return withState(Advisory, state);
+        public Builder withNOVICE(@NonNull final NavigationState state) {
+            return withState(NOVICE, state);
         }
 
-        public Builder withSGI(@NonNull final NavigationState state) {
-            return withState(SGI, state);
+        public Builder withINTERMEDIATE(@NonNull final NavigationState state) {
+            return withState(INTERMEDIATE, state);
         }
 
-        public Builder withNOTAM(@NonNull final NavigationState state) {
-            return withState(NOTAM, state);
+        public Builder withADVANCED(@NonNull final NavigationState state) {
+            return withState(ADVANCED, state);
         }
 
-        public Builder withChecklist(@NonNull final NavigationState state) {
-            return withState(Checklist, state);
+        public Builder withEXPERT(@NonNull final NavigationState state) {
+            return withState(EXPERT, state);
         }
 
         public NavigationBarProps build() {
@@ -93,13 +93,13 @@ public class NavigationBarProps implements Serializable {
     public static NavigationBarProps defaultProps(final boolean sgiEnabled,
                                                   final boolean notamEnabled,
                                                   final boolean checklistEnabled) {
-        Builder builder = new Builder().withAdvisory(CURRENT);
+        Builder builder = new Builder().withNOVICE(CURRENT);
         if (sgiEnabled)
-            builder = builder.withSGI(NOT_YET_OPENED);
+            builder = builder.withINTERMEDIATE(NOT_YET_OPENED);
         if (notamEnabled)
-            builder = builder.withNOTAM(NOT_YET_OPENED);
+            builder = builder.withADVANCED(NOT_YET_OPENED);
         if (checklistEnabled)
-            builder = builder.withChecklist(NOT_YET_OPENED);
+            builder = builder.withEXPERT(NOT_YET_OPENED);
         return builder.build();
     }
 

@@ -3,6 +3,7 @@ package com.creations.mvvm.form.navigation;
 import android.graphics.drawable.Drawable;
 
 import com.creations.mvvm.form.IFormViewModelBase;
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,9 @@ public interface NavigationBarContract {
 
     interface ViewModel extends IFormViewModelBase {
 
+        @NonNull
+        LiveEvent.Mutable<Integer> getStatusBarColorEvent();
+
         /**
          * @return liveData corresponding to the prompt text.
          */
@@ -22,7 +26,15 @@ public interface NavigationBarContract {
         Drawable getDrawable(final int position);
 
         void setProps(@NonNull final NavigationBarProps props);
+
+        void setTopColor(int backgroundColorResId);
+
         Integer getHeaderVisibility();
+
+        @NonNull
+        LiveEvent.Mutable<Integer> getSetColorEvent();
+
+        LiveData<Integer> getBackgroundColor();
 
         /**
          * @return the recycler adapter being used by the teams list.

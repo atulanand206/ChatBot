@@ -29,7 +29,8 @@ public enum DateFormatter {
     INVITATION_DATE_TIME("MMM dd, yyyy, hh:mm a"),
     INVITATION_DATE("MMM dd, yyyy"),
     CERTIFICATE_ISSUE_DATE("yyyy-MM-dd"),
-    STREAM_START("hh:mm");
+    STREAM_START("hh:mm"),
+    MILITARY("HH:mm");
 
     private boolean showTimeZone = false;
 

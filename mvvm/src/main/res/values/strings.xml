@@ -20,5 +20,6 @@
     <string name="hint_email">Enter email</string>
 
     <string name="filters">Filters</string>
+    <string name="image">image</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.example.application.listeners.OnFragmentBackPressedListener;
 import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageType;
+import com.example.application.utils.Animations;
 import com.example.application.utils.ViewUtils;
 
 import javax.inject.Inject;
@@ -19,17 +20,21 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
 
     @Inject IMessageManager messageManager;
 
+    @Inject Animations animations;
+
     protected Context context;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
     }
 
     public void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (ViewUtils.isKeyboardShown(view.getRootView())) {
+            if (imm == null)
+                return;
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -92,5 +97,10 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
     @Override
     public void hideSnackBar() {
         messageManager.hideSnackBar();
+    }
+
+    @Override
+    public void crossfade(@NonNull final View rootView) {
+        animations.crossfade(context, rootView);
     }
 }

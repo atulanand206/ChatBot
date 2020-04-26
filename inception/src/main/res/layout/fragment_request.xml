@@ -14,9 +14,9 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/content_advisory_navigation" bind:viewmodel="@{viewmodel.navigationBar}"/>
-<!---->
-        <include layout="@layout/content_notam_request" bind:viewmodel="@{viewmodel}"/>
+        <include layout="@layout/content_advisory_navigation" bind:viewmodel="@{viewmodel.navigation}"/>
+
+        <include layout="@layout/content_request" bind:viewmodel="@{viewmodel}"/>
 
     </LinearLayout>
 </layout>

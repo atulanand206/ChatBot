@@ -18,37 +18,51 @@
     </data>
 
     <RelativeLayout
-        android:layout_margin="@dimen/margin_large"
         android:layout_width="wrap_content"
         android:gravity="center"
         android:layout_height="wrap_content"
-        app:relativeHeight="@{viewwidth ?? @dimen/image_list_height}"
-        app:relativeWidth="@{viewheight ?? @dimen/image_list_width}">
+        app:relativeHeight="@{viewheight ?? @dimen/image_list_height}"
+        app:relativeWidth="@{viewwidth ?? @dimen/image_list_width}">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:layout_margin="@dimen/margin_large"
             android:id="@+id/image_container"
             android:background="@{viewmodel.background != null ? viewmodel.background : @drawable/image_background}"
-            android:orientation="vertical"
+            app:cardCornerRadius="@dimen/margin_small"
+            app:cardElevation="@dimen/margin_small"
+            app:cardPreventCornerOverlap="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onClick="@{() -> viewmodel.onItemClick()}"
             android:visibility="@{safeUnbox(viewmodel.visibility)}">
 
-    <!--        <ImageButton-->
-    <!--            android:layout_gravity="center_horizontal"-->
-    <!--            android:id="@+id/reset_filters_btn"-->
-    <!--            android:onClick="@{() -> viewmodel.onItemClick()}"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="@{viewmodel.background != null ? viewmodel.background : background}"-->
-    <!--            android:padding="@dimen/label_reset_filters_button"-->
-    <!--            app:imageFromUrl="@{viewmodel.imageUrl}"/>-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:imageFromUrl="@{viewmodel.imageData}"
+                android:contentDescription="@string/image" />
 
-            <include layout="@layout/card_title" bind:text="@{viewmodel.title}"/>
+            <LinearLayout
+                android:padding="@dimen/padding_normal"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <include layout="@layout/card_message" bind:text="@{viewmodel.description}"/>
+                <include layout="@layout/card_title" bind:text="@{viewmodel.title}"/>
 
-        </LinearLayout>
+                <include layout="@layout/card_message" bind:text="@{viewmodel.description}"/>
+
+            </LinearLayout>
+
+<!--            <ProgressBar-->
+<!--                style="?android:attr/progressBarStyle"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:visibility="@{viewmodel.progressBarVisibility}"/>-->
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 </layout>

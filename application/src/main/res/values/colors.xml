@@ -22,4 +22,6 @@
     <color name="colorBottomButton">@color/primary</color>
 
     <color name="gray2">#e2e8ed</color>
+
+    <color name="warm_gray">#E5E5E5</color>
 </resources>
