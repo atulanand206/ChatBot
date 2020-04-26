@@ -8,10 +8,9 @@ import com.creations.blogger.callback.EmptyResponseCallback;
 import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
-import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.ImageData;
-import com.creations.mvvm.ui.FormViewModelBase;
+import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,7 @@ import androidx.lifecycle.LiveData;
 /**
  * This ViewModel works with a Button and is to be used for creating forms.
  */
-public class ImageViewModel extends FormViewModelBase implements ImageContract.ViewModel {
+public class ImageViewModel extends RecyclerViewModel implements ImageContract.ViewModel {
 
     @NonNull
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
@@ -40,21 +39,14 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     private final MutableLiveData<String> mDescription = new MutableLiveData<>();
 
     @NonNull
-    private final LiveRunnable.Mutable mClickEvent = new LiveRunnable.Mutable();
-
-    @NonNull
-    private final MutableLiveData<View.OnClickListener> mClickListener = new MutableLiveData<>();
-
-    @NonNull
     private final MutableLiveData<ImageData> mImageData = new MutableLiveData<>();
 
     @NonNull
     private final MutableLiveData<Integer> mProgressBarVisibility = new MutableLiveData<>(View.GONE);
 
-
     public ImageViewModel(@NonNull final Application application,
                           @NonNull final ImageData imageData) {
-        super(application, "Button items");
+        super(application);
         Preconditions.requiresNonNull(imageData, "ImageData");
 //        mProgressBarVisibility.setValue(View.VISIBLE);
 //        mProgressBarVisibility.setValue(View.GONE);
@@ -87,18 +79,9 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     }
 
     @Override
-    public void changeState() {
+    public void onRecyclerItemClick() {
+        super.onRecyclerItemClick();
         setBackground(getApplication().getDrawable(R.drawable.image_background_yellow));
-        setOverlayVisibility();
-    }
-
-    private void setOverlayVisibility() {
-
-    }
-
-    @Override
-    public void setPosition(final int position) {
-
     }
 
     @NonNull
@@ -140,28 +123,6 @@ public class ImageViewModel extends FormViewModelBase implements ImageContract.V
     @Override
     public MutableLiveData<String> getDescription() {
         return mDescription;
-    }
-
-    @NonNull
-    @Override
-    public LiveRunnable.Mutable getClickedEvent() {
-        return mClickEvent;
-    }
-
-    @Override
-    public void onItemClick() {
-        mClickEvent.postEvent();
-    }
-
-    @NonNull
-    @Override
-    public MutableLiveData<View.OnClickListener> getClickListener() {
-        return mClickListener;
-    }
-
-    @Override
-    public void setClickListener(@NonNull final View.OnClickListener clickListener) {
-        mClickListener.postValue(clickListener);
     }
 
     @Override

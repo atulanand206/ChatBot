@@ -10,7 +10,7 @@ import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
-import com.creations.mvvm.ui.FormViewModelBase;
+import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class NavigationBarViewModel extends FormViewModelBase implements NavigationBarContract.ViewModel {
+public class NavigationBarViewModel extends RecyclerViewModel implements NavigationBarContract.ViewModel {
 
     @NonNull
     private final LiveEvent.Mutable<Integer> mEvent = new LiveEvent.Mutable<>();
@@ -37,7 +37,7 @@ public class NavigationBarViewModel extends FormViewModelBase implements Navigat
 
     public NavigationBarViewModel(@NonNull final Application application,
                                   @NonNull final NavigationBarProps navigationBarProps) {
-        super(application, "navigationBarProps");
+        super(application);
         Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
         mProps = navigationBarProps;
         setTopColor(R.color.message_progress);

@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
-import com.creations.mvvm.ui.IFormViewModelBase;
+import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public interface NavigationBarContract {
 
-    interface ViewModel extends IFormViewModelBase {
+    interface ViewModel extends IRecyclerViewModel {
 
         @NonNull
         LiveEvent.Mutable<Integer> getStatusBarColorEvent();

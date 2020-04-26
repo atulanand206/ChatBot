@@ -130,14 +130,6 @@ public interface IMVVMViewModel {
         view.setLayoutParams(layoutParams);
     }
 
-
-
-
-//    @BindingAdapter("zoomOut")
-//    static void zoomOut(@NonNull final View imageView) {
-////        new Animations().zoomImageFromThumb(imageView, 1, R.id.title_small, R.id.title_initial);
-//    }
-
     @BindingAdapter("bkgrndColor")
     static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
         view.setBackgroundColor(ContextCompat.getColor(view.getContext(), colorResId));

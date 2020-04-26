@@ -1,7 +1,8 @@
-package com.creations.mvvm.viewmodel;
+package com.creations.mvvm.ui.animate;
 
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
+import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
 import androidx.annotation.NonNull;
 

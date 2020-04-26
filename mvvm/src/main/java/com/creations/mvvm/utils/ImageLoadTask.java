@@ -27,6 +27,8 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
         try {
+            if (imageData == null)
+                return null;
             URL urlConnection = new URL(imageData.getUrl());
             HttpURLConnection connection = (HttpURLConnection) urlConnection
                     .openConnection();
@@ -43,6 +45,8 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
+        if (imageView == null)
+            return;
         imageView.setImageBitmap(result);
         if (imageData == null)
             return;

@@ -7,14 +7,18 @@ import com.creations.blogger.callback.ListResponseCallback;
 import com.creations.blogger.model.APIResponseBody;
 import com.creations.blogger.model.blogger.Post;
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.databinding.CardImageBinding;
+import com.creations.mvvm.databinding.ContentAdvisoryNavigationBinding;
 import com.creations.mvvm.live.MutableLiveData;
+import com.creations.mvvm.ui.animate.AnimatorViewModel;
+import com.creations.mvvm.ui.exp.NavigationRecycler;
 import com.creations.mvvm.ui.image.ImageAdapter;
 import com.creations.mvvm.ui.image.ImageContract;
 import com.creations.mvvm.ui.image.ImageViewModel;
-import com.creations.mvvm.viewmodel.AnimatorViewModel;
+import com.creations.mvvm.ui.navigation.NavigationBarContract;
+import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -26,28 +30,34 @@ import static com.creations.inception.models.convertor.BloggerConverter.imageDat
 /**
  * This ViewModel works with a Button and is to be used for creating forms.
  */
-public class BloggerViewModel extends AnimatorViewModel implements BloggerContract.ViewModel, ImageAdapter.Listener {
+public class BloggerViewModel extends AnimatorViewModel implements BloggerContract.ViewModel {
 
     @NonNull
-    private final IAPIChat mAirspaceApi;
-    @NonNull
     private final ImageViewModel.Factory mImageFactory;
-    @NonNull
-    private final List<ImageContract.ViewModel> mImageViewModels = new ArrayList<>();
     @NonNull
     private MutableLiveData<String> mTitle = new MutableLiveData<>();
     @NonNull
     private MutableLiveData<ImageViewModel> mImageViewModel = new MutableLiveData<>();
+
     @NonNull
-    private final ImageAdapter mImageAdapter = new ImageAdapter(mImageViewModels, this);
+    private final ImageAdapter<ImageContract.ViewModel, CardImageBinding> mImageAdapter = new ImageAdapter<>(viewModel -> {
+        mImageViewModel.setValue(((ImageViewModel) viewModel));
+        animate(true);
+    }, com.creations.mvvm.R.layout.card_image);
+
+    @NonNull
+    private final NavigationRecycler<NavigationBarContract.ViewModel, ContentAdvisoryNavigationBinding> mNavigationListAdapter = new NavigationRecycler<>(viewModel -> {
+
+    }, com.creations.mvvm.R.layout.content_advisory_navigation);
 
     public BloggerViewModel(@NonNull final Application application,
                             @NonNull final ImageViewModel.Factory imageFactory,
+                            @NonNull final NavigationBarViewModel.Factory navigationFactory,
                             @NonNull final IAPIChat airspaceApi) {
         super(application);
         mImageFactory = Preconditions.requiresNonNull(imageFactory, "ImageFactory");
         mTitle.postValue("Let's get going!");
-        mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "AirspaceApi");
+        IAPIChat mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "AirspaceApi");
         mAirspaceApi.getBlogPosts(new ListResponseCallback<Post>() {
             @Override
             public void onSuccess(@NonNull List<Post> response) {
@@ -79,6 +89,7 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
             }
         });
         animate(false);
+//        mNavigationListAdapter.addItem(navigationFactory.create());
     }
 
     @NonNull
@@ -99,15 +110,15 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
         return mImageAdapter;
     }
 
+    @NonNull
     @Override
-    public void onOverlayCloseClicked() {
-        animate(false);
+    public NavigationRecycler getNavigationAdapter() {
+        return mNavigationListAdapter;
     }
 
     @Override
-    public void onItemClick(@NonNull final ImageContract.ViewModel viewModel) {
-        mImageViewModel.setValue(((ImageViewModel) viewModel));
-        animate(true);
+    public void onOverlayCloseClicked() {
+        animate(false);
     }
 
     public static class Factory extends MVVMViewModel.Factory<BloggerViewModel> {
@@ -115,20 +126,24 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
         @NonNull
         private final IAPIChat mAirspaceApi;
         @NonNull
+        private final NavigationBarViewModel.Factory mNavigationFactory;
+        @NonNull
         private final ImageViewModel.Factory mImageFactory;
 
         public Factory(@NonNull final Application application,
                        @NonNull final ImageViewModel.Factory imageFactory,
+                       @NonNull final NavigationBarViewModel.Factory factory,
                        @NonNull final IAPIChat airspaceApi) {
             super(BloggerViewModel.class, application);
             mImageFactory = Preconditions.requiresNonNull(imageFactory, "ImageFactory");
             mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "AirspaceApi");
+            mNavigationFactory =Preconditions.requiresNonNull(factory, "NavigationFactory");
         }
 
         @NonNull
         @Override
         public BloggerViewModel create() {
-            return new BloggerViewModel(mApplication, mImageFactory, mAirspaceApi);
+            return new BloggerViewModel(mApplication, mImageFactory, mNavigationFactory, mAirspaceApi);
         }
     }
 }
