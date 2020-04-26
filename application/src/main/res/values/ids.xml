@@ -3,4 +3,7 @@
     <item type="id" name="animate_container"/>
     <item type="id" name="animate_after"/>
     <item type="id" name="animate_before"/>
+    <item type="id" name="left_drawer"/>
+    <item type="layout" name="content_blogger_lists"/>
+    <item type="layout" name="content_blogger_detailed"/>
 </resources>

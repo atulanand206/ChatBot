@@ -21,8 +21,6 @@ import androidx.databinding.DataBindingUtil;
 public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
         Builder, RequestFragment> {
 
-    @Nullable
-    private View mRootView;
     @Inject
     @Nullable
     RequestContract.ViewModel mViewModel;
@@ -66,8 +64,10 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
         Preconditions.verifyNonNull(mViewModel, "RequestViewModel");
         Preconditions.verifyNonNull(mRootView, "RootView");
         Preconditions.verifyNonNull(mListener, "RequestInteractionListener");
-        mViewModel.getNavigation().getSetColorEvent().listen(getViewLifecycleOwner(), mListener::setStatusBarColr);
-        mViewModel.getBlogger().getAnimation().listen(getViewLifecycleOwner(), () -> super.crossfade(mRootView));
+        mViewModel.getNavigation().getStatusBarColorEvent().listen(getViewLifecycleOwner(), mListener::setStatusBarColr);
+        mViewModel.getBlogger().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
+        mViewModel.getDrawer().getOpenDrawerEvent().listen(getViewLifecycleOwner(), super::openDrawer);
+        mViewModel.getDrawer().getCloseDrawerEvent().listen(getViewLifecycleOwner(), super::closeDrawer);
     }
 
     @Override

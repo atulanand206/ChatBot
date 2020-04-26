@@ -8,11 +8,13 @@ import com.example.application.listeners.OnFragmentBackPressedListener;
 import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageType;
 import com.example.application.utils.Animations;
+import com.example.application.utils.NavigationDrawer;
 import com.example.application.utils.ViewUtils;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment implements OnFragmentBackPressedListener,
@@ -22,7 +24,12 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
 
     @Inject Animations animations;
 
+    @Inject NavigationDrawer drawer;
+
     protected Context context;
+
+    @Nullable
+    protected View mRootView;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -60,16 +67,6 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
     }
 
     @Override
-    public void onVisible() {
-
-    }
-
-    @Override
-    public BaseContract.BasePresenter getPresenter() {
-        return null;
-    }
-
-    @Override
     public void showToast(@NonNull String message, @NonNull MessageType messageType, int duration) {
         messageManager.showToast(message , messageType, duration);
     }
@@ -100,7 +97,17 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
     }
 
     @Override
-    public void crossfade(@NonNull final View rootView) {
-        animations.crossfade(context, rootView);
+    public void crossfade() {
+        animations.crossfade(context, mRootView);
+    }
+
+    @Override
+    public void openDrawer() {
+        drawer.openDrawer(mRootView);
+    }
+
+    @Override
+    public void closeDrawer() {
+        drawer.closeDrawer(mRootView);
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.widget.LinearLayout.LayoutParams"/>
         <variable
@@ -13,142 +12,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/AppTheme.Component.Fragment" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <include layout="@layout/content_blogger_lists" bind:viewmodel="@{viewmodel}"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:padding="@dimen/margin_normal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/red"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/divider_height"
-                        android:background="@color/warm_gray" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:padding="@dimen/margin_normal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#48b1bf"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/divider_height"
-                        android:background="@color/warm_gray" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:padding="@dimen/margin_normal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#2c3e50"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/divider_height"
-                        android:background="@color/warm_gray" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:padding="@dimen/margin_normal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#de6262"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/divider_height"
-                        android:background="@color/warm_gray" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:padding="@dimen/margin_normal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#ffb88c"
-                        bind:adapter="@{viewmodel.imageAdapter}" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-        </ScrollView>
-
-
-        <RelativeLayout
-            app:setId="@{viewmodel.containerId}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <View
-                app:setId="@{viewmodel.layoutId}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent" />
-
-            <RelativeLayout
-                app:setId="@{viewmodel.contentId}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <RelativeLayout
-                    android:background="@color/white"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <include
-                        layout="@layout/card_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_xx_large"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true"
-                        bind:textSize="@{80}"
-                        bind:text="@{viewmodel.title}"/>
-
-                    <Button
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_margin="@dimen/margin_xx_large"
-                        android:background="@drawable/ic_close_black_24dp"
-                        android:onClick="@{() -> viewmodel.onOverlayCloseClicked()}"
-                        android:layout_width="@dimen/margin_xxxxx_large"
-                        android:layout_height="@dimen/margin_xxxxx_large"/>
-
-                </RelativeLayout>
-
-                <include
-                    layout="@layout/card_image"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/margin_xxxxx_large"
-                    bind:viewmodel="@{viewmodel.imageViewModel}"
-                    bind:viewheight="@{@dimen/image_large_height}"
-                    bind:viewwidth="@{@dimen/image_large_width}"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" />
-
-            </RelativeLayout>
-        </RelativeLayout>
-
-
+        <include layout="@layout/content_blogger_detailed" bind:viewmodel="@{viewmodel}"/>
 
 </RelativeLayout>
 </layout>

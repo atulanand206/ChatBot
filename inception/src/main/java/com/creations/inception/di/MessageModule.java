@@ -7,6 +7,7 @@ import com.example.application.messages.MessageManager;
 import com.example.application.messages.SnackbarUtils;
 import com.example.application.messages.ToastUtils;
 import com.example.application.utils.Animations;
+import com.example.application.utils.NavigationDrawer;
 import com.example.dagger.scopes.AppScope;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,11 @@ public class MessageModule {
     @AppScope @Provides
     public static Animations provideAnimator() {
         return new Animations();
+    }
+
+    @AppScope @Provides
+    public static NavigationDrawer provideNavigationDrawer() {
+        return new NavigationDrawer();
     }
 
 

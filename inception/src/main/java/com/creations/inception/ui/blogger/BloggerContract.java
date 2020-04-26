@@ -1,7 +1,7 @@
 package com.creations.inception.ui.blogger;
 
-import com.creations.mvvm.form.image.ImageAdapter;
-import com.creations.mvvm.form.image.ImageViewModel;
+import com.creations.mvvm.ui.image.ImageAdapter;
+import com.creations.mvvm.ui.image.ImageViewModel;
 import com.creations.mvvm.viewmodel.IAnimatorViewModel;
 
 import androidx.annotation.NonNull;

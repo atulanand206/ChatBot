@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.widget.LinearLayout.LayoutParams"/>
+        <variable
+            name="viewmodel"
+            type="com.creations.inception.ui.blogger.BloggerContract.ViewModel" />
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/AppTheme.Component.Fragment" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:padding="@dimen/margin_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/red"
+                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_height"
+                        android:background="@color/warm_gray" />
+
+
+                    <include layout="@layout/card_title"
+                        bind:text="@{viewmodel.title}"
+                        bind:textSize="@{80}"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_height"
+                        android:background="@color/warm_gray" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:padding="@dimen/margin_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#48b1bf"
+                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
+
+<!--                    <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/divider_height"-->
+<!--                        android:background="@color/warm_gray" />-->
+
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:padding="@dimen/margin_normal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="#2c3e50"-->
+<!--                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />-->
+
+<!--                    <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/divider_height"-->
+<!--                        android:background="@color/warm_gray" />-->
+
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:padding="@dimen/margin_normal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="#de6262"-->
+<!--                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />-->
+
+<!--                    <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/divider_height"-->
+<!--                        android:background="@color/warm_gray" />-->
+
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:padding="@dimen/margin_normal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="#ffb88c"-->
+<!--                        bind:adapter="@{viewmodel.imageAdapter}" />-->
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+</layout>

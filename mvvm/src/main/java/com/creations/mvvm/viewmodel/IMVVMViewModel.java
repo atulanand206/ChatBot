@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,17 @@ public interface IMVVMViewModel {
     interface ContextCallback {
         void call(@NonNull final Context context);
     }
+
+    void setVisibility(final Integer visibility);
+
+    LiveData<Integer> getVisibility();
+
+    @NonNull
+    LiveData<Integer> getId();
+
+    void setId(@IdRes int id);
+
+    LiveData<Integer> getBackgroundColor();
 
     @BindingAdapter("error")
     static void setErrorMessage(@NonNull final TextInputEditText view, @Nullable String errorMessage) {
@@ -249,6 +261,8 @@ public interface IMVVMViewModel {
 
     @NonNull
     LiveEvent<ContextCallback> getContextCallback();
+
+    void setBackgroundColor(int backgroundColorResId);
 
     void startIntentWithPhoneNumber(@NonNull final String phoneNumber);
 

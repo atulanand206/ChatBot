@@ -101,7 +101,9 @@ public enum DateFormatter {
     }
 
     @Nullable
-    public static DateFormatter getFromAvailableFormatters(@NonNull final String dateString) {
+    public static DateFormatter getFromAvailableFormatters(@Nullable final String dateString) {
+        if (TextUtils.isEmpty(dateString))
+            return null;
         for (DateFormatter formatter : DateFormatter.values()) {
             if (formatter.getDateFromString(dateString) != null)
                 return formatter;

@@ -2,7 +2,7 @@ package com.creations.inception.ui.blogger;
 
 import com.creations.blogger.IAPIChat;
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.form.image.ImageViewModel;
+import com.creations.mvvm.ui.image.ImageViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
 
 import androidx.annotation.NonNull;

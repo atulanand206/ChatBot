@@ -7,10 +7,10 @@ import com.creations.blogger.callback.ListResponseCallback;
 import com.creations.blogger.model.APIResponseBody;
 import com.creations.blogger.model.blogger.Post;
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.form.image.ImageAdapter;
-import com.creations.mvvm.form.image.ImageContract;
-import com.creations.mvvm.form.image.ImageViewModel;
 import com.creations.mvvm.live.MutableLiveData;
+import com.creations.mvvm.ui.image.ImageAdapter;
+import com.creations.mvvm.ui.image.ImageContract;
+import com.creations.mvvm.ui.image.ImageViewModel;
 import com.creations.mvvm.viewmodel.AnimatorViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
@@ -78,6 +78,7 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
                 return imageViewModel;
             }
         });
+        animate(false);
     }
 
     @NonNull
@@ -104,13 +105,8 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
     }
 
     @Override
-    public void onItemClick(int adapterPosition) {
-        List<ImageContract.ViewModel> viewModels = mImageAdapter.getViewModels();
-        if (viewModels.size() <= adapterPosition)
-            return;
-        ImageContract.ViewModel viewModel = viewModels.get(adapterPosition);
-        if (viewModel instanceof ImageViewModel)
-            mImageViewModel.postValue(((ImageViewModel) viewModel));
+    public void onItemClick(@NonNull final ImageContract.ViewModel viewModel) {
+        mImageViewModel.setValue(((ImageViewModel) viewModel));
         animate(true);
     }
 

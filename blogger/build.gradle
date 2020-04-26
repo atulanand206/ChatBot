@@ -30,4 +30,5 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
     implementation project(path: ':condition')
+//    implementation project(path: ':mvvm')
 }

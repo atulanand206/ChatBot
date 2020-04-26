@@ -4,7 +4,7 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.creations.mvvm.form.navigation.NavigationBarContract.ViewModel" />
+            type="com.creations.mvvm.ui.navigation.NavigationBarContract.ViewModel" />
         <variable
             name="position"
             type="java.lang.Integer" />

@@ -1,7 +1,7 @@
 package com.creations.mvvm.models.props;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.form.IFormViewModelBase.TextChangedCallback;
+import com.creations.mvvm.ui.IFormViewModelBase.TextChangedCallback;
 
 import java.io.Serializable;
 

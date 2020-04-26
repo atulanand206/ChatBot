@@ -8,7 +8,7 @@
         <import type="com.example.application.utils.TextUtils"/>
         <variable
             name="viewmodel"
-            type="com.creations.mvvm.form.spinner.SpinnerContract.ViewModel" />
+            type="com.creations.mvvm.ui.spinner.SpinnerContract.ViewModel" />
         <variable
             name="prompt"
             type="String" />

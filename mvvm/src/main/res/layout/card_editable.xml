@@ -7,7 +7,7 @@
         <import type="android.text.InputType" />
         <variable
             name="viewmodel"
-            type="com.creations.mvvm.form.editable.EditableContract.ViewModel" />
+            type="com.creations.mvvm.ui.editable.EditableContract.ViewModel" />
         <variable
             name="prompt"
             type="String" />
