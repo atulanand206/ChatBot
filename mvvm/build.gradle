@@ -43,6 +43,8 @@ dependencies {
     implementation "androidx.core:core:${androidXCore}"
     implementation "com.google.android.material:material:${supportLibraryVersion}"
 
+    implementation "com.github.beksomega:loopinglayout:${loopingLayoutVersion}"
+
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"

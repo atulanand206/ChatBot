@@ -20,6 +20,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.bekawestberg.loopinglayout.library.LoopingLayoutManager;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.props.ImageData;
@@ -31,7 +32,6 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -50,9 +50,16 @@ public interface IMVVMViewModel {
         void call(@NonNull final Context context);
     }
 
+    LiveData<Integer> getProgressBarVisibility();
+
     void setVisibility(final Integer visibility);
 
     LiveData<Integer> getVisibility();
+
+    @NonNull
+    LiveEvent.Mutable<Integer> getStatusBarColorEvent();
+
+    void setTopColor(int backgroundColorResId);
 
     @NonNull
     LiveData<Integer> getId();
@@ -133,10 +140,9 @@ public interface IMVVMViewModel {
     @BindingAdapter("bkgrndColor")
     static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
         try {
-            int color = ContextCompat.getColor(view.getContext(), colorResId);
-            view.setBackgroundColor(color);
+            view.setBackgroundColor(view.getContext().getColor(colorResId));
         } catch (android.content.res.Resources.NotFoundException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -145,6 +151,20 @@ public interface IMVVMViewModel {
     static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
         recyclerView.setPadding(0, 0, 0, 0);
         recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @BindingAdapter("loopingAdapter")
+    static void loopingAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
+        recyclerView.setPadding(0, 0, 0, 0);
+        recyclerView.setLayoutManager(new LoopingLayoutManager(recyclerView.getContext(), LoopingLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @BindingAdapter("loopingVerticalAdapter")
+    static void loopingVerticalAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
+        recyclerView.setPadding(0, 0, 0, 0);
+        recyclerView.setLayoutManager(new LoopingLayoutManager(recyclerView.getContext(), LoopingLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 
@@ -260,6 +280,8 @@ public interface IMVVMViewModel {
     LiveEvent<ContextCallback> getContextCallback();
 
     void setBackgroundColor(int backgroundColorResId);
+
+    void setProgressBarVisibility(int progressBarVisibility);
 
     void startIntentWithPhoneNumber(@NonNull final String phoneNumber);
 

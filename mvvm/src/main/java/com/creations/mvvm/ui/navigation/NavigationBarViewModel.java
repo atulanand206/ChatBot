@@ -6,7 +6,6 @@ import android.view.View;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
 import com.creations.mvvm.databinding.CardAdvisoryNavigationBinding;
-import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
 import com.creations.mvvm.ui.navigation.item.NavItemContract;
@@ -16,7 +15,6 @@ import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import java.util.List;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 
 /**
@@ -24,8 +22,7 @@ import androidx.annotation.NonNull;
  */
 public class NavigationBarViewModel extends RecyclerViewModel implements NavigationBarContract.ViewModel {
 
-    @NonNull
-    private final LiveEvent.Mutable<Integer> mEvent = new LiveEvent.Mutable<>();
+
     @NonNull
     private NavigationBarProps mProps;
     @NonNull
@@ -45,6 +42,7 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
         Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
         mItemFactory = Preconditions.requiresNonNull(itemFactory, "ItemFactory");
         setProps(navigationBarProps);
+        setBackgroundColor(R.color.message_progress);
         setTopColor(R.color.message_progress);
         setVisibility();
     }
@@ -58,18 +56,6 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
             navItemViewModel.setData(item);
             mNavigationAdapter.addItem(navItemViewModel);
         }
-    }
-
-    @NonNull
-    @Override
-    public LiveEvent.Mutable<Integer> getStatusBarColorEvent() {
-        return mEvent;
-    }
-
-    @Override
-    public void setTopColor(@ColorRes final int backgroundColorResId) {
-        setBackgroundColor(backgroundColorResId);
-        mEvent.postEvent(backgroundColorResId);
     }
 
     public void setVisibility() {

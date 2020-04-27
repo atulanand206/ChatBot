@@ -1,5 +1,8 @@
-package com.creations.inception.di;
+package com.creations.mvvm.ui;
 
+import com.creations.mvvm.models.blocks.Board;
+import com.creations.mvvm.models.blocks.Cell;
+import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
 import com.creations.mvvm.models.navigation.NavigationLabel;
@@ -10,6 +13,7 @@ import com.creations.mvvm.models.props.DrawerProps;
 import com.creations.mvvm.models.props.EditableProps;
 import com.creations.mvvm.models.props.ImageData;
 import com.creations.mvvm.models.props.SpinnerProps;
+import com.creations.mvvm.utils.BoardUtils;
 
 import java.util.ArrayList;
 
@@ -70,5 +74,23 @@ public class PropsModule {
     @NonNull
     public static NavigationItem provideNavigationItem() {
         return new NavigationItem(NavigationLabel.ADVANCED, NavigationState.COMPLETED);
+    }
+
+    @Provides
+    @NonNull
+    public static Cell provideCell() {
+        return BoardUtils.randomCell();
+    }
+
+    @Provides
+    @NonNull
+    public static Row provideRow() {
+        return BoardUtils.randomRow(20);
+    }
+
+    @Provides
+    @NonNull
+    public static Board provideBoard() {
+        return BoardUtils.randomBoard(20);
     }
 }

@@ -2,7 +2,7 @@ package com.creations.inception.ui.blogger;
 
 import com.creations.blogger.IAPIChat;
 import com.creations.condition.Preconditions;
-import com.creations.inception.di.PropsModule;
+import com.creations.mvvm.ui.PropsModule;
 import com.creations.mvvm.ui.image.ImageViewModel;
 import com.creations.mvvm.ui.navigation.NavigationBarModule;
 import com.creations.mvvm.ui.navigation.NavigationBarViewModel;

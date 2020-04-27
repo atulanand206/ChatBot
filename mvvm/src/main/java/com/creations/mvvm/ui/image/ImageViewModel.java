@@ -41,8 +41,6 @@ public class ImageViewModel extends RecyclerViewModel implements ImageContract.V
     @NonNull
     private final MutableLiveData<ImageData> mImageData = new MutableLiveData<>();
 
-    @NonNull
-    private final MutableLiveData<Integer> mProgressBarVisibility = new MutableLiveData<>(View.GONE);
 
     public ImageViewModel(@NonNull final Application application,
                           @NonNull final ImageData imageData) {
@@ -99,12 +97,6 @@ public class ImageViewModel extends RecyclerViewModel implements ImageContract.V
     @Override
     public LiveData<ImageData> getImageData() {
         return mImageData;
-    }
-
-    @NonNull
-    @Override
-    public MutableLiveData<Integer> getProgressBarVisibility() {
-        return mProgressBarVisibility;
     }
 
     @NonNull

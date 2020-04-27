@@ -10,6 +10,7 @@ import com.creations.mvvm.R;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.MutableLiveData;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +27,13 @@ import androidx.lifecycle.ViewModelProvider;
 public abstract class MVVMViewModel extends AndroidViewModel implements IMVVMViewModel {
 
     @NonNull
-    private final MutableLiveData<Integer> mVisibility = new MutableLiveData<>(View.GONE);
+    private final MutableLiveData<Integer> mVisibility = new MutableLiveData<>(View.VISIBLE);
+
+    @NonNull
+    private final LiveEvent.Mutable<Integer> mStatusBarColorEvent = new LiveEvent.Mutable<>();
+
+    @NonNull
+    private final MutableLiveData<Integer> mProgressBarVisibility = new MutableLiveData<>(View.GONE);
 
     @NonNull
     private  MutableLiveData<Integer> mId = new MutableLiveData<>();
@@ -75,6 +82,28 @@ public abstract class MVVMViewModel extends AndroidViewModel implements IMVVMVie
     @Override
     public void setBackgroundColor(final int backgroundColorResId) {
         mBackgroundColor.postValue(backgroundColorResId);
+    }
+
+    @NonNull
+    @Override
+    public LiveEvent.Mutable<Integer> getStatusBarColorEvent() {
+        return mStatusBarColorEvent;
+    }
+
+    @Override
+    public void setTopColor(@ColorRes final int backgroundColorResId) {
+        mStatusBarColorEvent.postEvent(backgroundColorResId);
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<Integer> getProgressBarVisibility() {
+        return mProgressBarVisibility;
+    }
+
+    @Override
+    public void setProgressBarVisibility(final int progressBarVisibility) {
+        this.mProgressBarVisibility.postValue(progressBarVisibility);
     }
 
     @Override

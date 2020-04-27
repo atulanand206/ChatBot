@@ -80,7 +80,7 @@ public enum DateFormatter {
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             return simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
