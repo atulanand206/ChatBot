@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData;
 
 public interface ImageContract {
 
-    interface ViewModel extends IRecyclerViewModel {
+    interface ViewModel extends IRecyclerViewModel<ImageData> {
 
         /**
          * @return liveData corresponding to the prompt text.
@@ -21,9 +21,8 @@ public interface ImageContract {
 
         void setMessage(final String message);
 
-
         @NonNull
-        LiveData<ImageData> getImageData();
+        ImageData getProps();
 
         @NonNull
         MutableLiveData<String> getImageUrl();
@@ -42,7 +41,6 @@ public interface ImageContract {
 
         void setBackground(final Drawable drawable);
 
-        void setData(@NonNull final ImageData imageData);
     }
 
 }

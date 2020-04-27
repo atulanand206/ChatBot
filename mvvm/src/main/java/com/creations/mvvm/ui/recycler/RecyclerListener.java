@@ -1,8 +1,6 @@
 package com.creations.mvvm.ui.recycler;
 
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
-
-public interface RecyclerListener<T extends IMVVMViewModel> {
+public interface RecyclerListener<T extends IRecyclerViewModel> {
 
     void onItemClick(final T viewModel);
 }

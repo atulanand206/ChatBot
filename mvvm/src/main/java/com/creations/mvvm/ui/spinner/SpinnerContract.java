@@ -2,6 +2,7 @@ package com.creations.mvvm.ui.spinner;
 
 import android.widget.AdapterView;
 
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.IFormViewModelBase;
 import com.creations.mvvm.ui.editable.EditableViewModel;
 
@@ -11,7 +12,7 @@ import androidx.lifecycle.LiveData;
 
 public interface SpinnerContract {
 
-    interface ViewModel extends IFormViewModelBase {
+    interface ViewModel extends IFormViewModelBase<Props> {
 
         /**
          * @return liveData corresponding to the list of entries.

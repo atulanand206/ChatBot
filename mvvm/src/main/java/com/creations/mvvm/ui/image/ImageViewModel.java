@@ -20,7 +20,7 @@ import androidx.lifecycle.LiveData;
 /**
  * This ViewModel works with a Button and is to be used for creating forms.
  */
-public class ImageViewModel extends RecyclerViewModel implements ImageContract.ViewModel {
+public class ImageViewModel extends RecyclerViewModel<ImageData> implements ImageContract.ViewModel {
 
     @NonNull
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
@@ -38,22 +38,16 @@ public class ImageViewModel extends RecyclerViewModel implements ImageContract.V
     @NonNull
     private final MutableLiveData<String> mDescription = new MutableLiveData<>();
 
-    @NonNull
-    private final MutableLiveData<ImageData> mImageData = new MutableLiveData<>();
-
-
     public ImageViewModel(@NonNull final Application application,
                           @NonNull final ImageData imageData) {
-        super(application);
+        super(application, imageData);
         Preconditions.requiresNonNull(imageData, "ImageData");
-//        mProgressBarVisibility.setValue(View.VISIBLE);
-//        mProgressBarVisibility.setValue(View.GONE);
         setVisibility(View.VISIBLE);
-        setData(imageData);
     }
 
     @Override
-    public void setData(@NonNull ImageData imageData) {
+    public void setProps(@NonNull ImageData imageData) {
+        super.setProps(imageData);
         String url = imageData.getUrl();
         url = "https://www.gstatic.com/webp/gallery/5.jpg";
         imageData.setUrl(url);
@@ -72,7 +66,6 @@ public class ImageViewModel extends RecyclerViewModel implements ImageContract.V
         mImageUrl.setValue(url);
         mTitle.setValue(imageData.getTitle());
         mDescription.setValue(imageData.getDescription());
-        mImageData.postValue(imageData);
         setBackground(getApplication().getDrawable(R.drawable.image_background));
     }
 
@@ -91,12 +84,6 @@ public class ImageViewModel extends RecyclerViewModel implements ImageContract.V
     @Override
     public void setMessage(final String message) {
         mMessage.postValue(message);
-    }
-
-    @NonNull
-    @Override
-    public LiveData<ImageData> getImageData() {
-        return mImageData;
     }
 
     @NonNull

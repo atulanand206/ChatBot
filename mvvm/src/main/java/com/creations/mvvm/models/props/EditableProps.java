@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 /**
  * This class is to be used for creating the model for the text view in EditableViewModel.
  */
-public class EditableProps implements Serializable {
+public class EditableProps extends Props implements Serializable {
 
     private final String mKey;
     @NonNull

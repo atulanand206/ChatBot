@@ -1,12 +1,13 @@
 package com.creations.mvvm.ui.recycler;
 
 import com.creations.mvvm.live.LiveRunnable;
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuContract;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-public interface IRecyclerViewModel extends IMVVMViewModel {
+public interface IRecyclerViewModel<T extends Props>  extends MenuContract.ViewModel<T> {
 
     void setPosition(final int position);
     /**

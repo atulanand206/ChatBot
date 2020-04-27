@@ -1,8 +1,9 @@
 package com.creations.mvvm.ui.checkbox;
 
 import com.creations.mvvm.live.MutableLiveData;
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.editable.EditableViewModel;
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
+import com.creations.mvvm.ui.menu.MenuContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,7 +11,7 @@ import androidx.lifecycle.LiveData;
 
 public interface CheckboxContract {
 
-    interface ViewModel extends IMVVMViewModel {
+    interface ViewModel extends MenuContract.ViewModel<Props> {
 
         /**
          * @return liveData corresponding to the text.

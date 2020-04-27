@@ -18,12 +18,10 @@ import androidx.lifecycle.LiveData;
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class CellViewModel extends RecyclerViewModel implements CellContract.ViewModel {
+public class CellViewModel extends RecyclerViewModel<Cell> implements CellContract.ViewModel<Cell> {
 
     @NonNull
     private Application mApplication;
-
-    private Cell mCell;
 
     private MutableLiveData<Integer> colorResId = new MutableLiveData<>();
 
@@ -37,19 +35,18 @@ public class CellViewModel extends RecyclerViewModel implements CellContract.Vie
 
     public CellViewModel(@NonNull final Application application,
                          @NonNull final Cell cell) {
-        super(application);
+        super(application, cell);
         mApplication = application;
-        setData(cell);
     }
 
     @Override
-    public void setData(@NonNull final Cell cell) {
-        mCell = Preconditions.requiresNonNull(cell, "Cell");
-        setBackgroundColor(mCell.getColorResId());
-        setCharacter(mCell.getCharacter());
-        setTextColorResId(mApplication.getResources().getColor(mCell.getTextColorResId()));
-        setTextSize(mApplication.getResources().getDimension(mCell.getTextSize()));
-        setSide(mApplication.getResources().getDimension(mCell.getSide()));
+    public void setProps(@NonNull final Cell cell) {
+        super.setProps(cell);
+        setBackgroundColor(cell.getColorResId());
+        setCharacter(cell.getCharacter());
+        setTextColorResId(mApplication.getResources().getColor(cell.getTextColorResId()));
+        setTextSize(mApplication.getResources().getDimension(cell.getTextSize()));
+        setSide(mApplication.getResources().getDimension(cell.getSide()));
         setVisibility(View.VISIBLE);
     }
 
@@ -75,11 +72,6 @@ public class CellViewModel extends RecyclerViewModel implements CellContract.Vie
 
     public void setSide(@Dimension float side) {
         this.side.postValue(side);
-    }
-
-    @NonNull
-    public Cell getCell() {
-        return mCell;
     }
 
     @Override

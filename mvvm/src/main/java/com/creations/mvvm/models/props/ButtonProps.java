@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 
-public class ButtonProps implements Serializable {
+public class ButtonProps extends Props implements Serializable {
 
     private String message;
 

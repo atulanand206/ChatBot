@@ -1,9 +1,9 @@
-package com.creations.mvvm.ui.menu;
+package com.creations.mvvm.ui.text;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
-import com.example.application.messages.IMessageManager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -13,43 +13,41 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module()
-public interface MenuModule extends MVVMModule {
+public interface TextModule extends MenuModule {
 
     @Module
     abstract class InjectViewModelFactory {
         @Provides
         @NonNull
-        public static MenuViewModel.Factory provideViewModelFactory(
+        public static TextViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
-                @NonNull final Props props,
-                @NonNull final IMessageManager messageManager) {
+                @NonNull final Props props) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
-            Preconditions.requiresNonNull(messageManager, "MessageManager");
 
-            return new MenuViewModel.Factory(activity.getApplication(), props, messageManager);
+            return new TextViewModel.Factory<>(activity.getApplication(), props);
         }
     }
 
     @Module(includes = InjectViewModelFactory.class)
-    abstract class InjectViewModel extends MVVMModule.InjectViewModel<MenuContract.ViewModel,
-            MenuViewModel> {
+    abstract class InjectViewModel extends MVVMModule.InjectViewModel<TextContract.ViewModel,
+            TextViewModel> {
 
         @Provides
         @NonNull
-        static MenuViewModel provideViewModel(
-                @NonNull final MenuViewModel.Factory factory,
+        static TextViewModel provideViewModel(
+                @NonNull final TextViewModel.Factory factory,
                 @NonNull final FragmentActivity application) {
             Preconditions.requiresNonNull(factory, "ViewModelFactory");
             Preconditions.requiresNonNull(application, "FragmentActivity");
 
-            MenuViewModel viewModel = ViewModelProviders.of(application, factory).get(MenuViewModel.class);
+            TextViewModel viewModel = ViewModelProviders.of(application, factory).get(TextViewModel.class);
             return Preconditions.requiresNonNull(viewModel, "ViewModel");
         }
 
         @Binds
         @NonNull
-        abstract MenuContract.ViewModel bindViewModel(@NonNull final MenuViewModel viewModel);
+        abstract TextContract.ViewModel bindViewModel(@NonNull final TextViewModel viewModel);
     }
 
 }

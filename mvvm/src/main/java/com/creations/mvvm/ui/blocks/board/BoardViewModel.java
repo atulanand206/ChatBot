@@ -18,10 +18,8 @@ import androidx.annotation.NonNull;
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class BoardViewModel extends RecyclerViewModel implements BoardContract.ViewModel {
+public class BoardViewModel extends RecyclerViewModel<Board> implements BoardContract.ViewModel<Board> {
 
-    @NonNull
-    private Board mBoardProps;
     @NonNull
     private final RowViewModel.Factory mRowFactory;
     @NonNull
@@ -32,19 +30,19 @@ public class BoardViewModel extends RecyclerViewModel implements BoardContract.V
     public BoardViewModel(@NonNull final Application application,
                           @NonNull final RowViewModel.Factory rowFactory,
                           @NonNull final Board board) {
-        super(application);
+        super(application, board);
         mRowFactory = Preconditions.requiresNonNull(rowFactory, "Factory");
-        setData(BoardUtils.testBoard(9));
+        setProps(BoardUtils.testBoard(9));
         setTopColor(R.color.colorPrimary);
     }
 
     @Override
-    public void setData(@NonNull final Board board) {
+    public void setProps(@NonNull final Board board) {
+        super.setProps(board);
         adapter.clearItems();
-        mBoardProps = Preconditions.requiresNonNull(board, "Info");
         for (Row row : board.getRows()) {
             RowViewModel viewModel = mRowFactory.create();
-            viewModel.setData(row);
+            viewModel.setProps(row);
             adapter.addItem(viewModel);
         }
     }

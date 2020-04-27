@@ -33,7 +33,6 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,27 +45,11 @@ import androidx.recyclerview.widget.RecyclerView;
 @SuppressWarnings("unused")
 public interface IMVVMViewModel {
 
+
+
     interface ContextCallback {
         void call(@NonNull final Context context);
     }
-
-    LiveData<Integer> getProgressBarVisibility();
-
-    void setVisibility(final Integer visibility);
-
-    LiveData<Integer> getVisibility();
-
-    @NonNull
-    LiveEvent.Mutable<Integer> getStatusBarColorEvent();
-
-    void setTopColor(int backgroundColorResId);
-
-    @NonNull
-    LiveData<Integer> getId();
-
-    void setId(@IdRes int id);
-
-    LiveData<Integer> getBackgroundColor();
 
     @BindingAdapter("error")
     static void setErrorMessage(@NonNull final TextInputEditText view, @Nullable String errorMessage) {
@@ -278,10 +261,6 @@ public interface IMVVMViewModel {
 
     @NonNull
     LiveEvent<ContextCallback> getContextCallback();
-
-    void setBackgroundColor(int backgroundColorResId);
-
-    void setProgressBarVisibility(int progressBarVisibility);
 
     void startIntentWithPhoneNumber(@NonNull final String phoneNumber);
 

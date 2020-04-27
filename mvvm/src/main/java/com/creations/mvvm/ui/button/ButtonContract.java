@@ -5,14 +5,15 @@ import android.view.View;
 
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuContract;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 public interface ButtonContract {
 
-    interface ViewModel extends IMVVMViewModel {
+    interface ViewModel<T extends Props> extends MenuContract.ViewModel<T> {
 
         /**
          * @return liveData corresponding to the prompt text.

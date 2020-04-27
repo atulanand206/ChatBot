@@ -3,6 +3,7 @@ package com.creations.mvvm.ui.editable;
 import android.text.Editable;
 import android.view.View;
 
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.IFormViewModelBase;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,7 @@ import androidx.lifecycle.LiveData;
 
 public interface EditableContract {
 
-    interface ViewModel extends IFormViewModelBase {
+    interface ViewModel extends IFormViewModelBase<Props> {
 
         /**
          * @return liveData corresponding to the prompt text.

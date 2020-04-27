@@ -12,7 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class SpinnerProps implements Serializable {
+public class SpinnerProps extends Props implements Serializable {
 
     @Nullable
     private final String mPrompt;

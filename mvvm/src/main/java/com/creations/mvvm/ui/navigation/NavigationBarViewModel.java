@@ -20,11 +20,8 @@ import androidx.annotation.NonNull;
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class NavigationBarViewModel extends RecyclerViewModel implements NavigationBarContract.ViewModel {
+public class NavigationBarViewModel extends RecyclerViewModel<NavigationBarProps> implements NavigationBarContract.ViewModel<NavigationBarProps> {
 
-
-    @NonNull
-    private NavigationBarProps mProps;
     @NonNull
     private NavigationBarAdapter<NavItemContract.ViewModel, CardAdvisoryNavigationBinding> mNavigationAdapter = new NavigationBarAdapter<>(viewModel -> {
 
@@ -38,7 +35,7 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
     public NavigationBarViewModel(@NonNull final Application application,
                                   @NonNull final NavItemViewModel.Factory itemFactory,
                                   @NonNull final NavigationBarProps navigationBarProps) {
-        super(application);
+        super(application, navigationBarProps);
         Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
         mItemFactory = Preconditions.requiresNonNull(itemFactory, "ItemFactory");
         setProps(navigationBarProps);
@@ -48,18 +45,19 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
     }
 
     @Override
-    public void setProps(@NonNull final NavigationBarProps props) {
+    public void setProps(@NonNull NavigationBarProps props) {
+        super.setProps(props);
         mNavigationAdapter.clearItems();
-        mProps = Preconditions.requiresNonNull(props, "Props");
         for (NavigationItem item : props.getItems()) {
             NavItemViewModel navItemViewModel = mItemFactory.create();
-            navItemViewModel.setData(item);
+            navItemViewModel.setProps(item);
             mNavigationAdapter.addItem(navItemViewModel);
         }
     }
 
     public void setVisibility() {
-        List<NavigationItem> items = mProps.getItems();
+        NavigationBarProps value = getProps();
+        List<NavigationItem> items = value.getItems();
         if (items == null || items.isEmpty()) {
             setVisibility(View.GONE);
             return;
@@ -75,12 +73,6 @@ public class NavigationBarViewModel extends RecyclerViewModel implements Navigat
     @Override
     public NavigationBarAdapter getAdapter() {
         return mNavigationAdapter;
-    }
-
-    @NonNull
-    @Override
-    public NavigationBarProps getProps() {
-        return mProps;
     }
 
     public static class Factory extends MVVMViewModel.Factory<NavigationBarViewModel> {

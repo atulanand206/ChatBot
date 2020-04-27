@@ -8,7 +8,7 @@ import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.ButtonProps;
-import com.creations.mvvm.ui.FormViewModelBase;
+import com.creations.mvvm.ui.menu.MenuViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import androidx.annotation.NonNull;
@@ -17,7 +17,7 @@ import androidx.lifecycle.LiveData;
 /**
  * This ViewModel works with a Button and is to be used for creating forms.
  */
-public class ButtonViewModel extends FormViewModelBase implements ButtonContract.ViewModel {
+public class ButtonViewModel extends MenuViewModel<ButtonProps> implements ButtonContract.ViewModel<ButtonProps> {
 
     @NonNull
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
@@ -35,7 +35,7 @@ public class ButtonViewModel extends FormViewModelBase implements ButtonContract
 
     public ButtonViewModel(@NonNull final Application application,
                            @NonNull final ButtonProps buttonProps) {
-        super(application, "Button items");
+        super(application, buttonProps);
         Preconditions.requiresNonNull(buttonProps, "ButtonProps");
         mMessage.postValue(buttonProps.getMessage());
     }

@@ -86,7 +86,7 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
 
             private ImageViewModel viewModel(@NonNull final Post post) {
                 ImageViewModel imageViewModel = mImageFactory.create();
-                imageViewModel.setData(imageData(post));
+                imageViewModel.setProps(imageData(post));
                 return imageViewModel;
             }
         });

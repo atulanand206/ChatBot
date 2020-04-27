@@ -4,11 +4,12 @@ import android.app.Application;
 
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuViewModel;
 
 import androidx.annotation.NonNull;
 
-public abstract class AnimatorViewModel extends MVVMViewModel implements IAnimatorViewModel {
+public abstract class AnimatorViewModel extends MenuViewModel<Props> implements IAnimatorViewModel {
 
     @NonNull
     private final MutableLiveData<Integer> mContainerId = new MutableLiveData<>(com.example.application.R.id.animate_container);
@@ -20,7 +21,7 @@ public abstract class AnimatorViewModel extends MVVMViewModel implements IAnimat
     private final LiveRunnable.Mutable mAnimation = new LiveRunnable.Mutable();
 
     protected AnimatorViewModel(@NonNull Application application) {
-        super(application);
+        super(application, new Props());
     }
 
     @NonNull

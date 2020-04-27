@@ -8,7 +8,7 @@ import java.io.Serializable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class CheckboxProps implements Serializable {
+public class CheckboxProps extends Props implements Serializable {
 
     @NonNull
     private final String mTitle;

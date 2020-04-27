@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.daterange;
 
 import com.creations.mvvm.models.props.DateRangeProps;
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.IFormViewModelBase;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import androidx.lifecycle.LiveData;
 
 public interface DateRangeContract {
 
-    interface ViewModel extends IFormViewModelBase {
+    interface ViewModel extends IFormViewModelBase<Props> {
 
         void postProps(@NonNull DateRangeProps dateRangeProps);
 

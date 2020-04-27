@@ -1,13 +1,14 @@
 package com.creations.mvvm.models.blocks;
 
 import com.creations.mvvm.R;
+import com.creations.mvvm.models.props.Props;
 
 import java.io.Serializable;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 
-public class Cell implements Serializable {
+public class Cell extends Props implements Serializable {
 
     @ColorRes
     private int colorResId;

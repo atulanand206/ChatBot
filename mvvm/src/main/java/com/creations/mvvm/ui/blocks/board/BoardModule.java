@@ -2,7 +2,6 @@ package com.creations.mvvm.ui.blocks.board;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.models.blocks.Board;
-import com.creations.mvvm.ui.PropsModule;
 import com.creations.mvvm.ui.blocks.row.RowModule;
 import com.creations.mvvm.ui.blocks.row.RowViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
@@ -19,7 +18,6 @@ public interface BoardModule extends MVVMModule {
 
     @Module(includes = {
             RowModule.InjectViewModelFactory.class,
-            PropsModule.class
     })
     abstract class InjectViewModelFactory {
         @Provides

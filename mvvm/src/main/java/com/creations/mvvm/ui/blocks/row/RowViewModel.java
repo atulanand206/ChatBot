@@ -2,6 +2,7 @@ package com.creations.mvvm.ui.blocks.row;
 
 import android.app.Application;
 import android.view.View;
+import android.widget.Toast;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
@@ -12,38 +13,39 @@ import com.creations.mvvm.ui.blocks.CellContract;
 import com.creations.mvvm.ui.blocks.CellViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.example.application.messages.MessageType;
 
 import androidx.annotation.NonNull;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class RowViewModel extends RecyclerViewModel implements RowContract.ViewModel {
+public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.ViewModel<Row> {
 
-    @NonNull
-    private Row mRowProps;
     @NonNull
     private final CellViewModel.Factory mCellFactory;
     @NonNull
     private final RowAdapter<CellContract.ViewModel, CardBlocksItemBinding> adapter = new RowAdapter<>(viewModel -> {
-
+//        LiveData<String> character = viewModel.getCharacter();
+//        if (character.getValue() == null)
+//            return;
+        mMessageManager.showToast("character.getValue()", MessageType.SUCCESS, Toast.LENGTH_LONG);
     }, R.layout.card_blocks_item);
 
     public RowViewModel(@NonNull final Application application,
                         @NonNull final CellViewModel.Factory cellFactory,
                         @NonNull final Row rowInfo) {
-        super(application);
+        super(application, rowInfo);
         mCellFactory = Preconditions.requiresNonNull(cellFactory, "CellFactory");
-        setData(rowInfo);
     }
 
     @Override
-    public void setData(@NonNull final Row rowInfo) {
+    public void setProps(@NonNull final Row rowInfo) {
+        super.setProps(rowInfo);
         adapter.clearItems();
-        mRowProps = Preconditions.requiresNonNull(rowInfo, "RowInfo");
         for (Cell cell : rowInfo.getCells()) {
             CellViewModel cellViewModel = mCellFactory.create();
-            cellViewModel.setData(cell);
+            cellViewModel.setProps(cell);
             adapter.addItem(cellViewModel);
         }
         setVisibility(View.VISIBLE);

@@ -1,15 +1,13 @@
 package com.creations.mvvm.ui.blocks.board;
 
-import com.creations.mvvm.models.blocks.Board;
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
 
 import androidx.annotation.NonNull;
 
 public interface BoardContract {
 
-    interface ViewModel extends IRecyclerViewModel {
-
-        void setData(@NonNull Board board);
+    interface ViewModel<T extends Props> extends IRecyclerViewModel<T> {
 
         @NonNull
         BoardAdapter getAdapter();

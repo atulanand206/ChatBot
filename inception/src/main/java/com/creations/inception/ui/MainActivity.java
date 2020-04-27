@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     }
 
     @Override
-    public void setStatusBarColr(Integer colorResId) {
+    public void setStatusBarColr(int colorResId) {
         setStatusBarColor(colorResId);
     }
 

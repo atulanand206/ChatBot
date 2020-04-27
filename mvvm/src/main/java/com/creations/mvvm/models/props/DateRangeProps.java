@@ -8,7 +8,7 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 
-public class DateRangeProps implements Serializable {
+public class DateRangeProps extends Props implements Serializable {
 
     private Date startDate;
 

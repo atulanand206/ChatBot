@@ -16,34 +16,25 @@ import androidx.lifecycle.LiveData;
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class NavItemViewModel extends RecyclerViewModel implements NavItemContract.ViewModel {
-
-    @NonNull
-    private NavigationItem mNavigationBarProps;
+public class NavItemViewModel extends RecyclerViewModel<NavigationItem> implements NavItemContract.ViewModel<NavigationItem> {
 
     @NonNull
     private MutableLiveData<Integer> mLineVisibility = new MutableLiveData<>();
 
     public NavItemViewModel(@NonNull final Application application,
                             @NonNull final NavigationItem navigationBarProps) {
-        super(application);
-        setData(navigationBarProps);
-    }
-
-    @Override
-    public void setData(@NonNull NavigationItem navigationBarProps) {
-        mNavigationBarProps = Preconditions.requiresNonNull(navigationBarProps, "NavigationBarProps");
+        super(application, navigationBarProps);
     }
 
     @NonNull
     @Override
     public String getTitle() {
-        return mNavigationBarProps.getLabel().name();
+        return getProps().getLabel().name();
     }
 
     @Override
     public Drawable getDrawable() {
-        return mNavigationBarProps.getNavigationState().getDrawable(getApplication());
+        return getProps().getNavigationState().getDrawable(getApplication());
     }
 
     @Override
@@ -58,11 +49,11 @@ public class NavItemViewModel extends RecyclerViewModel implements NavItemContra
     }
 
     private int visib() {
-        Integer size = getSize().getValue();
-        Integer posn = getPosition().getValue();
-        if (size == null || posn == null)
+//        Integer size = getSize().getValue();
+//        Integer posn = getPosition().getValue();
+//        if (size == null || posn == null)
             return View.GONE;
-        return size.equals(posn+1) ? View.GONE : View.VISIBLE;
+//        return size.equals(posn+1) ? View.GONE : View.VISIBLE;
     }
 
     public static class Factory extends MVVMViewModel.Factory<NavItemViewModel> {

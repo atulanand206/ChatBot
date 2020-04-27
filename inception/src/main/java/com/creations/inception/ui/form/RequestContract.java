@@ -1,16 +1,17 @@
 package com.creations.inception.ui.form;
 
 import com.creations.inception.ui.blogger.BloggerViewModel;
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
+import com.creations.mvvm.ui.menu.MenuContract;
 import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
 import androidx.annotation.NonNull;
 
 public interface RequestContract {
 
-    interface ViewModel extends IMVVMViewModel {
+    interface ViewModel<T extends Props> extends MenuContract.ViewModel<T> {
         @NonNull
         BloggerViewModel getBlogger();
 
@@ -26,6 +27,6 @@ public interface RequestContract {
 
     interface InteractionListener {
 
-        void setStatusBarColr(Integer colorResId);
+        void setStatusBarColr(int colorResId);
     }
 }

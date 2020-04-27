@@ -6,12 +6,13 @@ import android.text.TextUtils;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.MediatorLiveData;
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public abstract class FormViewModelBase extends MVVMViewModel implements IFormViewModelBase {
+public abstract class FormViewModelBase extends MenuViewModel<Props> implements IFormViewModelBase<Props> {
 
     @NonNull
     protected final MutableLiveData<String> mText = new MutableLiveData<>("");
@@ -21,7 +22,7 @@ public abstract class FormViewModelBase extends MVVMViewModel implements IFormVi
 
     protected FormViewModelBase(@NonNull Application application,
                                 @NonNull String text) {
-        super(application);
+        super(application, new Props());
         mText.postValue(Preconditions.requiresNonNull(text, "Text"));
     }
 

@@ -1,9 +1,11 @@
 package com.creations.mvvm.models.blocks;
 
+import com.creations.mvvm.models.props.Props;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class Board implements Serializable {
+public class Board extends Props implements Serializable {
 
     private List<Row> rows;
 

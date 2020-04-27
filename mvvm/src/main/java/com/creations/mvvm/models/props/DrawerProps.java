@@ -6,7 +6,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class DrawerProps implements Serializable {
+public class DrawerProps extends Props implements Serializable {
 
     private final List<DrawerItem> drawerItems = new ArrayList<>();
 

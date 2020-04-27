@@ -1,5 +1,7 @@
 package com.creations.mvvm.models.navigation;
 
+import com.creations.mvvm.models.props.Props;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ import static com.creations.mvvm.models.navigation.NavigationState.CURRENT;
 /**
  * This class is to be used for creating the model for the text view in EditableViewModel.
  */
-public class NavigationBarProps implements Serializable {
+public class NavigationBarProps extends Props implements Serializable {
 
     private final List<NavigationItem> mItems = new ArrayList<>();
 

@@ -1,12 +1,13 @@
 package com.creations.mvvm.ui;
 
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-public interface IFormViewModelBase extends IMVVMViewModel {
+public interface IFormViewModelBase<T extends Props> extends MenuContract.ViewModel<T> {
 
     /**
      * @return liveData on whether the form field is disabled from receiving input.

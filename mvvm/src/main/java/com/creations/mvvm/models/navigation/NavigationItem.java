@@ -1,12 +1,13 @@
 package com.creations.mvvm.models.navigation;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.models.props.Props;
 
 import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 
-public class NavigationItem implements Serializable {
+public class NavigationItem extends Props implements Serializable {
 
     private final NavigationLabel mLabel;
 

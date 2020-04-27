@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 
-public class Option implements Serializable {
+public class Option extends Props implements Serializable {
 
     public static final String OTHER = "OTHER";
 

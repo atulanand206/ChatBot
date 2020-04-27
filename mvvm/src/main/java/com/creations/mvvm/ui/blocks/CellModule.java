@@ -2,7 +2,6 @@ package com.creations.mvvm.ui.blocks;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.models.blocks.Cell;
-import com.creations.mvvm.ui.PropsModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 
 import androidx.annotation.NonNull;
@@ -15,9 +14,7 @@ import dagger.Provides;
 @Module()
 public interface CellModule extends MVVMModule {
 
-    @Module(includes = {
-            PropsModule.class
-    })
+    @Module
     abstract class InjectViewModelFactory {
         @Provides
         @NonNull

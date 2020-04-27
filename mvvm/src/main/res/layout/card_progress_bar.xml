@@ -4,7 +4,7 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.creations.mvvm.viewmodel.IMVVMViewModel" />
+            type="com.creations.mvvm.ui.menu.MenuContract.ViewModel" />
     </data>
 
     <RelativeLayout

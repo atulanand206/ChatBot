@@ -1,19 +1,16 @@
 package com.creations.mvvm.ui.blocks;
 
-import com.creations.mvvm.models.blocks.Cell;
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.Dimension;
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 public interface CellContract {
 
-    interface ViewModel extends IRecyclerViewModel {
-
-        void setData(@NonNull final Cell cell);
+    interface ViewModel<T extends Props> extends IRecyclerViewModel<T> {
 
         void setColorResId(@ColorRes final int colorResId);
 

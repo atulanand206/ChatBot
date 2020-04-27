@@ -7,7 +7,7 @@ import java.io.Serializable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class ContactProps implements Serializable {
+public class ContactProps extends Props implements Serializable {
 
     @Nullable
     private String name;

@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import static com.example.application.constants.ApplicationConstants.FAKE_URL;
 
-public class ImageData implements Serializable {
+public class ImageData extends Props implements Serializable {
 
     private String mUrl;
 

@@ -1,7 +1,6 @@
 package com.creations.mvvm.ui.recycler;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
@@ -10,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewHolder<T extends IMVVMViewModel, E extends ViewDataBinding> extends RecyclerView.ViewHolder implements LifecycleOwner {
+public class RecyclerViewHolder<T extends IRecyclerViewModel, E extends ViewDataBinding> extends RecyclerView.ViewHolder implements LifecycleOwner {
 
     @NonNull
     private LifecycleRegistry mRegistry;

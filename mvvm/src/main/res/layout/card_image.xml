@@ -41,7 +41,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:imageFromUrl="@{viewmodel.imageData}"
+                app:imageFromUrl="@{viewmodel.props}"
                 android:contentDescription="@string/image" />
 
             <LinearLayout

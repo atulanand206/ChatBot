@@ -4,12 +4,13 @@ import android.app.Application;
 
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.menu.MenuViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-public class RecyclerViewModel extends MVVMViewModel implements IRecyclerViewModel {
+public class RecyclerViewModel<T extends Props> extends MenuViewModel<T> implements IRecyclerViewModel<T> {
 
     @NonNull
     private MutableLiveData<Integer> mSize = new MutableLiveData<>(-1);
@@ -20,8 +21,9 @@ public class RecyclerViewModel extends MVVMViewModel implements IRecyclerViewMod
     @NonNull
     private final LiveRunnable.Mutable mClickEvent = new LiveRunnable.Mutable();
 
-    protected RecyclerViewModel(@NonNull Application application) {
-        super(application);
+    protected RecyclerViewModel(@NonNull Application application,
+                                @NonNull final T props) {
+        super(application, props);
     }
 
     @NonNull
