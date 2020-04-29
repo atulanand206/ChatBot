@@ -43,7 +43,7 @@
 
                     <include layout="@layout/card_title"
                         bind:text="@{viewmodel.title}"
-                        bind:textSize="@{80}"/>
+                        bind:textSize="@{80f}"/>
 
                     <View
                         android:layout_width="match_parent"

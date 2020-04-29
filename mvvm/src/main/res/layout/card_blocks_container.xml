@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <include layout="@layout/card_blocks_score" bind:viewmodel="@{viewmodel.scoreViewModel}"/>
+
             <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
 
             <LinearLayout

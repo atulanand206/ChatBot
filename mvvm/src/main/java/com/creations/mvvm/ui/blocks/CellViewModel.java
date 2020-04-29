@@ -10,7 +10,6 @@ import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
@@ -27,10 +26,6 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     private MutableLiveData<Integer> colorResId = new MutableLiveData<>();
 
     private MutableLiveData<String> character = new MutableLiveData<>();
-
-    private MutableLiveData<Integer> textColorResId = new MutableLiveData<>();
-
-    private MutableLiveData<Float> textSize = new MutableLiveData<>();
 
     private MutableLiveData<Float> side = new MutableLiveData<>();
 
@@ -111,16 +106,6 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
         this.character.postValue(Character.toString(character));
     }
 
-    @Override
-    public void setTextColorResId(@ColorInt int textColorResId) {
-        this.textColorResId.postValue(textColorResId);
-    }
-
-    @Override
-    public void setTextSize(@Dimension float textSize) {
-        this.textSize.postValue(textSize);
-    }
-
     public void setSide(@Dimension float side) {
         this.side.postValue(side);
     }
@@ -133,16 +118,6 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     @Override
     public LiveData<String> getCharacter() {
         return character;
-    }
-
-    @Override
-    public LiveData<Integer> getTextColorResId() {
-        return textColorResId;
-    }
-
-    @Override
-    public LiveData<Float> getTextSize() {
-        return textSize;
     }
 
     @Override

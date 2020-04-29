@@ -21,50 +21,71 @@
             <include layout="@layout/gray_background"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_dialog_top"
-            android:background="@color/white"
-            android:paddingTop="@dimen/margin_xxxxx_large"
-            android:paddingBottom="@dimen/margin_xxxxx_large"
-            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_FOREGROUND)}">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <LinearLayout
-                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_BACKGROUND)}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <include layout="@layout/icon_back" />
-
-                </LinearLayout>
-
-                <EditText
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:paddingTop="@dimen/margin_xxxxx_large"
+                    android:paddingBottom="@dimen/margin_xxxxx_large"
+                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_FOREGROUND)}"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_xx_large"
-                    android:afterTextChanged="@{viewmodel::afterTextChanged}"
-                    android:text="@{viewmodel.text}"/>
+                    android:layout_alignParentBottom="true">
 
-                <LinearLayout
-                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_BUTTON)}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <include layout="@layout/icon_done" />
+                    <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_BACKGROUND)}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <include layout="@layout/icon_back" />
+
+                        </LinearLayout>
+
+                        <EditText
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/font_xx_large"
+                            android:focusedByDefault="true"
+                            android:afterTextChanged="@{viewmodel::afterTextChanged}"
+                            android:text="@{viewmodel.text}"/>
+
+                        <LinearLayout
+                            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_BUTTON)}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <include layout="@layout/icon_done" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 

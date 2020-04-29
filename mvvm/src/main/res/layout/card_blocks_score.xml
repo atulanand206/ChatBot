@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.ui.blocks.score.ScoreContract.ViewModel" />
+    </data>
+
+    <RelativeLayout
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="6"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:gravity="center_horizontal"
+                android:text="@{viewmodel.text}"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_1"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_2"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_3"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_4"
+                android:textSize="@{viewmodel.textSize}"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

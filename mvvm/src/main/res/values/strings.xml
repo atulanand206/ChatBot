@@ -22,4 +22,9 @@
     <string name="filters">Filters</string>
     <string name="image">image</string>
 
+    <string name="name_1">R</string>
+    <string name="name_2">O</string>
+    <string name="name_3">W</string>
+    <string name="name_4">S</string>
+
 </resources>

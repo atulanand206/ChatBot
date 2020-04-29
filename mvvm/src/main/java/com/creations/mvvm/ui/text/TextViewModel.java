@@ -9,6 +9,8 @@ import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.edit.EditViewModel;
 import com.example.application.utils.TextUtils;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -21,6 +23,9 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
     @NonNull
     private final MutableLiveData<String> mText = new MutableLiveData<>();
 
+    private MutableLiveData<Float> textSize = new MutableLiveData<>();
+
+    private MutableLiveData<Integer> textColorResId = new MutableLiveData<>();
 
     public TextViewModel(@NonNull final Application application,
                          @NonNull final T props) {
@@ -49,6 +54,26 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
             text = null;
         }
         mText.setValue(text);
+    }
+
+    @Override
+    public void setTextSize(@Dimension float textSize) {
+        this.textSize.postValue(textSize);
+    }
+
+    @Override
+    public LiveData<Float> getTextSize() {
+        return textSize;
+    }
+
+    @Override
+    public void setTextColorResId(@ColorInt int textColorResId) {
+        this.textColorResId.postValue(textColorResId);
+    }
+
+    @Override
+    public LiveData<Integer> getTextColorResId() {
+        return textColorResId;
     }
 
     public static class Factory<T extends Props> extends EditViewModel.Factory<T> {

@@ -5,6 +5,7 @@ import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.ContainerProps;
 import com.creations.mvvm.models.blocks.Row;
+import com.creations.mvvm.models.blocks.Score;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
 import com.creations.mvvm.models.navigation.NavigationLabel;
@@ -108,5 +109,11 @@ public class PropsModule {
     @NonNull
     public static Add provideAdd() {
         return BoardUtils.newRow();
+    }
+
+    @Provides
+    @NonNull
+    public static Score provideScore() {
+        return new Score();
     }
 }

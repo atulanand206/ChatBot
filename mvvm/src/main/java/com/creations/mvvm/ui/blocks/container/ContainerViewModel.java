@@ -12,6 +12,8 @@ import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.add.AddViewModel;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
+import com.creations.mvvm.ui.blocks.score.ScoreContract;
+import com.creations.mvvm.ui.blocks.score.ScoreViewModel;
 import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.utils.RecyclerUtils;
@@ -31,20 +33,27 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
     private final BoardViewModel mBoardViewModel;
     @NonNull
     private final AddViewModel mAddViewModel;
+    @NonNull
+    private final ScoreViewModel mScoreViewModel;
 
     public ContainerViewModel(@NonNull final Application application,
                               @NonNull final AddViewModel.Factory addFactory,
                               @NonNull final BoardViewModel.Factory boardFactory,
+                              @NonNull final ScoreViewModel.Factory scoreFactory,
                               @NonNull final ContainerProps props) {
         super(application, props);
         mAddViewModel = addFactory.create();
         mBoardViewModel = boardFactory.create();
+        mScoreViewModel = scoreFactory.create();
         mBoardViewModel.setProps(props.getBoard());
         mBorderWidth.postValue(props.getBorderWidth());
         mAddViewModel.getAddDoneEvent().observeForever(row -> {
             if (row instanceof Row) {
+                if (((Row) row).getCells().isEmpty())
+                    return;
                 ((Row) row).setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
                 mBoardViewModel.addRow(((Row) row));
+                mScoreViewModel.add("1");
             }
             mAddViewModel.setVisibility(View.GONE);
         });
@@ -78,6 +87,12 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         return mBoardViewModel;
     }
 
+    @NonNull
+    @Override
+    public ScoreContract.ViewModel getScoreViewModel() {
+        return mScoreViewModel;
+    }
+
     public static class Factory extends MVVMViewModel.Factory<ContainerViewModel> {
 
         @NonNull
@@ -89,20 +104,25 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         @NonNull
         private final BoardViewModel.Factory mFactory;
 
+        @NonNull
+        private final ScoreViewModel.Factory mScoreFactory;
+
         public Factory(@NonNull final Application application,
                        @NonNull final AddViewModel.Factory addFactory,
                        @NonNull final BoardViewModel.Factory boardFactory,
+                       @NonNull final ScoreViewModel.Factory scoreFactory,
                        @NonNull final ContainerProps props) {
             super(ContainerViewModel.class, application);
             mProps = Preconditions.requiresNonNull(props, "Props");
             mFactory = Preconditions.requiresNonNull(boardFactory, "Factory");
             mAddFactory = Preconditions.requiresNonNull(addFactory, "Factory");
+            mScoreFactory = Preconditions.requiresNonNull(scoreFactory, "Factory");
         }
 
         @NonNull
         @Override
         public ContainerViewModel create() {
-            return new ContainerViewModel(mApplication, mAddFactory, mFactory,  mProps);
+            return new ContainerViewModel(mApplication, mAddFactory, mFactory,  mScoreFactory, mProps);
         }
     }
 }

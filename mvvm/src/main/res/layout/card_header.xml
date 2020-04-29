@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.ui.blocks.score.ScoreContract.ViewModel" />
+    </data>
+    <TextView
+        android:textColor="@{viewmodel.textColorResId}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@{viewmodel.text}"
+        android:textSize="@{viewmodel.textSize}"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+</layout>

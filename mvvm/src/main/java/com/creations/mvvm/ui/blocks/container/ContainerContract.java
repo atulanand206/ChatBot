@@ -5,6 +5,7 @@ import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.animate.IAnimatorViewModel;
 import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
+import com.creations.mvvm.ui.blocks.score.ScoreContract;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,9 @@ public interface ContainerContract {
 
         @NonNull
         BoardContract.ViewModel getBoardViewModel();
+
+        @NonNull
+        ScoreContract.ViewModel getScoreViewModel();
     }
 
 }
