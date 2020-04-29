@@ -20,11 +20,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.bekawestberg.loopinglayout.library.LoopingLayoutManager;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.props.ImageData;
 import com.creations.mvvm.utils.ImageLoadTask;
+import com.example.application.utils.RecyclerUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -33,8 +33,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -101,6 +100,13 @@ public interface IMVVMViewModel {
         view.setId(idRes);
     }
 
+    @BindingAdapter("setId")
+    static void setId(@NonNull final View view, final LiveData<Integer> idRes) {
+        Integer value = idRes.getValue();
+        if (value != null)
+            view.setId(value);
+    }
+
     @BindingAdapter("imageFromUrl")
     static void imageFromUrl(@NonNull final ImageView imageView, @NonNull final ImageData url) {
         new ImageLoadTask(imageView, url).execute();
@@ -123,45 +129,37 @@ public interface IMVVMViewModel {
     @BindingAdapter("bkgrndColor")
     static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
         try {
-            view.setBackgroundColor(view.getContext().getColor(colorResId));
+            view.setBackgroundColor(view.getContext().getResources().getColor(colorResId));
         } catch (android.content.res.Resources.NotFoundException e) {
 //            e.printStackTrace();
         }
     }
 
+    @BindingAdapter("recyclerLayoutManager")
+    static void bindRecyclerLayoutManager(@NonNull final RecyclerView recyclerView, final RecyclerUtils.LayoutType layoutType) {
+        if (layoutType == null)
+            return;
+        switch (layoutType) {
+            case GRID:
+                recyclerView.setLayoutManager(RecyclerUtils.grid(recyclerView));
+                break;
+            case LOOP_VERTICAL:
+                recyclerView.setLayoutManager(RecyclerUtils.loopingVertical(recyclerView));
+                break;
+            case LOOP_HORIZONTAL:
+                recyclerView.setLayoutManager(RecyclerUtils.loopingHorizontal(recyclerView));
+                break;
+            case LINEAR_HORIZONTAL:
+                recyclerView.setLayoutManager(RecyclerUtils.linearHorizontal(recyclerView));
+                break;
+            case LINEAR_VERTICAL:
+                recyclerView.setLayoutManager(RecyclerUtils.linearVertical(recyclerView));
+                break;
+        }
+    }
 
     @BindingAdapter("adapter")
     static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
-        recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
-        recyclerView.setAdapter(adapter);
-    }
-
-    @BindingAdapter("loopingAdapter")
-    static void loopingAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
-        recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new LoopingLayoutManager(recyclerView.getContext(), LoopingLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(adapter);
-    }
-
-    @BindingAdapter("loopingVerticalAdapter")
-    static void loopingVerticalAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
-        recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new LoopingLayoutManager(recyclerView.getContext(), LoopingLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
-    }
-
-    @BindingAdapter("horizontalAdapter")
-    static void horizontalAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
-        recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.HORIZONTAL, false));
-        recyclerView.setAdapter(adapter);
-    }
-
-    @BindingAdapter("verticalAdapter")
-    static void bindRecyclerAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
-        recyclerView.setPadding(0, 0, 0, 0);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 

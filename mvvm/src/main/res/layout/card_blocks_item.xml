@@ -10,10 +10,13 @@
     </data>
 
     <RelativeLayout
-        android:visibility="@{viewmodel.visibility}"
+        app:visibility="@{viewmodel.visibility}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:bkgrndColor="@{viewmodel.backgroundColor}">
+        android:focusable="true"
+        android:clickable="true"
+        android:onClick="@{() -> viewmodel.onClick()}"
+        bind:bkgrndColor="@{viewmodel.backgroundColor}">
 
         <include layout="@layout/card_square" bind:side="@{viewmodel.side}"/>
 

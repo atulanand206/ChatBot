@@ -4,6 +4,7 @@ import android.app.Application;
 import android.view.View;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
@@ -33,6 +34,9 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
 
     private MutableLiveData<Float> side = new MutableLiveData<>();
 
+    @NonNull
+    private final LiveRunnable.Mutable mAddEvent = new LiveRunnable.Mutable();
+
     public CellViewModel(@NonNull final Application application,
                          @NonNull final Cell cell) {
         super(application, cell);
@@ -48,6 +52,53 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
         setTextSize(mApplication.getResources().getDimension(cell.getTextSize()));
         setSide(mApplication.getResources().getDimension(cell.getSide()));
         setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick() {
+        switch (getProps().getType()) {
+            case Cell.Type.ADD:
+                showAddDialog();
+                break;
+            case Cell.Type.FULL:
+                switch (getProps().getState()) {
+                    case Cell.State.COLORS:
+                        shuffle();
+                        break;
+                    case Cell.State.SELECTED:
+                        deselect();
+                        break;
+                    case Cell.State.NOT_SELECTED:
+                        select();
+                        break;
+                }
+                break;
+        }
+        super.onClick();
+    }
+
+    @Override
+    public void shuffle() {
+        super.shuffle();
+        setBackgroundColor(getActiveColor());
+    }
+
+    private void select() {
+
+    }
+
+    private void deselect() {
+
+    }
+
+    private void showAddDialog() {
+        mAddEvent.postEvent();
+    }
+
+    @NonNull
+    @Override
+    public LiveRunnable.Mutable getAddEvent() {
+        return mAddEvent;
     }
 
     @Override

@@ -29,8 +29,6 @@ public class NavigationBarViewModel extends RecyclerViewModel<NavigationBarProps
 
     @NonNull
     private final NavItemViewModel.Factory mItemFactory;
-    private int[] colors = new int[] {R.color.black, R.color.colorMenuText, R.color.colorBottomButton, R.color.colorAccent};
-    private int currentColorIndex = 0;
 
     public NavigationBarViewModel(@NonNull final Application application,
                                   @NonNull final NavItemViewModel.Factory itemFactory,

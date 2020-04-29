@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.example.application.utils.RecyclerUtils.LayoutType"/>
         <variable
             name="viewmodel"
             type="com.creations.mvvm.ui.navigation.NavigationBarContract.ViewModel" />
@@ -26,7 +27,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:horizontalAdapter="@{viewmodel.adapter}"/>
+                app:recyclerLayoutManager="@{LayoutType.LINEAR_HORIZONTAL}"
+                app:adapter="@{viewmodel.adapter}"/>
 
 
         </RelativeLayout>

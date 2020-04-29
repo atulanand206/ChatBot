@@ -4,8 +4,8 @@ import com.creations.condition.Preconditions;
 import com.creations.inception.ui.blogger.BloggerModule;
 import com.creations.inception.ui.blogger.BloggerViewModel;
 import com.creations.mvvm.ui.PropsModule;
-import com.creations.mvvm.ui.blocks.board.BoardModule;
-import com.creations.mvvm.ui.blocks.board.BoardViewModel;
+import com.creations.mvvm.ui.blocks.container.ContainerModule;
+import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
 import com.creations.mvvm.ui.button.ButtonModule;
 import com.creations.mvvm.ui.contact.ContactModule;
 import com.creations.mvvm.ui.daterange.DateRangeModule;
@@ -43,7 +43,7 @@ public interface RequestModule extends MVVMModule {
             ImageModule.InjectViewModelFactory.class,
             BloggerModule.InjectViewModelFactory.class,
             DrawerModule.InjectViewModelFactory.class,
-            BoardModule.InjectViewModelFactory.class,
+            ContainerModule.InjectViewModelFactory.class,
             PropsModule.class
     })
     abstract class InjectViewModelFactory {
@@ -62,7 +62,7 @@ public interface RequestModule extends MVVMModule {
                 @NonNull final NavigationBarViewModel.Factory navigationFactory,
                 @NonNull final BloggerViewModel.Factory bloggerFactory,
                 @NonNull final DrawerViewModel.Factory drawerFactory,
-                @NonNull final BoardViewModel.Factory boardFactory) {
+                @NonNull final ContainerViewModel.Factory boardFactory) {
 
             return new RequestViewModel.RequestFactory(activity.getApplication(), navigationFactory,
                     bloggerFactory, drawerFactory, boardFactory);

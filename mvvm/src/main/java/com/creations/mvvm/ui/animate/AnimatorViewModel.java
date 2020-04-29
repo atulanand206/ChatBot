@@ -9,7 +9,7 @@ import com.creations.mvvm.ui.menu.MenuViewModel;
 
 import androidx.annotation.NonNull;
 
-public abstract class AnimatorViewModel extends MenuViewModel<Props> implements IAnimatorViewModel {
+public abstract class AnimatorViewModel<T extends Props> extends MenuViewModel<T> implements IAnimatorViewModel<T> {
 
     @NonNull
     private final MutableLiveData<Integer> mContainerId = new MutableLiveData<>(com.example.application.R.id.animate_container);
@@ -20,8 +20,9 @@ public abstract class AnimatorViewModel extends MenuViewModel<Props> implements 
     @NonNull
     private final LiveRunnable.Mutable mAnimation = new LiveRunnable.Mutable();
 
-    protected AnimatorViewModel(@NonNull Application application) {
-        super(application, new Props());
+    protected AnimatorViewModel(@NonNull Application application,
+                                @NonNull final T props) {
+        super(application, props);
     }
 
     @NonNull

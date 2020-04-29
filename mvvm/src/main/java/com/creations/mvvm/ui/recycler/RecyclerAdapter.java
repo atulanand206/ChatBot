@@ -81,6 +81,13 @@ public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBin
         notifyItemInserted(mViewModels.size() - 1);
     }
 
+    public void insertItem(@NonNull final T viewModel) {
+        Preconditions.requiresNonNull(viewModel, "ViewModel");
+        int pos = mViewModels.size()-1;
+        mViewModels.add(pos, viewModel);
+        notifyItemInserted(mViewModels.size() - 1);
+    }
+
     public void clearItems() {
         mViewModels.clear();
         notifyDataSetChanged();

@@ -2,7 +2,7 @@ package com.creations.inception.ui.form;
 
 import com.creations.inception.ui.blogger.BloggerViewModel;
 import com.creations.mvvm.models.props.Props;
-import com.creations.mvvm.ui.blocks.board.BoardViewModel;
+import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
 import com.creations.mvvm.ui.menu.MenuContract;
 import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
@@ -22,7 +22,7 @@ public interface RequestContract {
         DrawerViewModel getDrawer();
 
         @NonNull
-        BoardViewModel getBoard();
+        ContainerViewModel getBoard();
     }
 
     interface InteractionListener {

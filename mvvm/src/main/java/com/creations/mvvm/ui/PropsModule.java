@@ -1,7 +1,9 @@
 package com.creations.mvvm.ui;
 
+import com.creations.mvvm.models.blocks.Add;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
+import com.creations.mvvm.models.blocks.ContainerProps;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
+
+import static com.creations.mvvm.utils.BoardUtils.testBoard;
 
 @Module
 public class PropsModule {
@@ -91,6 +95,18 @@ public class PropsModule {
     @Provides
     @NonNull
     public static Board provideBoard() {
-        return BoardUtils.randomBoard(20);
+        return testBoard();
+    }
+
+    @Provides
+    @NonNull
+    public static ContainerProps provideContainer(@NonNull final Board board) {
+        return new ContainerProps(board);
+    }
+
+    @Provides
+    @NonNull
+    public static Add provideAdd() {
+        return BoardUtils.testAdd();
     }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import type="com.creations.mvvm.ui.blocks.add.AddContract.ViewModel"/>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.ui.blocks.container.ContainerContract.ViewModel" />
+    </data>
+
+    <RelativeLayout
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_width="match_parent"
+        bind:setId="@{viewmodel.containerId}"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_ROW)}">
+
+                <include layout="@layout/icon_add"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            bind:setId="@{viewmodel.layoutId}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent" />
+
+        <LinearLayout
+            bind:setId="@{viewmodel.contentId}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/card_blocks_add" bind:viewmodel="@{viewmodel.addViewModel}"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

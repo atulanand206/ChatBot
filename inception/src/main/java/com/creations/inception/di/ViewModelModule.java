@@ -1,7 +1,9 @@
 package com.creations.inception.di;
 
 import com.creations.inception.ui.blogger.BloggerModule;
+import com.creations.mvvm.ui.blocks.add.AddModule;
 import com.creations.mvvm.ui.blocks.board.BoardModule;
+import com.creations.mvvm.ui.blocks.container.ContainerModule;
 import com.creations.mvvm.ui.checkbox.CheckboxModule;
 import com.creations.mvvm.ui.contact.ContactModule;
 import com.creations.mvvm.ui.drawer.DrawerModule;
@@ -21,7 +23,9 @@ import dagger.Module;
         ImageModule.class,
         BloggerModule.class,
         DrawerModule.class,
-        BoardModule.class
+        BoardModule.class,
+        ContainerModule.class,
+        AddModule.class
 })
 public class ViewModelModule {
 

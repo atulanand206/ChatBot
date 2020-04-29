@@ -12,6 +12,7 @@ import com.creations.mvvm.databinding.ContentAdvisoryNavigationBinding;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationState;
+import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.animate.AnimatorViewModel;
 import com.creations.mvvm.ui.exp.NavigationRecycler;
 import com.creations.mvvm.ui.image.ImageAdapter;
@@ -56,7 +57,7 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
                             @NonNull final ImageViewModel.Factory imageFactory,
                             @NonNull final NavigationBarViewModel.Factory navigationFactory,
                             @NonNull final IAPIChat airspaceApi) {
-        super(application);
+        super(application, new Props());
         mImageFactory = Preconditions.requiresNonNull(imageFactory, "ImageFactory");
         mTitle.postValue("Let's get going!");
         IAPIChat mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "AirspaceApi");

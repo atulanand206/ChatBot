@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.widget.LinearLayout.LayoutParams"/>
         <variable
@@ -12,17 +11,17 @@
 
     <RelativeLayout
         android:translationZ="@dimen/margin_xxxxx_large"
-        app:setId="@{viewmodel.containerId}"
+        bind:setId="@{viewmodel.containerId}"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <View
-            app:setId="@{viewmodel.layoutId}"
+            bind:setId="@{viewmodel.layoutId}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent" />
 
         <RelativeLayout
-            app:setId="@{viewmodel.contentId}"
+            bind:setId="@{viewmodel.contentId}"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

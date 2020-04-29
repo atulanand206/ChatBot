@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.example.application.utils.RecyclerUtils.LayoutType"/>
         <import type="android.widget.LinearLayout.LayoutParams"/>
         <variable
             name="viewmodel"
@@ -31,7 +32,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/red"
-                        bind:verticalAdapter="@{viewmodel.navigationAdapter}" />
+                        bind:recyclerLayoutManager="@{LayoutType.LINEAR_VERTICAL}"
+                        bind:adapter="@{viewmodel.navigationAdapter}" />
 
                     <View
                         android:layout_width="match_parent"
@@ -53,7 +55,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#2c3e50"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
+                        bind:recyclerLayoutManager="@{LayoutType.LINEAR_HORIZONTAL}"
+                        bind:adapter="@{viewmodel.imageAdapter}" />
 
                     <View
                         android:layout_width="match_parent"
@@ -65,7 +68,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#de6262"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
+                        bind:recyclerLayoutManager="@{LayoutType.LINEAR_HORIZONTAL}"
+                        bind:adapter="@{viewmodel.imageAdapter}" />
 
                     <View
                         android:layout_width="match_parent"
@@ -77,7 +81,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#ffb88c"
-                        bind:horizontalAdapter="@{viewmodel.imageAdapter}" />
+                        bind:recyclerLayoutManager="@{LayoutType.LINEAR_HORIZONTAL}"
+                        bind:adapter="@{viewmodel.imageAdapter}" />
 
                 </LinearLayout>
 

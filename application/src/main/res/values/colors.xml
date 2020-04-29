@@ -24,4 +24,12 @@
     <color name="gray2">#e2e8ed</color>
 
     <color name="warm_gray">#E5E5E5</color>
+
+    <color name="pal_orange">#F3795F</color>
+    <color name="pal_yellow">#E1F35F</color>
+    <color name="pal_green">#2FDF7F</color>
+    <color name="pal_blue">#2F77DF</color>
+    <color name="pal_pink">#DF2F7F</color>
+    <color name="pal_red">#DF2F3C</color>
+
 </resources>

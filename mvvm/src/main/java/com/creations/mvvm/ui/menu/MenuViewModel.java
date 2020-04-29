@@ -14,6 +14,7 @@ import com.example.application.messages.IMessageManager;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -37,6 +38,7 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
     public MenuViewModel(@NonNull final Application application,
                          @NonNull final T props) {
         super(application, props);
+        setVisibility(View.VISIBLE);
     }
 
     private void setMessageManager(IMessageManager messageManager) {
@@ -44,8 +46,8 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
     }
 
     @Override
-    public Integer getVisibility() {
-        return mVisibility.getValue();
+    public LiveData<Integer> getVisibility() {
+        return mVisibility;
     }
 
     @Override
@@ -76,12 +78,12 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
     }
 
     @Override
-    public Integer getBackgroundColor() {
-        return mBackgroundColor.getValue();
+    public LiveData<Integer> getBackgroundColor() {
+        return mBackgroundColor;
     }
 
     @Override
-    public void setBackgroundColor(final int backgroundColorResId) {
+    public void setBackgroundColor(@ColorRes final int backgroundColorResId) {
         mBackgroundColor.postValue(backgroundColorResId);
     }
 

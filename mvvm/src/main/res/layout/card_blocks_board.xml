@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
         <variable
@@ -9,15 +10,17 @@
     </data>
 
     <RelativeLayout
-        android:visibility="@{viewmodel.visibility}"
+        app:visibility="@{viewmodel.visibility}"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:verticalAdapter="@{viewmodel.adapter}"/>
+            android:scrollbars="vertical"
+            bind:recyclerLayoutManager="@{viewmodel.layoutType}"
+            bind:adapter="@{viewmodel.adapter}"/>
 
     </RelativeLayout>
 </layout>

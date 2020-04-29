@@ -1,21 +1,21 @@
 package com.creations.mvvm.ui.animate;
 
 import com.creations.mvvm.live.LiveRunnable;
-import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.menu.MenuContract;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
-public interface IAnimatorViewModel extends MenuContract.ViewModel<Props> {
+public interface IAnimatorViewModel<T extends Props> extends MenuContract.ViewModel<T> {
     @NonNull
-    MutableLiveData<Integer> getContainerId();
-
-    @NonNull
-    MutableLiveData<Integer> getLayoutId();
+    LiveData<Integer> getContainerId();
 
     @NonNull
-    MutableLiveData<Integer> getContentId();
+    LiveData<Integer> getLayoutId();
+
+    @NonNull
+    LiveData<Integer> getContentId();
 
     @NonNull
     LiveRunnable getAnimation();

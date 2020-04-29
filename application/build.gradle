@@ -39,7 +39,7 @@ dependencies {
     implementation "androidx.annotation:annotation:${annotationVersion}"
     implementation "androidx.legacy:legacy-support-v4:${legacySupportVersion}"
     implementation "com.google.android.material:material:${supportLibraryVersion}"
-
+    implementation "com.github.beksomega:loopinglayout:${loopingLayoutVersion}"
     implementation "androidx.cardview:cardview:${cardViewVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerViewVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"

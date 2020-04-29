@@ -5,7 +5,7 @@ import android.app.Application;
 import com.creations.condition.Preconditions;
 import com.creations.inception.ui.blogger.BloggerViewModel;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
-import com.creations.mvvm.ui.blocks.board.BoardViewModel;
+import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
 import com.creations.mvvm.ui.menu.MenuViewModel;
 import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
@@ -24,13 +24,13 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
     @NonNull
     private final DrawerViewModel mDrawer;
     @NonNull
-    private final BoardViewModel mBoard;
+    private final ContainerViewModel mBoard;
 
     public RequestViewModel(@NonNull final Application application,
                             @NonNull final NavigationBarViewModel.Factory navigationFactory,
                             @NonNull final BloggerViewModel.Factory bloggerFactory,
                             @NonNull final DrawerViewModel.Factory drawerFactory,
-                            @NonNull final BoardViewModel.Factory boardFactory) {
+                            @NonNull final ContainerViewModel.Factory boardFactory) {
         super(application, new NavigationBarProps());
         mNavigation = navigationFactory.create();
         mBlogger = bloggerFactory.create();
@@ -58,7 +58,7 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
 
     @NonNull
     @Override
-    public BoardViewModel getBoard() {
+    public ContainerViewModel getBoard() {
         return mBoard;
     }
 
@@ -71,13 +71,13 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
         @NonNull
         private final DrawerViewModel.Factory mDrawerFactory;
         @NonNull
-        private final BoardViewModel.Factory mBoardFactory;
+        private final ContainerViewModel.Factory mBoardFactory;
 
         public RequestFactory(@NonNull final Application application,
                               @NonNull final NavigationBarViewModel.Factory navigationFactory,
                               @NonNull final BloggerViewModel.Factory bloggerFactory,
                               @NonNull final DrawerViewModel.Factory drawerFactory,
-                              @NonNull final BoardViewModel.Factory boardFactory) {
+                              @NonNull final ContainerViewModel.Factory boardFactory) {
             super(RequestViewModel.class, application);
             mNavigationFactory = Preconditions.requiresNonNull(navigationFactory, "NavigationFactory");
             mBloggerFactory = Preconditions.requiresNonNull(bloggerFactory, "BloggerFactory");

@@ -44,6 +44,7 @@ dependencies {
     implementation "com.google.android.material:material:${supportLibraryVersion}"
 
     implementation "com.github.beksomega:loopinglayout:${loopingLayoutVersion}"
+    implementation "com.github.rubensousa:gravitysnaphelper:${gravitySnapHelper}"
 
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"

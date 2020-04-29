@@ -74,7 +74,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@{viewmodel.disabled ? null : (viewmodel.hintText ?? hint)}"
-                android:text="@{viewmodel.text}"
                 android:maxLength="@{viewmodel.textLength != null ? viewmodel.textLength : 1000000}"
                 android:onTextChanged="@{viewmodel::onTextChangedPhone}"
                 android:afterTextChanged="@{viewmodel::afterTextChangedText}"

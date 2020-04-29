@@ -4,6 +4,7 @@ import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.text.TextContract;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
@@ -15,16 +16,16 @@ public interface MenuContract {
 
         void setVisibility(final Integer visibility);
 
-        Integer getVisibility();
+        LiveData<Integer> getVisibility();
 
         @NonNull
         LiveEvent.Mutable<Integer> getStatusBarColorEvent();
 
         void setTopColor(int backgroundColorResId);
 
-        Integer getBackgroundColor();
+        LiveData<Integer> getBackgroundColor();
 
-        void setBackgroundColor(int backgroundColorResId);
+        void setBackgroundColor(@ColorRes int backgroundColorResId);
 
         void setProgressBarVisibility(int progressBarVisibility);
 

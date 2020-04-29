@@ -16,12 +16,6 @@ public interface IFormViewModelBase<T extends Props> extends MenuContract.ViewMo
     LiveData<Boolean> isDisabled();
 
     /**
-     * @return liveData corresponding to the text.
-     */
-    @NonNull
-    LiveData<String> getText();
-
-    /**
      * @return the string entered in the form field.
      */
     @NonNull

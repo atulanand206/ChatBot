@@ -45,4 +45,8 @@
     <dimen name="image_large_height">420dp</dimen>
     <dimen name="image_list_width">170dp</dimen>
     <dimen name="image_large_width">300dp</dimen>
+
+    <dimen name="grid_width">10dp</dimen>
+    <dimen name="margin_dialog_top">150dp</dimen>
+    <dimen name="icon_width">64dp</dimen>
 </resources>
