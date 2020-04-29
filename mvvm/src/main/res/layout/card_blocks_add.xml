@@ -17,8 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_BACKGROUND)}">
+            android:layout_height="match_parent">
             <include layout="@layout/gray_background"/>
 
         </LinearLayout>
@@ -39,20 +38,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_BUTTON)}"
                 android:orientation="horizontal">
 
-                <include layout="@layout/icon_back" />
+                <LinearLayout
+                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_BACKGROUND)}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/icon_back" />
+
+                </LinearLayout>
 
                 <EditText
-                    android:layout_marginTop="@dimen/font_larger"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_xx_large"
                     android:afterTextChanged="@{viewmodel::afterTextChanged}"
                     android:text="@{viewmodel.text}"/>
 
-                <include layout="@layout/icon_done" />
+                <LinearLayout
+                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_BUTTON)}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/icon_done" />
+                </LinearLayout>
 
             </LinearLayout>
 

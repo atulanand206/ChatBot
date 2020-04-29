@@ -107,6 +107,6 @@ public class PropsModule {
     @Provides
     @NonNull
     public static Add provideAdd() {
-        return BoardUtils.testAdd();
+        return BoardUtils.newRow();
     }
 }

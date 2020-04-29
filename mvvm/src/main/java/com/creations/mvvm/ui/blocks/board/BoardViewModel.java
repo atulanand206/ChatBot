@@ -60,9 +60,9 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
             Row rowInfo = board.getRows().get(i);
             viewModel.setProps(rowInfo);
             int finalI = i;
-            viewModel.getAddEvent().observeForever(sentinel -> {
-                mAddCellEvent.postEvent(new RowWrapper(rowInfo, finalI));
-            });
+//            viewModel.getAddEvent().observeForever(sentinel -> {
+//                mAddCellEvent.postEvent(new RowWrapper(rowInfo, finalI));
+//            });
             adapter.addItem(viewModel);
         }
     }

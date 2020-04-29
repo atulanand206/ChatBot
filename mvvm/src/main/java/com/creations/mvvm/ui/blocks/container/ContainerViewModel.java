@@ -14,6 +14,7 @@ import com.creations.mvvm.ui.blocks.board.BoardContract;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.example.application.utils.RecyclerUtils;
 
 import androidx.annotation.NonNull;
 
@@ -40,6 +41,13 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         mBoardViewModel = boardFactory.create();
         mBoardViewModel.setProps(props.getBoard());
         mBorderWidth.postValue(props.getBorderWidth());
+        mAddViewModel.getAddDoneEvent().observeForever(row -> {
+            if (row instanceof Row) {
+                ((Row) row).setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
+                mBoardViewModel.addRow(((Row) row));
+            }
+            mAddViewModel.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -47,11 +55,6 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         if (object instanceof Integer){
             if (object.equals(CLICK_ADD_ROW)) {
                 mAddViewModel.setProps(BoardUtils.newRow());
-                mAddViewModel.getAddDoneEvent().observeForever(row -> {
-                    if (row instanceof Row)
-                        mBoardViewModel.addRow(((Row) row));
-                    mAddViewModel.setVisibility(View.GONE);
-                });
                 mAddViewModel.setVisibility(View.VISIBLE);
             }
         }

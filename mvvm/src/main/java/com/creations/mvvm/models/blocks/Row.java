@@ -17,22 +17,16 @@ public class Row extends Props {
     private List<Cell> cells;
 
     public Row() {
-        this.cells = new ArrayList<>();
-        this.layoutType = RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
+        this(false, RecyclerUtils.LayoutType.LINEAR_HORIZONTAL, new ArrayList<>());
     }
 
-    public Row(@NonNull final Cell cell) {
-        this.cells = new ArrayList<>();
-        this.cells.add(cell);
+    public Row(@NonNull final List<Cell> cells, RecyclerUtils.LayoutType layoutType) {
+        this(false, layoutType, cells);
     }
 
-    public Row(@NonNull final List<Cell> cells) {
-        this.cells = cells;
-    }
-
-    public Row(final boolean addVisibility,
-               @NonNull final List<Cell> cells) {
+    public Row(boolean addVisibility, RecyclerUtils.LayoutType layoutType, List<Cell> cells) {
         this.addVisibility = addVisibility;
+        this.layoutType = layoutType;
         this.cells = cells;
     }
 

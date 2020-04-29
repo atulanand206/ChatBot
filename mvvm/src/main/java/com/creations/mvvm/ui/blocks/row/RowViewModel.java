@@ -51,8 +51,9 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         super.setProps(rowInfo);
         adapter.clearItems();
         addViewModel = mCellFactory.create();
+        setLayoutType(rowInfo.getLayoutType());
         addViewModel.setProps(BoardUtils.addCell());
-        addViewModel.getAddEvent().observeForever(sentinel -> mAddEvent.postEvent(rowInfo));
+//        addViewModel.getAddEvent().observeForever(sentinel -> mAddEvent.postEvent(rowInfo));
         for (Cell cell : rowInfo.getCells()) {
             CellViewModel cellViewModel = mCellFactory.create();
             cellViewModel.setProps(cell);

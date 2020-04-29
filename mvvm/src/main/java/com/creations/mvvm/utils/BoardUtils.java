@@ -4,6 +4,7 @@ import com.creations.mvvm.models.blocks.Add;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.Row;
+import com.example.application.utils.RecyclerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import static com.example.application.utils.RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
+import static com.example.application.utils.RecyclerUtils.LayoutType.LOOP_HORIZONTAL;
 
 public class BoardUtils {
 
@@ -29,7 +33,7 @@ public class BoardUtils {
         List<Cell> cells = new ArrayList<>();
         for (int i=0;i<size;i++)
             cells.add(randomCell());
-        return new Row(cells);
+        return new Row(cells, LOOP_HORIZONTAL);
     }
 
     public static Board randomBoard(final int size) {
@@ -82,7 +86,7 @@ public class BoardUtils {
             for (char cell : block) {
                 row.add(new Cell(cell));
             }
-            rows.add(new Row(row));
+            rows.add(new Row(row, LOOP_HORIZONTAL));
         }
         return new Board(rows);
     }
@@ -91,34 +95,30 @@ public class BoardUtils {
         return new Cell(true);
     }
 
-    public static Add testAdd() {
-        return new Add(randomBoard(1).getRows());
-    }
-
     public static Cell minusCell() {
         return new Cell('-', false);
     }
 
-    public static Row row(@Nullable String word) {
+    public static Row row(@Nullable String word, RecyclerUtils.LayoutType layoutType) {
         List<Cell> cells = new ArrayList<>();
         if (word == null)
-            return new Row(cells);
+            return new Row(cells, layoutType);
         for (int i=0;i<word.length();i++)
             cells.add(new Cell(word.charAt(i)));
-        return new Row(cells);
+        return new Row(cells, layoutType);
     }
 
     public static Board board(List<String> words) {
         List<Row> rows = new ArrayList<>();
         for (String word : words)
-            rows.add(row(word));
+            rows.add(row(word, LINEAR_HORIZONTAL));
         return new Board(rows);
     }
 
     public static Board board(String[] words) {
         List<Row> rows = new ArrayList<>();
         for (String word : words)
-            rows.add(row(word));
+            rows.add(row(word, LOOP_HORIZONTAL));
         return new Board(rows);
     }
 

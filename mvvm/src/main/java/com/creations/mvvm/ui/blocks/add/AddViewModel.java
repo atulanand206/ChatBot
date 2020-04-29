@@ -14,12 +14,12 @@ import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
-import com.example.application.utils.RecyclerUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static android.view.View.GONE;
+import static com.example.application.utils.RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -54,9 +54,10 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
             if (object.equals(CLICK_BACKGROUND))
                 setVisibility(GONE);
             else if (object.equals(CLICK_ADD_BUTTON)) {
-                Row row = BoardUtils.row(getText().getValue());
-                row.setLayoutType(RecyclerUtils.LayoutType.LINEAR_HORIZONTAL);
+                Row row = BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL);
+                row.setLayoutType(LINEAR_HORIZONTAL);
                 setProps(new Add(row));
+                mAddDoneEvent.postEvent(row);
             }
         }
     }
@@ -64,7 +65,7 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     @Override
     public void afterTextChanged(@Nullable Editable editable) {
         super.afterTextChanged(editable);
-        mBoardViewModel.setProps(new Board(BoardUtils.row(getText().getValue())));
+        mBoardViewModel.setProps(new Board(BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL)));
     }
 
     @NonNull
