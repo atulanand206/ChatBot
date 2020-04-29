@@ -32,6 +32,10 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     @NonNull
     private final LiveEvent.Mutable<Props> mAddDoneEvent = new LiveEvent.Mutable<>();
 
+    @NonNull
+    private final LiveEvent.Mutable<Props> mAddCancelEvent = new LiveEvent.Mutable<>();
+
+
     public AddViewModel(@NonNull final Application application,
                         @NonNull final BoardViewModel.Factory rowFactory,
                         @NonNull final Add props) {
@@ -51,9 +55,10 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     @Override
     public void onClick(@NonNull Object object) {
         if (object instanceof Integer){
-            if (object.equals(CLICK_BACKGROUND))
+            if (object.equals(CLICK_BACKGROUND)) {
                 setVisibility(GONE);
-            else if (object.equals(CLICK_ADD_BUTTON)) {
+                mAddCancelEvent.postEvent(new Props());
+            } else if (object.equals(CLICK_ADD_BUTTON)) {
                 Row row = BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL);
                 row.setLayoutType(LINEAR_HORIZONTAL);
                 setProps(new Add(row));
@@ -78,6 +83,12 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     @Override
     public LiveEvent.Mutable<Props> getAddDoneEvent() {
         return mAddDoneEvent;
+    }
+
+    @NonNull
+    @Override
+    public LiveEvent.Mutable<Props> getAddCancelEvent() {
+        return mAddCancelEvent;
     }
 
     public static class Factory extends MVVMViewModel.Factory<AddViewModel> {

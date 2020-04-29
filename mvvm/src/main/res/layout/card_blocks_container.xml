@@ -26,6 +26,7 @@
             <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
 
             <LinearLayout
+                android:visibility="@{viewmodel.addVisibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

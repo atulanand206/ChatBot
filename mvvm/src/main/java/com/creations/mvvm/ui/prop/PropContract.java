@@ -1,5 +1,6 @@
 package com.creations.mvvm.ui.prop;
 
+import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
@@ -20,6 +21,12 @@ public interface PropContract {
         T getProps();
 
         void setProps(@NonNull final T props);
+
+        void closeKeyboard();
+
+        @NonNull
+        LiveRunnable.Mutable getCloseKeyboardEvent();
+
     }
 
 }

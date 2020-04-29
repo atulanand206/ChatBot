@@ -3,6 +3,7 @@ package com.creations.mvvm.ui.prop;
 import android.app.Application;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
@@ -49,6 +50,19 @@ public class PropViewModel<T extends Props> extends MVVMViewModel implements Pro
         mId.postValue(id);
     }
 
+    @NonNull
+    private final LiveRunnable.Mutable mKeyboardCloseEvent = new LiveRunnable.Mutable();
+
+    @NonNull
+    @Override
+    public LiveRunnable.Mutable getCloseKeyboardEvent() {
+        return mKeyboardCloseEvent;
+    }
+
+    @Override
+    public void closeKeyboard() {
+        mKeyboardCloseEvent.postEvent();
+    }
 
     public static class Factory<T extends Props> extends MVVMViewModel.Factory<PropViewModel> {
 

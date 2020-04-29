@@ -67,6 +67,7 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
         mViewModel.getNavigation().getStatusBarColorEvent().listen(getViewLifecycleOwner(), mListener::setStatusBarColr);
         mViewModel.getBlogger().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
         mViewModel.getBoard().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
+        mViewModel.getBoard().getCloseKeyboardEvent().listen(getViewLifecycleOwner(), () -> hideKeyboard(mRootView));
         mViewModel.getDrawer().getOpenDrawerEvent().listen(getViewLifecycleOwner(), super::openDrawer);
         mViewModel.getDrawer().getCloseDrawerEvent().listen(getViewLifecycleOwner(), super::closeDrawer);
     }

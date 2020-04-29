@@ -9,7 +9,6 @@ import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageType;
 import com.example.application.utils.Animations;
 import com.example.application.utils.NavigationDrawer;
-import com.example.application.utils.ViewUtils;
 
 import javax.inject.Inject;
 
@@ -39,11 +38,11 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
 
     public void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (ViewUtils.isKeyboardShown(view.getRootView())) {
+//        if (ViewUtils.isKeyboardShown(view.getRootView())) {
             if (imm == null)
                 return;
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+//        }
     }
 
     public boolean isActive() {

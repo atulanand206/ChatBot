@@ -13,6 +13,8 @@ public interface ContainerContract {
 
     interface ViewModel<T extends Props> extends IAnimatorViewModel<T> {
 
+        int MAX_ROWS = 5;
+
         @NonNull
         AddContract.ViewModel getAddViewModel();
 
@@ -24,6 +26,9 @@ public interface ContainerContract {
 
         @NonNull
         ScoreContract.ViewModel getScoreViewModel();
+
+        @NonNull
+        MutableLiveData<Integer> getAddVisibility();
     }
 
 }

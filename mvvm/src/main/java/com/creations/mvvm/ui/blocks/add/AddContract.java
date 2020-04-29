@@ -20,6 +20,9 @@ public interface AddContract {
 
         @NonNull
         LiveEvent.Mutable<Props> getAddDoneEvent();
+
+        @NonNull
+        LiveEvent.Mutable<Props> getAddCancelEvent();
     }
 
 }

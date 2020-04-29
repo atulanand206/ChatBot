@@ -35,6 +35,8 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
     private final AddViewModel mAddViewModel;
     @NonNull
     private final ScoreViewModel mScoreViewModel;
+    @NonNull
+    private final MutableLiveData<Integer> mAddVisibility = new MutableLiveData<>();
 
     public ContainerViewModel(@NonNull final Application application,
                               @NonNull final AddViewModel.Factory addFactory,
@@ -48,15 +50,21 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         mBoardViewModel.setProps(props.getBoard());
         mBorderWidth.postValue(props.getBorderWidth());
         mAddViewModel.getAddDoneEvent().observeForever(row -> {
+            mAddViewModel.setVisibility(View.GONE);
             if (row instanceof Row) {
                 if (((Row) row).getCells().isEmpty())
                     return;
                 ((Row) row).setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
                 mBoardViewModel.addRow(((Row) row));
                 mScoreViewModel.add("1");
+                if (mBoardViewModel.getAdapter().getViewModels().size() == MAX_ROWS) {
+                    mAddVisibility.postValue(View.GONE);
+                }
+                closeKeyboard();
             }
-            mAddViewModel.setVisibility(View.GONE);
         });
+        mAddViewModel.getAddCancelEvent().observeForever(props1 -> closeKeyboard());
+        mAddVisibility.postValue(View.VISIBLE);
     }
 
     @Override
@@ -91,6 +99,12 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
     @Override
     public ScoreContract.ViewModel getScoreViewModel() {
         return mScoreViewModel;
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<Integer> getAddVisibility() {
+        return mAddVisibility;
     }
 
     public static class Factory extends MVVMViewModel.Factory<ContainerViewModel> {
