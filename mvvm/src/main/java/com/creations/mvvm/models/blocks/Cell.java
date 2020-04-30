@@ -60,7 +60,7 @@ public class Cell extends Props implements Serializable {
         this.textColorResId = textColorResId;
         this.textSize = textSize;
         this.side = side;
-        this.state = State.COLORS;
+        this.state = State.NOT_SELECTED;
     }
 
     public int getColorResId() {

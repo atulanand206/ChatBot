@@ -17,6 +17,8 @@ import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.utils.RecyclerUtils;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
@@ -57,12 +59,31 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
         adapter.clearItems();
         for (int i=0;i<board.getRows().size();i++) {
             RowViewModel viewModel = mRowFactory.create();
+            mContextCallback.addSource(viewModel.getContextCallback());
             Row rowInfo = board.getRows().get(i);
             viewModel.setProps(rowInfo);
-            int finalI = i;
-//            viewModel.getAddEvent().observeForever(sentinel -> {
-//                mAddCellEvent.postEvent(new RowWrapper(rowInfo, finalI));
-//            });
+            int finalI1 = i;
+            viewModel.getClickEvent().observeForever(o -> {
+                if (o instanceof Row) {
+                    List<RowContract.ViewModel> viewModels = adapter.getViewModels();
+                    BoardViewModel.this.getClickEvent().postEvent(getProps().getRows().get(finalI1).getCells().get(((Row) o).getClickedIndex()));
+                    int size = viewModels.size();
+                    if (size < 2)
+                        return;
+                    for (int j = 0; j < size; j++) {
+                        viewModels.get(j).setClickable(false);
+                    }
+                    if (finalI1 + 1 < size - 1) {
+                        viewModels.get(finalI1 + 1).setClickable(true);
+                        viewModels.get(finalI1 + 1).shuffle(true);
+                    }
+                    if (finalI1 - 1 >= 0) {
+                        viewModels.get(finalI1 - 1).setClickable(true);
+                        viewModels.get(finalI1 - 1).shuffle(false);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
             adapter.addItem(viewModel);
         }
     }

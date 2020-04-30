@@ -75,8 +75,14 @@ public class BoardUtils {
 //                {'g', 'e', 'j', 'u', 'w', 'q', 'h', 'w', 'n', 'w', 'n', 'w', 't'},
 //        });
         return board(new String[] {
-//                "DRAMA",
-//                "FEATHER", "DOPE", "HEATHENS"
+                "DRAMATICS",
+                "FEATHER",
+                "DOPE",
+                "HEATHENS",
+                "BASKETBALL",
+                "DIVINE",
+                "EMIWAY",
+                "OOOOO"
         });
     }
 
@@ -126,4 +132,5 @@ public class BoardUtils {
     public static Add newRow() {
         return new Add(new Row());
     }
+
 }

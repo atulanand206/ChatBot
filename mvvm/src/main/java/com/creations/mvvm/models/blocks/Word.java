@@ -8,7 +8,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class Row extends RecyclerProps {
+public class Word extends RecyclerProps {
 
     private boolean addVisibility = false;
 
@@ -16,15 +16,15 @@ public class Row extends RecyclerProps {
 
     private List<Cell> cells;
 
-    public Row() {
+    public Word() {
         this(false, RecyclerUtils.LayoutType.LINEAR_HORIZONTAL, new ArrayList<>());
     }
 
-    public Row(@NonNull final List<Cell> cells, RecyclerUtils.LayoutType layoutType) {
+    public Word(@NonNull final List<Cell> cells, RecyclerUtils.LayoutType layoutType) {
         this(false, layoutType, cells);
     }
 
-    public Row(boolean addVisibility, RecyclerUtils.LayoutType layoutType, List<Cell> cells) {
+    public Word(boolean addVisibility, RecyclerUtils.LayoutType layoutType, List<Cell> cells) {
         this.addVisibility = addVisibility;
         this.layoutType = layoutType;
         this.cells = cells;

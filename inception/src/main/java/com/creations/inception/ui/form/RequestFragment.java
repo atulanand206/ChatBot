@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.creations.condition.Preconditions;
 import com.creations.inception.R;
 import com.creations.inception.databinding.FragmentRequestBinding;
 import com.creations.inception.ui.form.RequestModule.RequestSubcomponent.Builder;
 import com.creations.mvvm.fragment.MVVMFragmentView;
+import com.example.application.messages.MessageType;
 
 import javax.inject.Inject;
 
@@ -68,6 +70,7 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
         mViewModel.getBlogger().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
         mViewModel.getBoard().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
         mViewModel.getBoard().getCloseKeyboardEvent().listen(getViewLifecycleOwner(), () -> hideKeyboard(mRootView));
+        mViewModel.getBoard().getWordViewModel().getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
         mViewModel.getDrawer().getOpenDrawerEvent().listen(getViewLifecycleOwner(), super::openDrawer);
         mViewModel.getDrawer().getCloseDrawerEvent().listen(getViewLifecycleOwner(), super::closeDrawer);
     }

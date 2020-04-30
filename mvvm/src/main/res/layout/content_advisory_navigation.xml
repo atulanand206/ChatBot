@@ -27,7 +27,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:recyclerLayoutManager="@{LayoutType.LINEAR_HORIZONTAL}"
+                app:recyclerLayoutManager="@{viewmodel.layoutType}"
                 app:adapter="@{viewmodel.adapter}"/>
 
 

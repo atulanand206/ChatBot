@@ -13,7 +13,13 @@ public interface CellContract {
     interface ViewModel<T extends Props> extends IRecyclerViewModel<T> {
 
         @NonNull
+        LiveRunnable.Mutable getRefreshEvent();
+
+        @NonNull
         LiveRunnable.Mutable getAddEvent();
+
+        @NonNull
+        LiveRunnable.Mutable getSelectionEvent();
 
         void setColorResId(@ColorRes final int colorResId);
 

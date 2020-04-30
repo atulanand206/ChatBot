@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.prop;
 
 import com.creations.mvvm.live.LiveRunnable;
+import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.viewmodel.IMVVMViewModel;
 
@@ -27,6 +28,10 @@ public interface PropContract {
         @NonNull
         LiveRunnable.Mutable getCloseKeyboardEvent();
 
+        @NonNull
+        MutableLiveData<Boolean> isClickable();
+
+        void setClickable(boolean clickable);
     }
 
 }

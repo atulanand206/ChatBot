@@ -25,9 +25,13 @@ public class EditViewModel<T extends Props> extends PropViewModel<T> implements 
     @NonNull
     private final LiveEvent.Mutable<T> mOnClickEvent = new LiveEvent.Mutable<>();
 
+    @NonNull
+    private final LiveEvent.Mutable<String> mToastEvent = new LiveEvent.Mutable<>();
+
     @ColorRes
     private int[] palette = new int[] {R.color.pal_blue, R.color.pal_green, R.color.pal_orange,
-            R.color.pal_pink, R.color.pal_red, R.color.pal_yellow};
+            R.color.pal_pink, R.color.pal_red, R.color.pal_yellow, R.color.colorPrimary,
+            R.color.colorPrimaryDark};
     private int currentPaletteIndex = 0;
 
     public EditViewModel(@NonNull final Application application,
@@ -48,8 +52,16 @@ public class EditViewModel<T extends Props> extends PropViewModel<T> implements 
     }
 
     @Override
-    public void shuffle() {
-        currentPaletteIndex = (currentPaletteIndex+1) % palette.length;
+    public void shuffle(final boolean shuffle) {
+        if (shuffle) {
+            currentPaletteIndex++;
+            if (currentPaletteIndex == palette.length)
+                currentPaletteIndex = 0;
+        } else {
+            currentPaletteIndex--;
+            if (currentPaletteIndex == -1)
+                currentPaletteIndex = palette.length-1;
+        }
     }
 
     @ColorRes
@@ -66,6 +78,12 @@ public class EditViewModel<T extends Props> extends PropViewModel<T> implements 
     @Override
     public void onClick(@NonNull final Object object) {
 
+    }
+
+    @NonNull
+    @Override
+    public LiveEvent.Mutable<String> getToastEvent() {
+        return mToastEvent;
     }
 
     public static class Factory<T extends Props> extends MVVMViewModel.Factory<EditViewModel> {

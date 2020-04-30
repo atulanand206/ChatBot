@@ -3,6 +3,7 @@ package com.creations.mvvm.models.blocks;
 import com.creations.mvvm.models.props.Props;
 
 import java.io.Serializable;
+import java.util.List;
 
 import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
@@ -43,4 +44,17 @@ public class ContainerProps extends Props implements Serializable {
     public Score getScore() {
         return score;
     }
+
+    public void selectRow(final int pos) {
+        List<Row> rows = board.getRows();
+        for (int i=0;i<rows.size();i++)
+            rows.get(i).setClickable(pos == i);
+    }
+
+    public void deselectAll() {
+        List<Row> rows = board.getRows();
+        for (int i=0;i<rows.size();i++)
+            rows.get(i).setClickable(true);
+    }
+
 }

@@ -17,6 +17,8 @@ import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.messages.MessageType;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 
 /**
@@ -53,14 +55,44 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         addViewModel = mCellFactory.create();
         setLayoutType(rowInfo.getLayoutType());
         addViewModel.setProps(BoardUtils.addCell());
-//        addViewModel.getAddEvent().observeForever(sentinel -> mAddEvent.postEvent(rowInfo));
-        for (Cell cell : rowInfo.getCells()) {
+        for (int i=0;i<rowInfo.getCells().size();i++) {
+            Cell cell = rowInfo.getCells().get(i);
             CellViewModel cellViewModel = mCellFactory.create();
             cellViewModel.setProps(cell);
+            cellViewModel.isClickable().postValue(rowInfo.isClickable());
+            int finalI = i;
+            cellViewModel.getRefreshEvent().observeForever(sentinel -> {
+                adapter.notifyDataSetChanged();
+            });
+            cellViewModel.getClickEvent().observeForever(o -> {
+                if (o instanceof Cell) {
+                    if (rowInfo.isClickable()) {
+                        getProps().setClickedIndex(finalI);
+                        RowViewModel.this.getClickEvent().postEvent(getProps());
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
             adapter.addItem(cellViewModel);
         }
         setVisibility(View.VISIBLE);
         setEditable(rowInfo.isAddVisibility());
+    }
+
+    @Override
+    public void setClickable(boolean clickable) {
+        super.setClickable(clickable);
+        List<CellContract.ViewModel> viewModels = adapter.getViewModels();
+        for (CellContract.ViewModel viewModel : viewModels)
+            viewModel.setClickable(clickable);
+    }
+
+    @Override
+    public void shuffle(final boolean shuffle) {
+        super.shuffle(shuffle);
+        List<CellContract.ViewModel> viewModels = adapter.getViewModels();
+        for (CellContract.ViewModel viewModel : viewModels)
+            viewModel.shuffle(shuffle);
     }
 
     @NonNull

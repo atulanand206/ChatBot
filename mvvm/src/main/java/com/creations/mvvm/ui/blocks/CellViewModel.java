@@ -32,6 +32,12 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     @NonNull
     private final LiveRunnable.Mutable mAddEvent = new LiveRunnable.Mutable();
 
+    @NonNull
+    private final LiveRunnable.Mutable mRefreshEvent = new LiveRunnable.Mutable();
+
+    @NonNull
+    private final LiveRunnable.Mutable mSelectionToggleEvent = new LiveRunnable.Mutable();
+
     public CellViewModel(@NonNull final Application application,
                          @NonNull final Cell cell) {
         super(application, cell);
@@ -41,7 +47,8 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     @Override
     public void setProps(@NonNull final Cell cell) {
         super.setProps(cell);
-        setBackgroundColor(cell.getColorResId());
+        setBackgroundColor(getActiveColor());
+        setClickable(cell.isClickable());
         setCharacter(cell.getCharacter());
         setTextColorResId(mApplication.getResources().getColor(cell.getTextColorResId()));
         setTextSize(mApplication.getResources().getDimension(cell.getTextSize()));
@@ -51,39 +58,45 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
 
     @Override
     public void onClick() {
-        switch (getProps().getType()) {
-            case Cell.Type.ADD:
-                showAddDialog();
-                break;
-            case Cell.Type.FULL:
-                switch (getProps().getState()) {
-                    case Cell.State.COLORS:
-                        shuffle();
-                        break;
-                    case Cell.State.SELECTED:
-                        deselect();
-                        break;
-                    case Cell.State.NOT_SELECTED:
-                        select();
-                        break;
-                }
-                break;
+        Boolean clickable = isClickable().getValue();
+        if (clickable != null && clickable) {
+            switch (getProps().getType()) {
+                case Cell.Type.ADD:
+                    showAddDialog();
+                    break;
+                case Cell.Type.FULL:
+                    switch (getProps().getState()) {
+                        case Cell.State.COLORS:
+                            shuffle(true);
+                            mRefreshEvent.postEvent();
+                            break;
+                        case Cell.State.SELECTED:
+                            deselect();
+                            break;
+                        case Cell.State.NOT_SELECTED:
+                            select();
+                            break;
+                    }
+                    break;
+            }
         }
         super.onClick();
     }
 
     @Override
-    public void shuffle() {
-        super.shuffle();
+    public void shuffle(final boolean shuffle) {
+        super.shuffle(shuffle);
         setBackgroundColor(getActiveColor());
     }
 
     private void select() {
-
+        getClickEvent().postEvent(getProps());
+        getProps().setState(Cell.State.SELECTED);
     }
 
     private void deselect() {
-
+        getClickEvent().postEvent(getProps());
+        getProps().setState(Cell.State.NOT_SELECTED);
     }
 
     private void showAddDialog() {
@@ -92,8 +105,20 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
 
     @NonNull
     @Override
+    public LiveRunnable.Mutable getRefreshEvent() {
+        return mRefreshEvent;
+    }
+
+    @NonNull
+    @Override
     public LiveRunnable.Mutable getAddEvent() {
         return mAddEvent;
+    }
+
+    @NonNull
+    @Override
+    public LiveRunnable.Mutable getSelectionEvent() {
+        return mSelectionToggleEvent;
     }
 
     @Override

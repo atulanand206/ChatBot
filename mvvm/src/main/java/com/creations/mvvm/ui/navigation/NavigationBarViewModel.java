@@ -12,6 +12,7 @@ import com.creations.mvvm.ui.navigation.item.NavItemContract;
 import com.creations.mvvm.ui.navigation.item.NavItemViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.example.application.utils.RecyclerUtils;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class NavigationBarViewModel extends RecyclerViewModel<NavigationBarProps
         setProps(navigationBarProps);
         setBackgroundColor(R.color.message_progress);
         setTopColor(R.color.message_progress);
+        setLayoutType(RecyclerUtils.LayoutType.LINEAR_HORIZONTAL);
         setVisibility();
     }
 

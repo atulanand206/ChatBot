@@ -64,6 +64,19 @@ public class PropViewModel<T extends Props> extends MVVMViewModel implements Pro
         mKeyboardCloseEvent.postEvent();
     }
 
+    private final MutableLiveData<Boolean> mClickable = new MutableLiveData<>(true);
+
+    @NonNull
+    @Override
+    public MutableLiveData<Boolean> isClickable() {
+        return mClickable;
+    }
+
+    @Override
+    public void setClickable(final boolean clickable) {
+        mClickable.postValue(clickable);
+    }
+
     public static class Factory<T extends Props> extends MVVMViewModel.Factory<PropViewModel> {
 
         @NonNull

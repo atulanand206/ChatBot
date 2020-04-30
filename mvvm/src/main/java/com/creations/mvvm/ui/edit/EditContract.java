@@ -1,5 +1,6 @@
 package com.creations.mvvm.ui.edit;
 
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.prop.PropContract;
 
@@ -15,13 +16,16 @@ public interface EditContract {
 
         void setEditable(final boolean editable);
 
-        void shuffle();
+        void shuffle(final boolean shuffle);
 
         int getActiveColor();
 
         void onClick();
 
         void onClick(@NonNull final Object object);
+
+        @NonNull
+        LiveEvent.Mutable<String> getToastEvent();
     }
 
 }

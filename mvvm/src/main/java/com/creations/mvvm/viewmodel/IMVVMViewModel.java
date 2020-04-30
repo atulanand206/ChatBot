@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
+import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.ImageData;
 import com.creations.mvvm.utils.ImageLoadTask;
 import com.example.application.utils.RecyclerUtils;
@@ -135,27 +136,18 @@ public interface IMVVMViewModel {
         }
     }
 
+    @BindingAdapter("recyclerViewLayoutManager")
+    static void setLayoutManager(@NonNull final RecyclerView recyclerView, @Nullable final MutableLiveData<RecyclerView.LayoutManager> layoutManagerData) {
+        if (layoutManagerData == null) return;
+        RecyclerView.LayoutManager layoutManager = layoutManagerData.getValue();
+        if (layoutManager == null) return;
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
     @BindingAdapter("recyclerLayoutManager")
-    static void bindRecyclerLayoutManager(@NonNull final RecyclerView recyclerView, final RecyclerUtils.LayoutType layoutType) {
-        if (layoutType == null)
-            return;
-        switch (layoutType) {
-            case GRID:
-                recyclerView.setLayoutManager(RecyclerUtils.grid(recyclerView));
-                break;
-            case LOOP_VERTICAL:
-                recyclerView.setLayoutManager(RecyclerUtils.loopingVertical(recyclerView));
-                break;
-            case LOOP_HORIZONTAL:
-                recyclerView.setLayoutManager(RecyclerUtils.loopingHorizontal(recyclerView));
-                break;
-            case LINEAR_HORIZONTAL:
-                recyclerView.setLayoutManager(RecyclerUtils.linearHorizontal(recyclerView));
-                break;
-            case LINEAR_VERTICAL:
-                recyclerView.setLayoutManager(RecyclerUtils.linearVertical(recyclerView));
-                break;
-        }
+    static void bindRecyclerLayoutManager(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerUtils.LayoutType layoutTypeData) {
+        if (layoutTypeData == null) return;
+        recyclerView.setLayoutManager(RecyclerUtils.layoutManager(recyclerView.getContext(), layoutTypeData));
     }
 
     @BindingAdapter("adapter")

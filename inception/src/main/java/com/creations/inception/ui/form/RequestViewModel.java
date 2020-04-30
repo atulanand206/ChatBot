@@ -36,6 +36,7 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
         mBlogger = bloggerFactory.create();
         mDrawer = drawerFactory.create();
         mBoard = boardFactory.create();
+        mContextCallback.addSource(mBoard.getContextCallback());
     }
 
     @NonNull
