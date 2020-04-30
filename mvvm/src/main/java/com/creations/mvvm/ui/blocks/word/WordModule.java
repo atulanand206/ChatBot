@@ -6,6 +6,7 @@ import com.creations.mvvm.ui.blocks.CellModule;
 import com.creations.mvvm.ui.blocks.CellViewModel;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
+import com.creations.tools.utils.JsonConvertor;
 import com.example.application.messages.IMessageManager;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,13 @@ public interface WordModule extends MenuModule {
         public static WordViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
                 @NonNull final CellViewModel.Factory cellFactory,
+                @NonNull final JsonConvertor jsonConvertor,
                 @NonNull final Word props,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new WordViewModel.Factory(activity.getApplication(), cellFactory, props);
+            return new WordViewModel.Factory(activity.getApplication(), cellFactory, jsonConvertor, props);
         }
     }
 

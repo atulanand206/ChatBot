@@ -8,7 +8,6 @@ import com.example.application.utils.RecyclerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,30 +17,30 @@ import static com.example.application.utils.RecyclerUtils.LayoutType.LOOP_HORIZO
 
 public class BoardUtils {
 
-    public static char randomChar() {
-        final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSSTUVVWXXYZabcdefghijklmnopqrstuvwxyz";
-        final int N = alphabet.length();
-        Random r = new Random();
-        return alphabet.charAt(r.nextInt(N));
-    }
+//    public static char randomChar() {
+//        final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSSTUVVWXXYZabcdefghijklmnopqrstuvwxyz";
+//        final int N = alphabet.length();
+//        Random r = new Random();
+//        return alphabet.charAt(r.nextInt(N));
+//    }
 
-    public static Cell randomCell() {
-        return new Cell(randomChar());
-    }
+//    public static Cell randomCell() {
+//        return new Cell(randomChar());
+//    }
 
-    public static Row randomRow(final int size) {
-        List<Cell> cells = new ArrayList<>();
-        for (int i=0;i<size;i++)
-            cells.add(randomCell());
-        return new Row(cells, LOOP_HORIZONTAL);
-    }
+//    public static Row randomRow(final int size) {
+//        List<Cell> cells = new ArrayList<>();
+//        for (int i=0;i<size;i++)
+//            cells.add(randomCell());
+//        return new Row(cells, LOOP_HORIZONTAL);
+//    }
 
-    public static Board randomBoard(final int size) {
-        List<Row> cells = new ArrayList<>();
-        for (int i=0;i<size;i++)
-            cells.add(randomRow(size));
-        return new Board(cells);
-    }
+//    public static Board randomBoard(final int size) {
+//        List<Row> cells = new ArrayList<>();
+//        for (int i=0;i<size;i++)
+//            cells.add(randomRow(size));
+//        return new Board(cells);
+//    }
 
     public static Board testBoard() {
 //        return testBoard(new char[][] {
@@ -75,14 +74,14 @@ public class BoardUtils {
 //                {'g', 'e', 'j', 'u', 'w', 'q', 'h', 'w', 'n', 'w', 'n', 'w', 't'},
 //        });
         return board(new String[] {
-                "DRAMATICS",
-                "FEATHER",
-                "DOPE",
-                "HEATHENS",
-                "BASKETBALL",
-                "DIVINE",
-                "EMIWAY",
-                "OOOOO"
+                "a woman who was formerly a particular man's wife",
+                "claim as due or just",
+                "of ideas images representations",
+                "conformity to fact or truth",
+                "take as an undesirable consequence",
+                "some event or state of affair",
+                "and particular and complete accordance",
+                "the exact center of the"
         });
     }
 
@@ -102,9 +101,9 @@ public class BoardUtils {
         return new Cell(true);
     }
 
-    public static Cell minusCell() {
-        return new Cell('-', false);
-    }
+//    public static Cell minusCell() {
+//        return new Cell('-', false);
+//    }
 
     public static Row row(@Nullable String word, RecyclerUtils.LayoutType layoutType) {
         List<Cell> cells = new ArrayList<>();

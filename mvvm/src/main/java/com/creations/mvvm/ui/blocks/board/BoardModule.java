@@ -5,6 +5,7 @@ import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.ui.blocks.row.RowModule;
 import com.creations.mvvm.ui.blocks.row.RowViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
+import com.creations.tools.utils.JsonConvertor;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -25,11 +26,12 @@ public interface BoardModule extends MVVMModule {
         public static BoardViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
                 @NonNull final RowViewModel.Factory cellFactory,
+                @NonNull final JsonConvertor jsonConvertor,
                 @NonNull final Board props) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new BoardViewModel.Factory(activity.getApplication(), cellFactory, props);
+            return new BoardViewModel.Factory(activity.getApplication(), cellFactory, jsonConvertor, props);
         }
     }
 

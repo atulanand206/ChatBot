@@ -51,6 +51,7 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
     @Override
     public void setProps(@NonNull final Row rowInfo) {
         super.setProps(rowInfo);
+        super.setBackgroundColor(rowInfo.getColorResId());
         adapter.clearItems();
         addViewModel = mCellFactory.create();
         setLayoutType(rowInfo.getLayoutType());
@@ -58,8 +59,9 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         for (int i=0;i<rowInfo.getCells().size();i++) {
             Cell cell = rowInfo.getCells().get(i);
             CellViewModel cellViewModel = mCellFactory.create();
+            mContextCallback.addSource(cellViewModel.getContextCallback());
             cellViewModel.setProps(cell);
-            cellViewModel.isClickable().postValue(rowInfo.isClickable());
+            cellViewModel.setClickable(rowInfo.isClickable());
             int finalI = i;
             cellViewModel.getRefreshEvent().observeForever(sentinel -> {
                 adapter.notifyDataSetChanged();
@@ -80,11 +82,23 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
     }
 
     @Override
+    public void setBackgroundColor(int backgroundColorResId) {
+        super.setBackgroundColor(backgroundColorResId);
+        List<CellContract.ViewModel> viewModels = adapter.getViewModels();
+        for (CellContract.ViewModel viewModel : viewModels)
+            viewModel.setBackgroundColor(backgroundColorResId);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void setClickable(boolean clickable) {
         super.setClickable(clickable);
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
-        for (CellContract.ViewModel viewModel : viewModels)
+        for (CellContract.ViewModel viewModel : viewModels) {
             viewModel.setClickable(clickable);
+//            viewModel.getProps().setColorResId(clickable ? R.color.pal_blue : R.color.pal_grey);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -93,6 +107,7 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
         for (CellContract.ViewModel viewModel : viewModels)
             viewModel.shuffle(shuffle);
+        adapter.notifyDataSetChanged();
     }
 
     @NonNull

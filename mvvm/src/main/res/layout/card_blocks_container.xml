@@ -26,14 +26,39 @@
             <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
 
             <LinearLayout
-                android:visibility="@{viewmodel.addVisibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_ROW)}">
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:visibility="@{viewmodel.addVisibility}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_ROW)}">
 
-                <include layout="@layout/icon_add"/>
+                    <include layout="@layout/icon_add"/>
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="@{viewmodel.closeVisibility}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_CANCEL_WORD)}">
+
+                    <include layout="@layout/icon_close"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="@{viewmodel.tickVisibility}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_WORD)}">
+
+                    <include layout="@layout/icon_tick"/>
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

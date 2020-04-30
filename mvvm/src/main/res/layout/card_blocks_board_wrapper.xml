@@ -12,8 +12,8 @@
     <RelativeLayout
         app:visibility="@{viewmodel.visibility}"
         android:layout_margin="10dp"
-        android:background="@color/colorPrimary"
         android:padding="10dp"
+        bind:bkgrndColor="@{viewmodel.backgroundColor}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

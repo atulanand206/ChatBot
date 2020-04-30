@@ -24,7 +24,7 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
     protected IMessageManager mMessageManager;
 
     @NonNull
-    private final MutableLiveData<Integer> mVisibility = new MutableLiveData<>(View.VISIBLE);
+    private final MutableLiveData<Integer> mVisibility = new MutableLiveData<>(View.GONE);
 
     @NonNull
     private final LiveEvent.Mutable<Integer> mStatusBarColorEvent = new LiveEvent.Mutable<>();
@@ -33,12 +33,19 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
     private final MutableLiveData<Integer> mProgressBarVisibility = new MutableLiveData<>(View.GONE);
 
     @NonNull
-    private final MutableLiveData<Integer> mBackgroundColor = new MutableLiveData<>(R.color.yellow);
+    private final MutableLiveData<Integer> mBackgroundColor = new MutableLiveData<>(R.color.white);
 
     public MenuViewModel(@NonNull final Application application,
                          @NonNull final T props) {
         super(application, props);
         setVisibility(View.VISIBLE);
+    }
+
+    public MenuViewModel(@NonNull final Application application,
+                         @NonNull final T props,
+                         final int visibility) {
+        super(application, props);
+        setVisibility(visibility);
     }
 
     private void setMessageManager(IMessageManager messageManager) {

@@ -5,16 +5,19 @@ import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.animate.IAnimatorViewModel;
 import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
+import com.creations.mvvm.ui.blocks.done.DoneViewModel;
 import com.creations.mvvm.ui.blocks.score.ScoreContract;
 import com.creations.mvvm.ui.blocks.word.WordViewModel;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 public interface ContainerContract {
 
     interface ViewModel<T extends Props> extends IAnimatorViewModel<T> {
 
         int MAX_ROWS = 10;
+        int MIN_COLUMNS = 10;
 
         @NonNull
         AddContract.ViewModel getAddViewModel();
@@ -32,7 +35,16 @@ public interface ContainerContract {
         WordViewModel getWordViewModel();
 
         @NonNull
-        MutableLiveData<Integer> getAddVisibility();
+        DoneViewModel getDoneViewModel();
+
+        @NonNull
+        LiveData<Integer> getAddVisibility();
+
+        @NonNull
+        LiveData<Integer> getCloseVisibility();
+
+        @NonNull
+        LiveData<Integer> getTickVisibility();
     }
 
 }

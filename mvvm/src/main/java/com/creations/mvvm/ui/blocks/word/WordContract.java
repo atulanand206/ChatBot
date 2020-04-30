@@ -10,9 +10,15 @@ public interface WordContract {
 
         void addCell(Cell cell);
 
+        boolean valid();
+
+        void clear();
+
         void removeFirst();
 
         void removeLast();
+
+        String getWord();
     }
 
 }

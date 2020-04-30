@@ -12,6 +12,7 @@ import com.creations.inception.R;
 import com.creations.inception.databinding.FragmentRequestBinding;
 import com.creations.inception.ui.form.RequestModule.RequestSubcomponent.Builder;
 import com.creations.mvvm.fragment.MVVMFragmentView;
+import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.example.application.messages.MessageType;
 
 import javax.inject.Inject;
@@ -66,13 +67,11 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
         Preconditions.verifyNonNull(mViewModel, "RequestViewModel");
         Preconditions.verifyNonNull(mRootView, "RootView");
         Preconditions.verifyNonNull(mListener, "RequestInteractionListener");
-        mViewModel.getNavigation().getStatusBarColorEvent().listen(getViewLifecycleOwner(), mListener::setStatusBarColr);
-        mViewModel.getBlogger().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
+        ((BoardViewModel) mViewModel.getBoard().getBoardViewModel()).getStatusBarColorEvent().listen(getViewLifecycleOwner(), mListener::setStatusBarColr);
         mViewModel.getBoard().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
         mViewModel.getBoard().getCloseKeyboardEvent().listen(getViewLifecycleOwner(), () -> hideKeyboard(mRootView));
         mViewModel.getBoard().getWordViewModel().getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
-        mViewModel.getDrawer().getOpenDrawerEvent().listen(getViewLifecycleOwner(), super::openDrawer);
-        mViewModel.getDrawer().getCloseDrawerEvent().listen(getViewLifecycleOwner(), super::closeDrawer);
+        mViewModel.getBoard().getDoneViewModel().getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
     }
 
     @Override

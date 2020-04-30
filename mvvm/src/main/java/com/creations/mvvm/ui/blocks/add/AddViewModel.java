@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static android.view.View.GONE;
+import static com.creations.mvvm.ui.blocks.container.ContainerContract.ViewModel.MIN_COLUMNS;
 import static com.example.application.utils.RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
 
 /**
@@ -39,8 +40,7 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     public AddViewModel(@NonNull final Application application,
                         @NonNull final BoardViewModel.Factory rowFactory,
                         @NonNull final Add props) {
-        super(application, props);
-        setVisibility(GONE);
+        super(application, props, GONE);
         mBoardViewModel = rowFactory.create();
         setProps(props);
     }
@@ -50,6 +50,7 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
         super.setProps(props);
         mBoardViewModel.setProps(new Board(props.getRows()));
         setText("");
+        setVisibility(GONE);
     }
 
     @Override
@@ -59,7 +60,13 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
                 setVisibility(GONE);
                 mAddCancelEvent.postEvent(new Props());
             } else if (object.equals(CLICK_ADD_BUTTON)) {
-                Row row = BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL);
+                String txt = getText().getValue();
+                if (txt == null || txt.length() < MIN_COLUMNS) {
+                    mBoardViewModel.setBackgroundColor(COLOR_ADD_ERROR);
+                    return;
+                }
+                mBoardViewModel.setBackgroundColor(COLOR_NORMAL);
+                Row row = BoardUtils.row(txt, LINEAR_HORIZONTAL);
                 row.setLayoutType(LINEAR_HORIZONTAL);
                 setProps(new Add(row));
                 mAddDoneEvent.postEvent(row);
@@ -71,6 +78,7 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     public void afterTextChanged(@Nullable Editable editable) {
         super.afterTextChanged(editable);
         mBoardViewModel.setProps(new Board(BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL)));
+        mBoardViewModel.setBackgroundColor(COLOR_NORMAL);
     }
 
     @NonNull

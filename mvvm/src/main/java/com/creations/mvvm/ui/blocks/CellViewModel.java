@@ -47,7 +47,7 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     @Override
     public void setProps(@NonNull final Cell cell) {
         super.setProps(cell);
-        setBackgroundColor(getActiveColor());
+        setBackgroundColor(cell.getColorResId());
         setClickable(cell.isClickable());
         setCharacter(cell.getCharacter());
         setTextColorResId(mApplication.getResources().getColor(cell.getTextColorResId()));

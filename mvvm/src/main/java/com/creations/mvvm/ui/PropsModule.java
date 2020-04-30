@@ -4,6 +4,7 @@ import com.creations.mvvm.models.blocks.Add;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.ContainerProps;
+import com.creations.mvvm.models.blocks.Done;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.blocks.Score;
 import com.creations.mvvm.models.blocks.Word;
@@ -85,13 +86,13 @@ public class PropsModule {
     @Provides
     @NonNull
     public static Cell provideCell() {
-        return BoardUtils.randomCell();
+        return new Cell('a');
     }
 
     @Provides
     @NonNull
     public static Row provideRow() {
-        return BoardUtils.randomRow(20);
+        return new Row();
     }
 
     @Provides
@@ -122,5 +123,11 @@ public class PropsModule {
     @NonNull
     public static Score provideScore() {
         return new Score();
+    }
+
+    @Provides
+    @NonNull
+    public static Done provideDone() {
+        return new Done();
     }
 }

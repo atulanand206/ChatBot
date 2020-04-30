@@ -6,6 +6,8 @@ import com.creations.mvvm.ui.blocks.add.AddModule;
 import com.creations.mvvm.ui.blocks.add.AddViewModel;
 import com.creations.mvvm.ui.blocks.board.BoardModule;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
+import com.creations.mvvm.ui.blocks.done.DoneModule;
+import com.creations.mvvm.ui.blocks.done.DoneViewModel;
 import com.creations.mvvm.ui.blocks.score.ScoreModule;
 import com.creations.mvvm.ui.blocks.score.ScoreViewModel;
 import com.creations.mvvm.ui.blocks.word.WordModule;
@@ -25,7 +27,8 @@ import dagger.Provides;
         BoardModule.class,
         AddModule.class,
         ScoreModule.class,
-        WordModule.class
+        WordModule.class,
+        DoneModule.class
 })
 public interface ContainerModule extends MenuModule {
 
@@ -33,7 +36,8 @@ public interface ContainerModule extends MenuModule {
             BoardModule.InjectViewModelFactory.class,
             AddModule.InjectViewModelFactory.class,
             ScoreModule.InjectViewModelFactory.class,
-            WordModule.InjectViewModelFactory.class
+            WordModule.InjectViewModelFactory.class,
+            DoneModule.InjectViewModelFactory.class
     })
     abstract class InjectViewModelFactory {
         @Provides
@@ -44,13 +48,14 @@ public interface ContainerModule extends MenuModule {
                 @NonNull final AddViewModel.Factory addFactory,
                 @NonNull final ScoreViewModel.Factory scoreFactory,
                 @NonNull final WordViewModel.Factory wordFactory,
+                @NonNull final DoneViewModel.Factory doneFactory,
                 @NonNull final ContainerProps props,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
             return new ContainerViewModel.Factory(activity.getApplication(),
-                    addFactory, boardFactory, scoreFactory, wordFactory, props);
+                    addFactory, boardFactory, scoreFactory, wordFactory, doneFactory, props);
         }
     }
 

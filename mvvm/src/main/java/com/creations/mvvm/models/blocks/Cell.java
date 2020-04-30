@@ -22,8 +22,6 @@ public class Cell extends Props implements Serializable {
         public static final int COLORS = 2;
     }
 
-    @ColorRes
-    private int colorResId;
 
     private char character;
 
@@ -49,13 +47,13 @@ public class Cell extends Props implements Serializable {
         this.type = Type.ADD;
     }
 
-    public Cell(char character, boolean add) {
-        this(R.color.pal_red, character, R.color.white, R.dimen.font_x_large, R.dimen.margin_xxxxx_large);
-        this.type = add ? Type.ADD : Type.MINUS;
-    }
+//    public Cell(char character, boolean add) {
+//        this(R.color.pal_red, character, R.color.white, R.dimen.font_x_large, R.dimen.margin_xxxxx_large);
+//        this.type = add ? Type.ADD : Type.MINUS;
+//    }
 
     public Cell(int colorResId, char character, int textColorResId, int textSize, int side) {
-        this.colorResId = colorResId;
+        super(colorResId);
         this.character = character;
         this.textColorResId = textColorResId;
         this.textSize = textSize;
@@ -63,8 +61,17 @@ public class Cell extends Props implements Serializable {
         this.state = State.NOT_SELECTED;
     }
 
-    public int getColorResId() {
-        return colorResId;
+    @Override
+    public void setProps(Props props) {
+        super.setProps(props);
+        if (props instanceof Cell) {
+            Cell cell = (Cell) props;
+            this.character = cell.character;
+            this.textColorResId = cell.textColorResId;
+            this.textSize = cell.textSize;
+            this.side = cell.side;
+            this.state = cell.state;
+        }
     }
 
     public char getCharacter() {

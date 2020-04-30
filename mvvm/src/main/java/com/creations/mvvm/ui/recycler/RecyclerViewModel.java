@@ -37,11 +37,12 @@ public class RecyclerViewModel<T extends Props> extends MenuViewModel<T> impleme
     protected RecyclerViewModel(@NonNull Application application,
                                 @NonNull final T props) {
         super(application, props);
-//        mLayoutManager.addSource(mLayoutType, type -> {
-//            mContextCallback.postEvent(context -> {
-//                mLayoutManager.postValue(RecyclerUtils.layoutManager(context, type));
-//            });
-//        });
+    }
+
+    protected RecyclerViewModel(@NonNull Application application,
+                                @NonNull final T props,
+                                final int visibility) {
+        super(application, props, visibility);
     }
 
     @NonNull

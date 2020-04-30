@@ -18,6 +18,9 @@ public interface BoardContract {
         LiveRunnable.Mutable getAddRowEvent();
 
         @NonNull
+        LiveEvent.Mutable<Props> getAddWordEvent();
+
+        @NonNull
         LiveEvent.Mutable<RowWrapper> getAddCellEvent();
 
         @NonNull
@@ -28,6 +31,12 @@ public interface BoardContract {
         BoardAdapter getAdapter();
 
         void addRow(@NonNull final Row props);
+
+        void valid();
+
+        void invalid();
+
+        void clear();
     }
 
 }

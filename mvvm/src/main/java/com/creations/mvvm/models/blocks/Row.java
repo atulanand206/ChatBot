@@ -51,6 +51,13 @@ public class Row extends RecyclerProps {
     }
 
     @Override
+    public void setColorResId(int colorResId) {
+        super.setColorResId(colorResId);
+        for (Cell cell : cells)
+            cell.setColorResId(colorResId);
+    }
+
+    @Override
     public void setClickable(boolean clickable) {
         super.setClickable(clickable);
         for (Cell cell : cells)
