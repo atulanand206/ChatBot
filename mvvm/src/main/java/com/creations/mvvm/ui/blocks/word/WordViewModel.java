@@ -2,7 +2,10 @@ package com.creations.mvvm.ui.blocks.word;
 
 import android.app.Application;
 
+import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.array.Arr;
 import com.creations.mvvm.models.array.Item;
 import com.creations.mvvm.models.blocks.Cell;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -28,7 +32,13 @@ import androidx.annotation.NonNull;
 public class WordViewModel extends MenuViewModel<Props> implements WordContract.ViewModel<Props> {
 
     @NonNull
+    private final IAPIChat mApiChat;
+
+    @NonNull
     private final List<Cell> mCells = new ArrayList<>();
+
+    @Nullable
+    private Word word;
 
     @NonNull
     private final Set<String> mWords = new HashSet<>();
@@ -36,9 +46,10 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
     public WordViewModel(@NonNull final Application application,
                          @NonNull final CellViewModel.Factory cellFactory,
                          @NonNull final JsonConvertor jsonConvertor,
+                         @NonNull final IAPIChat apiChat,
                          @NonNull final Word props) {
         super(application, props);
-
+        mApiChat = apiChat;
         mContextCallback.postEvent((context -> {
             String json = AssetUtils.getJson(context, "words.json");
             mWords.addAll(jsonConvertor.fromJson(json, Words.class).getWords());
@@ -51,12 +62,20 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
     }
 
     @Override
-    public boolean valid() {
-        return valid(getWord());
-    }
+    public void valid(@NonNull final ObjectResponseCallback<Word> callback) {
+        if (getWord() == null)
+            return;
+        mApiChat.wordValidity(getWord(), new ObjectResponseCallback<Word>() {
+            @Override
+            public void onSuccess(@NonNull Word response) {
+                callback.onSuccess(response);
+            }
 
-    private boolean valid(String word) {
-        return mWords.contains(word);
+            @Override
+            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+                callback.onError(statusCode, errorResponse, serializedErrorResponse, e);
+            }
+        });
     }
 
     @Override
@@ -85,20 +104,25 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
         @NonNull
         private final JsonConvertor mJsonConvertor;
 
+        @NonNull
+        private final IAPIChat mApiChat;
+
         public Factory(@NonNull final Application application,
                        @NonNull final CellViewModel.Factory cellFactory,
                        @NonNull final JsonConvertor jsonConvertor,
+                       @NonNull final IAPIChat apiChat,
                        @NonNull final Word props) {
             super(WordViewModel.class, application);
             mProps = Preconditions.requiresNonNull(props, "Props");
             mCellFactory = Preconditions.requiresNonNull(cellFactory, "CellFactory");
             mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "JsonConvertor");
+            mApiChat = Preconditions.requiresNonNull(apiChat, "ApiChat");
         }
 
         @NonNull
         @Override
         public WordViewModel create() {
-            return new WordViewModel(mApplication, mCellFactory, mJsonConvertor, mProps);
+            return new WordViewModel(mApplication, mCellFactory, mJsonConvertor, mApiChat, mProps);
         }
     }
 }

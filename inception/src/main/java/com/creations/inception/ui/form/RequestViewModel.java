@@ -18,11 +18,11 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
     private static final String TAG = RequestViewModel.class.getName();
 
     @NonNull
-    private final NavigationBarViewModel mNavigation;
+    private NavigationBarViewModel mNavigation;
     @NonNull
-    private final BloggerViewModel mBlogger;
+    private BloggerViewModel mBlogger;
     @NonNull
-    private final DrawerViewModel mDrawer;
+    private DrawerViewModel mDrawer;
     @NonNull
     private final ContainerViewModel mBoard;
 
@@ -32,9 +32,6 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
                             @NonNull final DrawerViewModel.Factory drawerFactory,
                             @NonNull final ContainerViewModel.Factory boardFactory) {
         super(application, new NavigationBarProps());
-        mNavigation = navigationFactory.create();
-        mBlogger = bloggerFactory.create();
-        mDrawer = drawerFactory.create();
         mBoard = boardFactory.create();
         mContextCallback.addSource(mBoard.getContextCallback());
     }

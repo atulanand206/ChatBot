@@ -36,7 +36,11 @@ public interface AppConstants extends NetworkConstants {
     String URL_BLOGGER_GET_POSTS = URL_BLOGGER + ENDPOINT.BLOGS + '/' + BLOG_ID + '/' + ENDPOINT.POSTS + '?' + Request.KEY + '=' + API_KEY_BLOGGER;
     String URL_GET_AIRSPACE = AppConstants.LOCALHOST + AppConstants.ENDPOINT.AIRSPACE;
 
-
+    String URL_WORD_POOL_HOSTNAME = "http://192.168.0.154:8080";
+    String URL_WORD_POOL_ENDPOINT = "/words/valid?word=%s";
+    String URL_WORD_BOARD_ENDPOINT = "/boards";
+    String URL_WORD_POOL = URL_WORD_POOL_HOSTNAME + URL_WORD_POOL_ENDPOINT;
+    String URL_WORD_BOARD = URL_WORD_POOL_HOSTNAME + URL_WORD_BOARD_ENDPOINT;
 
     String CHAT_API = "Fetching chatbot reply";
 }

@@ -1,24 +1,17 @@
 package com.creations.inception.data;
 
-import android.util.Log;
-
-import com.creations.blogger.IAPIChat;
 import com.creations.blogger.callback.EmptyResponseCallback;
-import com.creations.blogger.callback.ListResponseCallback;
 import com.creations.blogger.callback.ObjectResponseCallback;
-import com.creations.blogger.model.APIResponseBody;
-import com.creations.condition.Info;
 import com.creations.inception.constants.AppConstants;
 import com.creations.inception.models.APIResponse;
 import com.creations.inception.models.ListItem;
 import com.creations.inception.models.Request;
 import com.creations.inception.models.User;
 import com.creations.inception.utils.FakeDataProvider;
+import com.creations.mvvm.constants.IAPIChat;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.realm.Realm;
 
 public class ChatRepository {
@@ -85,17 +78,17 @@ public class ChatRepository {
         request.setApiKey(AppConstants.API_KEY);
         request.setChatBotID(AppConstants.CHAT_BOT_ID);
 
-        apiChat.getAirspaces(new ListResponseCallback<Info>() {
-            @Override
-            public void onSuccess(List<Info> response) {
-                Log.d(TAG, "Successs");
-            }
-
-            @Override
-            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
-                Log.d(TAG, errorResponse);
-            }
-        });
+//        apiChat.getAirspaces(new ListResponseCallback<Info>() {
+//            @Override
+//            public void onSuccess(List<Info> response) {
+//                Log.d(TAG, "Successs");
+//            }
+//
+//            @Override
+//            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+//                Log.d(TAG, errorResponse);
+//            }
+//        });
 
 //        apiChat.getChatReply(request, new ObjectResponseCallback<APIResponse>() {
 //            @Override

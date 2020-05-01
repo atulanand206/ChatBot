@@ -59,12 +59,6 @@ public class CheckboxViewModel extends FormViewModelBase implements CheckboxCont
 
     @NonNull
     @Override
-    public LiveData<String> getTitle() {
-        return mTitle;
-    }
-
-    @NonNull
-    @Override
     public MutableLiveData<Integer> getTitleVisibility() {
         return mTitleVisibility;
     }

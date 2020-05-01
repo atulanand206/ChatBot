@@ -18,14 +18,50 @@ import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_NORMA
 
 public class Board extends Props implements Serializable {
 
+    private int id;
+
+    private String name;
+
+    private String board;
+
     private List<Row> rows;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBoard() {
+        return board;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBoard(String board) {
+        this.board = board;
+    }
 
     @NonNull
     private final Arr selections = new Arr();
 
-    public Board(Row row) {
+    public Board() {
         this.rows = new ArrayList<>();
-        this.rows.add(row);
+    }
+
+    public Board(int id, String name, String board) {
+        this.id = id;
+        this.name = name;
+        this.board = board;
+        this.rows = new ArrayList<>();
     }
 
     public Board(List<Row> rows) {
@@ -115,5 +151,9 @@ public class Board extends Props implements Serializable {
 
     public Board invalid() {
         return refresh(false);
+    }
+
+    public void setRows() {
+
     }
 }

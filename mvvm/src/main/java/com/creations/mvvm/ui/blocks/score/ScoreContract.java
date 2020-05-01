@@ -7,7 +7,7 @@ public interface ScoreContract {
 
     interface ViewModel<T extends Props> extends MenuContract.ViewModel<T> {
 
-        void add(String lengthOfWord);
+        void add(int lengthOfWord);
     }
 
 }

@@ -32,6 +32,9 @@ public interface IRecyclerViewModel<T extends Props>  extends MenuContract.ViewM
     @NonNull
     LiveEvent.Mutable<Object> getClickEvent();
 
+    @NonNull
+    LiveRunnable.Mutable getRefreshEvent();
+
     /**
      * Called when the Button item is tapped.
      */

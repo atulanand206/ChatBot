@@ -26,8 +26,6 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
-import static com.creations.mvvm.utils.BoardUtils.testBoard;
-
 @Module
 public class PropsModule {
 
@@ -104,7 +102,7 @@ public class PropsModule {
     @Provides
     @NonNull
     public static Board provideBoard() {
-        return testBoard();
+        return new Board();
     }
 
     @Provides

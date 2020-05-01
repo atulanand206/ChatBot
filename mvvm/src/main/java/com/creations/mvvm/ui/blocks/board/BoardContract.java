@@ -39,6 +39,8 @@ public interface BoardContract {
         void clear();
 
         String getWord();
+
+        void refresh();
     }
 
 }

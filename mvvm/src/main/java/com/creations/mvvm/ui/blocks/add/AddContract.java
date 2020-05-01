@@ -18,6 +18,7 @@ public interface AddContract {
         int CLICK_ADD_ROW = 3;
         int CLICK_CANCEL_WORD = 4;
         int CLICK_ADD_WORD = 5;
+        int CLICK_REFRESH = 6;
         int COLOR_NORMAL = R.color.colorPrimary;
         int COLOR_ADD_ERROR = R.color.pal_red;
         int COLOR_ADD_GO = R.color.pal_green;

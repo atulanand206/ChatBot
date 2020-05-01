@@ -1,8 +1,8 @@
 package com.creations.inception.di;
 
-import com.creations.blogger.IAPIChat;
 import com.creations.inception.data.BloggerRepo;
 import com.creations.inception.data.ChatRepository;
+import com.creations.mvvm.constants.IAPIChat;
 import com.example.dagger.scopes.AppScope;
 
 import dagger.Module;

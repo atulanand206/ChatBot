@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.menu;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.creations.tools.utils.JsonConvertor;
@@ -23,14 +24,16 @@ public interface MenuModule extends MVVMModule {
         public static MenuViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
                 @NonNull final Props props,
+                @NonNull final IAPIChat iapiChat,
                 @NonNull final IMessageManager messageManager,
                 @NonNull final JsonConvertor jsonConvertor) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
+            Preconditions.requiresNonNull(iapiChat, "ApiChat");
             Preconditions.requiresNonNull(messageManager, "MessageManager");
             Preconditions.requiresNonNull(jsonConvertor, "JsonConvertor");
 
-            return new MenuViewModel.Factory(activity.getApplication(), props, messageManager, jsonConvertor);
+            return new MenuViewModel.Factory(activity.getApplication(), props, iapiChat, messageManager, jsonConvertor);
         }
     }
 

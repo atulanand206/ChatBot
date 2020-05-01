@@ -30,9 +30,6 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
     private final CellViewModel.Factory mCellFactory;
     @NonNull
     private final RowAdapter<CellContract.ViewModel, CardBlocksItemBinding> adapter = new RowAdapter<>(viewModel -> {
-//        LiveData<String> character = viewModel.getCharacter();
-//        if (character.getValue() == null)
-//            return;
         mMessageManager.showToast("character.getValue()", MessageType.SUCCESS, Toast.LENGTH_LONG);
     }, R.layout.card_blocks_item);
 
@@ -45,14 +42,11 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
                         @NonNull final Row rowInfo) {
         super(application, rowInfo);
         mCellFactory = Preconditions.requiresNonNull(cellFactory, "CellFactory");
-        setLayoutType(rowInfo.getLayoutType());
+        setRows(rowInfo);
     }
 
     @Override
-    public void setProps(@NonNull final Row rowInfo) {
-        super.setProps(rowInfo);
-        super.setBackgroundColor(rowInfo.getColorResId());
-        adapter.clearItems();
+    public void setRows(@NonNull final Row rowInfo) {
         addViewModel = mCellFactory.create();
         adapter.setLayoutType(rowInfo.getLayoutType());
         setLayoutType(rowInfo.getLayoutType());
@@ -72,7 +66,7 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
                     if (rowInfo.isClickable()) {
                         getProps().setClickedIndex(finalI);
                         RowViewModel.this.getClickEvent().postEvent(getProps());
-                        adapter.notifyDataSetChanged();
+                                        RowViewModel.this.getRefreshEvent().postEvent();
                     }
                 }
             });
@@ -80,6 +74,21 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         }
         setVisibility(View.VISIBLE);
         setEditable(rowInfo.isAddVisibility());
+        setProps(rowInfo);
+    }
+
+    @Override
+    public void setProps(@NonNull final Row rowInfo) {
+        super.setProps(rowInfo);
+        super.setBackgroundColor(rowInfo.getColorResId());
+        List<CellContract.ViewModel> viewModels = adapter.getViewModels();
+        if (viewModels.size()==rowInfo.getCells().size()) {
+            for (int i = 0; i < viewModels.size(); i++) {
+                ((CellViewModel) viewModels.get(i)).setProps(rowInfo.getCells().get(i));
+                notifyDataSetChanged();
+            }
+        }
+
     }
 
     @Override
@@ -88,7 +97,6 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
         for (CellContract.ViewModel viewModel : viewModels)
             viewModel.setBackgroundColor(backgroundColorResId);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -97,9 +105,7 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
         for (CellContract.ViewModel viewModel : viewModels) {
             viewModel.setClickable(clickable);
-//            viewModel.getProps().setColorResId(clickable ? R.color.pal_blue : R.color.pal_grey);
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -108,7 +114,6 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
         for (CellContract.ViewModel viewModel : viewModels)
             viewModel.shuffle(shuffle);
-        adapter.notifyDataSetChanged();
     }
 
     @NonNull
@@ -121,6 +126,12 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
     @Override
     public RowAdapter getAdapter() {
         return adapter;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        adapter.notifyDataSetChanged();
+//        setLayoutType(getLayoutType());
     }
 
     public static class Factory extends MVVMViewModel.Factory<RowViewModel> {

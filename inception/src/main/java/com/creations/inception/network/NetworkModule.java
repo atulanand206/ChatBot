@@ -1,5 +1,7 @@
 package com.creations.inception.network;
 
+import com.creations.mvvm.models.blocks.Board;
+import com.creations.mvvm.utils.BoardSerializer;
 import com.creations.tools.network.LoggingInterceptor;
 import com.creations.tools.network.NetworkManager;
 import com.creations.tools.network.OkHttpNetworkManager;
@@ -44,6 +46,7 @@ public class NetworkModule {
     @Provides
     public static Gson provideGson() {
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(Board.class, new BoardSerializer())
                 .addSerializationExclusionStrategy(new ExclusionStrategy() {
                     @Override
                     public boolean shouldSkipField(FieldAttributes f) {

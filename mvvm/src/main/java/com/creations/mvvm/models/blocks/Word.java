@@ -12,6 +12,36 @@ public class Word extends RecyclerProps {
 
     private boolean addVisibility = false;
 
+    private String word;
+
+    private String meaning;
+
+    private String speech;
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getMeaning() {
+        return meaning;
+    }
+
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
+    }
+
+    public String getSpeech() {
+        return speech;
+    }
+
+    public void setSpeech(String speech) {
+        this.speech = speech;
+    }
+
     private RecyclerUtils.LayoutType layoutType = RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
 
     private List<Cell> cells;

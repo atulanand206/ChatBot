@@ -2,6 +2,7 @@ package com.creations.mvvm.ui.text;
 
 import android.text.Editable;
 
+import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.edit.EditContract;
 
@@ -16,11 +17,47 @@ public interface TextContract {
     interface ViewModel<T extends Props> extends EditContract.ViewModel<T> {
 
         @NonNull
+        MutableLiveData<Integer> getHeaderVisibility();
+
+        void setHeaderVisibility(int visibility);
+
+        @NonNull
+        MutableLiveData<String> getHeader();
+
+        @NonNull
+        void setHeader(@NonNull String title);
+
+        @NonNull
+        MutableLiveData<String> getSubHeader();
+
+        @NonNull
+        void setSubHeader(@NonNull String title);
+
+        @NonNull
+        MutableLiveData<String> getTitle();
+
+        @NonNull
+        void setTitle(@NonNull String title);
+
+        void setMeaning(@NonNull String title);
+
+        @NonNull
+        LiveData<String> getMeaning();
+
+        @NonNull
         LiveData<String> getText();
 
         void setText(@NonNull String txt);
 
         void afterTextChanged(@Nullable final Editable editable);
+
+        void setTitleTextSize(@Dimension float textSize);
+
+        LiveData<Float> getTitleTextSize();
+
+        void setTitleTextColorResId(@ColorInt int textColorResId);
+
+        LiveData<Integer> getTitleTextColorResId();
 
         void setTextSize(@Dimension final float textSize);
 

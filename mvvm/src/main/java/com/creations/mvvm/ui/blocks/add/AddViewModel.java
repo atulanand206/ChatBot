@@ -7,12 +7,10 @@ import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.blocks.Add;
 import com.creations.mvvm.models.blocks.Board;
-import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
-import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import androidx.annotation.NonNull;
@@ -20,7 +18,6 @@ import androidx.annotation.Nullable;
 
 import static android.view.View.GONE;
 import static com.creations.mvvm.ui.blocks.container.ContainerContract.ViewModel.MIN_COLUMNS;
-import static com.example.application.utils.RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -42,6 +39,11 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
                         @NonNull final Add props) {
         super(application, props, GONE);
         mBoardViewModel = rowFactory.create();
+        setRows(props);
+    }
+
+    @Override
+    public void setRows(@NonNull Add props) {
         setProps(props);
     }
 
@@ -66,10 +68,6 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
                     return;
                 }
                 mBoardViewModel.setBackgroundColor(COLOR_NORMAL);
-                Row row = BoardUtils.row(txt, LINEAR_HORIZONTAL);
-                row.setLayoutType(LINEAR_HORIZONTAL);
-                setProps(new Add(row));
-                mAddDoneEvent.postEvent(row);
             }
         }
     }
@@ -78,8 +76,8 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     public void afterTextChanged(@Nullable Editable editable) {
         super.afterTextChanged(editable);
         hideNavigation();
-        mBoardViewModel.setProps(new Board(BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL)));
-        mBoardViewModel.setBackgroundColor(COLOR_NORMAL);
+//        mBoardViewModel.setProps(new Board(BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL)));
+//        mBoardViewModel.setBackgroundColor(COLOR_NORMAL);
     }
 
     @NonNull

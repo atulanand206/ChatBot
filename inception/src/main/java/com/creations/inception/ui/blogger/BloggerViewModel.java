@@ -2,11 +2,8 @@ package com.creations.inception.ui.blogger;
 
 import android.app.Application;
 
-import com.creations.blogger.IAPIChat;
-import com.creations.blogger.callback.ListResponseCallback;
-import com.creations.blogger.model.APIResponseBody;
-import com.creations.blogger.model.blogger.Post;
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.databinding.CardImageBinding;
 import com.creations.mvvm.databinding.ContentAdvisoryNavigationBinding;
 import com.creations.mvvm.live.MutableLiveData;
@@ -22,13 +19,8 @@ import com.creations.mvvm.ui.navigation.NavigationBarContract;
 import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-
-import static com.creations.inception.models.convertor.BloggerConverter.imageData;
 
 /**
  * This ViewModel works with a Button and is to be used for creating forms.
@@ -61,36 +53,36 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
         mImageFactory = Preconditions.requiresNonNull(imageFactory, "ImageFactory");
         mTitle.postValue("Let's get going!");
         IAPIChat mAirspaceApi = Preconditions.requiresNonNull(airspaceApi, "AirspaceApi");
-        mAirspaceApi.getBlogPosts(new ListResponseCallback<Post>() {
-            @Override
-            public void onSuccess(@NonNull List<Post> response) {
-                if (!response.isEmpty())
-                    mImageViewModel.postValue(viewModel(response.get(0)));
-                for (Post post : response) {
-                    addPost(post);
-                    addPost(post);
-                    addPost(post);
-                    addPost(post);
-                    addPost(post);
-                    addPost(post);
-                }
-            }
-
-            @Override
-            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
-
-            }
-
-            private void addPost(@NonNull final Post post) {
-                mImageAdapter.addItem(viewModel(post));
-            }
-
-            private ImageViewModel viewModel(@NonNull final Post post) {
-                ImageViewModel imageViewModel = mImageFactory.create();
-                imageViewModel.setProps(imageData(post));
-                return imageViewModel;
-            }
-        });
+//        mAirspaceApi.getBlogPosts(new ListResponseCallback<Post>() {
+//            @Override
+//            public void onSuccess(@NonNull List<Post> response) {
+//                if (!response.isEmpty())
+//                    mImageViewModel.postValue(viewModel(response.get(0)));
+//                for (Post post : response) {
+//                    addPost(post);
+//                    addPost(post);
+//                    addPost(post);
+//                    addPost(post);
+//                    addPost(post);
+//                    addPost(post);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+//
+//            }
+//
+//            private void addPost(@NonNull final Post post) {
+//                mImageAdapter.addItem(viewModel(post));
+//            }
+//
+//            private ImageViewModel viewModel(@NonNull final Post post) {
+//                ImageViewModel imageViewModel = mImageFactory.create();
+//                imageViewModel.setProps(imageData(post));
+//                return imageViewModel;
+//            }
+//        });
         animate(false);
         NavigationBarViewModel viewModel = navigationFactory.create();
         viewModel.setProps(new NavigationBarProps.Builder()
@@ -114,12 +106,6 @@ public class BloggerViewModel extends AnimatorViewModel implements BloggerContra
         mNavigationListAdapter.addItem(viewModel);
         mNavigationListAdapter.addItem(viewModel2);
         mNavigationListAdapter.addItem(viewModel2);
-    }
-
-    @NonNull
-    @Override
-    public LiveData<String> getTitle() {
-        return mTitle;
     }
 
     @NonNull

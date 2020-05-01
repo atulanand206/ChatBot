@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
         <import type="com.creations.mvvm.ui.blocks.add.AddContract.ViewModel"/>
@@ -33,13 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/wrapper"
-                layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
-
-
             <LinearLayout
-                android:layout_below="@id/wrapper"
                 android:layout_toStartOf="@id/edit_query"
                 android:id="@+id/back"
                 android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_BACKGROUND)}"
@@ -51,7 +44,6 @@
             </LinearLayout>
 
             <EditText
-                android:layout_below="@id/wrapper"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/edit_query"
                 android:layout_marginTop="@dimen/margin_small"
@@ -63,7 +55,6 @@
                 android:text="@{viewmodel.text}"/>
 
             <LinearLayout
-                android:layout_below="@id/wrapper"
                 android:layout_toEndOf="@id/edit_query"
                 android:id="@+id/done"
                 android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_BUTTON)}"

@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.blocks.word;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.blocks.Word;
 import com.creations.mvvm.ui.blocks.CellModule;
 import com.creations.mvvm.ui.blocks.CellViewModel;
@@ -32,11 +33,12 @@ public interface WordModule extends MenuModule {
                 @NonNull final CellViewModel.Factory cellFactory,
                 @NonNull final JsonConvertor jsonConvertor,
                 @NonNull final Word props,
+                @NonNull final IAPIChat apiChat,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new WordViewModel.Factory(activity.getApplication(), cellFactory, jsonConvertor, props);
+            return new WordViewModel.Factory(activity.getApplication(), cellFactory, jsonConvertor, apiChat, props);
         }
     }
 

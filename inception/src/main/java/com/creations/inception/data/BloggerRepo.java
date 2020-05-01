@@ -1,6 +1,6 @@
 package com.creations.inception.data;
 
-import com.creations.blogger.IAPIChat;
+import com.creations.mvvm.constants.IAPIChat;
 
 public class BloggerRepo {
 

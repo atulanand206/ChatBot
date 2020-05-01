@@ -17,7 +17,7 @@ import androidx.databinding.DataBindingUtil;
 public class RowAdapter<T extends CellContract.ViewModel, E extends CardBlocksItemBinding> extends LoopingRecyclerAdapter<T, E> {
 
     public RowAdapter(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
-        super(listener, layoutResId, RecyclerUtils.LayoutType.LINEAR_HORIZONTAL);
+        super(listener, layoutResId, RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
     }
 
     @NonNull

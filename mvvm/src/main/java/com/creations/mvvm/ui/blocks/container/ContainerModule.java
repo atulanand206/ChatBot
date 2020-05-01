@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.blocks.container;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.blocks.ContainerProps;
 import com.creations.mvvm.ui.blocks.add.AddModule;
 import com.creations.mvvm.ui.blocks.add.AddViewModel;
@@ -12,6 +13,7 @@ import com.creations.mvvm.ui.blocks.score.ScoreModule;
 import com.creations.mvvm.ui.blocks.score.ScoreViewModel;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
+import com.creations.tools.utils.JsonConvertor;
 import com.example.application.messages.IMessageManager;
 
 import androidx.annotation.NonNull;
@@ -25,7 +27,6 @@ import dagger.Provides;
         BoardModule.class,
         AddModule.class,
         ScoreModule.class,
-
         DoneModule.class
 })
 public interface ContainerModule extends MenuModule {
@@ -45,13 +46,15 @@ public interface ContainerModule extends MenuModule {
                 @NonNull final AddViewModel.Factory addFactory,
                 @NonNull final ScoreViewModel.Factory scoreFactory,
                 @NonNull final DoneViewModel.Factory doneFactory,
+                @NonNull final IAPIChat iapiChat,
                 @NonNull final ContainerProps props,
+                @NonNull final JsonConvertor jsonConvertor,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
             return new ContainerViewModel.Factory(activity.getApplication(),
-                    addFactory, boardFactory, scoreFactory, doneFactory, props);
+                    addFactory, boardFactory, scoreFactory, doneFactory, iapiChat, jsonConvertor, props);
         }
     }
 

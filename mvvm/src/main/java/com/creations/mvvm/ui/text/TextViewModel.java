@@ -2,6 +2,7 @@ package com.creations.mvvm.ui.text;
 
 import android.app.Application;
 import android.text.Editable;
+import android.view.View;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.MutableLiveData;
@@ -21,7 +22,21 @@ import androidx.lifecycle.LiveData;
 public class TextViewModel<T extends Props> extends EditViewModel<T> implements TextContract.ViewModel<T> {
 
     @NonNull
-    private final MutableLiveData<String> mText = new MutableLiveData<>();
+    private final MutableLiveData<String> mTitle = new MutableLiveData<>("");
+    @NonNull
+    private final MutableLiveData<String> mHeader = new MutableLiveData<>("");
+    @NonNull
+    private final MutableLiveData<String> mMeaning = new MutableLiveData<>("");
+    @NonNull
+    private final MutableLiveData<Integer> mHeaderVisibility = new MutableLiveData<>(View.GONE);
+    @NonNull
+    private final MutableLiveData<String> mSubHeader = new MutableLiveData<>("");
+    @NonNull
+    private final MutableLiveData<String> mText = new MutableLiveData<>("");
+    @NonNull
+    private MutableLiveData<Float> titleTextSize = new MutableLiveData<>();
+    @NonNull
+    private MutableLiveData<Integer> titleTextColorResId = new MutableLiveData<>();
 
     private MutableLiveData<Float> textSize = new MutableLiveData<>();
 
@@ -31,6 +46,61 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
                          @NonNull final T props) {
         super(application, props);
 
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<Integer> getHeaderVisibility() {
+        return mHeaderVisibility;
+    }
+
+    @Override
+    public void setHeaderVisibility(final int visibility) {
+        mHeaderVisibility.postValue(visibility);
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<String> getHeader() {
+        return mHeader;
+    }
+
+    @Override
+    public void setHeader(@NonNull final String title) {
+        mHeader.postValue(title);
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<String> getSubHeader() {
+        return mSubHeader;
+    }
+
+    @Override
+    public void setSubHeader(@NonNull final String title) {
+        mSubHeader.postValue(title);
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<String> getTitle() {
+        return mTitle;
+    }
+
+    @Override
+    public void setTitle(@NonNull final String title) {
+        mTitle.postValue(title);
+    }
+
+    @Override
+    public void setMeaning(@NonNull final String title) {
+        mMeaning.postValue(title);
+    }
+    @NonNull
+
+    @Override
+    public LiveData<String> getMeaning() {
+        return mMeaning;
     }
 
     @NonNull
@@ -54,6 +124,26 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
             text = null;
         }
         mText.setValue(text);
+    }
+
+    @Override
+    public void setTitleTextSize(@Dimension float textSize) {
+        this.titleTextSize.postValue(textSize);
+    }
+
+    @Override
+    public LiveData<Float> getTitleTextSize() {
+        return titleTextSize;
+    }
+
+    @Override
+    public void setTitleTextColorResId(@ColorInt int textColorResId) {
+        this.titleTextColorResId.postValue(textColorResId);
+    }
+
+    @Override
+    public LiveData<Integer> getTitleTextColorResId() {
+        return titleTextColorResId;
     }
 
     @Override

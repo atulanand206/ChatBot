@@ -13,9 +13,6 @@ public interface BloggerContract {
     interface ViewModel extends IAnimatorViewModel {
 
         @NonNull
-        LiveData<String> getTitle();
-
-        @NonNull
         LiveData<ImageViewModel> getImageViewModel();
 
         @NonNull

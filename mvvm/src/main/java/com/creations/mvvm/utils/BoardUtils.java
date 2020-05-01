@@ -12,7 +12,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import static com.example.application.utils.RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;
 import static com.example.application.utils.RecyclerUtils.LayoutType.LOOP_HORIZONTAL;
 
 public class BoardUtils {
@@ -145,7 +144,7 @@ public class BoardUtils {
     public static Board board(List<String> words) {
         List<Row> rows = new ArrayList<>();
         for (String word : words)
-            rows.add(row(word, LINEAR_HORIZONTAL));
+            rows.add(row(word, LOOP_HORIZONTAL));
         return new Board(rows);
     }
 

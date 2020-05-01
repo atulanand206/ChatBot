@@ -66,6 +66,10 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     }
 
+    private void getBoard() {
+
+    }
+
     private void retrieveFragments(Bundle bundle) {
 
         Fragment hostFrag = getViewPagerFragmentById(1, 1);

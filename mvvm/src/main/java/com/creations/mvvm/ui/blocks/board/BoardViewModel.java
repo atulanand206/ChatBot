@@ -1,9 +1,13 @@
 package com.creations.mvvm.ui.blocks.board;
 
 import android.app.Application;
+import android.view.View;
 
+import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.databinding.CardBlocksRowBinding;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
@@ -12,6 +16,7 @@ import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.blocks.RowWrapper;
+import com.creations.mvvm.models.blocks.Word;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.blocks.row.RowContract;
 import com.creations.mvvm.ui.blocks.row.RowViewModel;
@@ -23,6 +28,7 @@ import com.example.application.utils.RecyclerUtils;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_ADD_ERROR;
@@ -34,6 +40,8 @@ import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_NORMA
  */
 public class BoardViewModel extends RecyclerViewModel<Board> implements BoardContract.ViewModel<Board> {
 
+    @NonNull
+    private final IAPIChat mApiChat;
     @NonNull
     private final RowViewModel.Factory mRowFactory;
 
@@ -59,29 +67,33 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
     public BoardViewModel(@NonNull final Application application,
                           @NonNull final RowViewModel.Factory rowFactory,
                           @NonNull final WordViewModel.Factory wordFactory,
+                          @NonNull final IAPIChat apiChat,
                           @NonNull final Board board) {
         super(application, board);
+        setVisibility(View.GONE);
+        mApiChat = apiChat;
         mRowFactory = Preconditions.requiresNonNull(rowFactory, "Factory");
         mWordViewModel = wordFactory.create();
         mContextCallback.addSource(mWordViewModel.getContextCallback());
-        setProps(board);
         setLayoutType(RecyclerUtils.LayoutType.LINEAR_VERTICAL);
         setTopColor(COLOR_NORMAL);
         setBackgroundColor(COLOR_NORMAL);
     }
 
     @Override
-    public void setProps(@NonNull final Board board) {
-        super.setProps(board);
-        setBackgroundColor(board.getColorResId());
-        adapter.clearItems();
+    public void setRows(@NonNull final Board board) {
         List<Row> rows = board.getRows();
         for (int i = 0; i< rows.size(); i++) {
-            RowViewModel viewModel = mRowFactory.create();
+            RowViewModel viewModel;
+                viewModel = mRowFactory.create();
             mContextCallback.addSource(viewModel.getContextCallback());
             Row rowInfo = rows.get(i);
-            viewModel.setProps(rowInfo);
+            rowInfo.setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
+            viewModel.setRows(rowInfo);
             int finalI1 = i;
+            viewModel.getRefreshEvent().observeForever(sentinel -> {
+//                setProps(getProps());
+            });
             viewModel.getClickEvent().observeForever(o -> {
                 if (o instanceof Row) {
                     int clickedIndex = ((Row) o).getClickedIndex();
@@ -89,22 +101,50 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
                     Cell cell = rowInfo.getCells().get(clickedIndex);
                     getProps().add(finalI1, clickedIndex, cell);
                     mWordViewModel.refresh(getProps().getSelections());
-                    if (mWordViewModel.valid()) {
-                        setProps(board.valid());
-                        setBackgroundColor(COLOR_ADD_GO);
-                    } else {
-                        setProps(board.invalid());
-                        setBackgroundColor(COLOR_ADD_ERROR);
-                    }
+                    mWordViewModel.valid(new ObjectResponseCallback<Word>() {
+                        @Override
+                        public void onSuccess(@NonNull Word response) {
+                            BoardViewModel.this.getAddWordEvent().postEvent(response);
+                            setProps(board.valid());
+                            setBackgroundColor(COLOR_ADD_GO);
+                        }
+
+                        @Override
+                        public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+                            setProps(board.invalid());
+                            setBackgroundColor(COLOR_ADD_ERROR);
+                        }
+                    });
                 }
             });
             adapter.addItem(viewModel);
+        }
+        setProps(board);
+    }
+
+    @Override
+    public void setProps(@NonNull final Board board) {
+        super.setProps(board);
+        setBackgroundColor(board.getColorResId());
+        List<RowContract.ViewModel> viewModels = adapter.getViewModels();
+        if (viewModels.size()==board.getRows().size()) {
+            for (int i = 0; i < viewModels.size(); i++) {
+                RowViewModel rowViewModel = (RowViewModel) viewModels.get(i);
+                rowViewModel.setProps(board.getRows().get(i));
+                rowViewModel.setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
+                rowViewModel.notifyDataSetChanged();
+            }
         }
     }
 
     @Override
     public void clear() {
         setProps(getProps().clear());
+    }
+
+    @Override
+    public void refresh() {
+        getRefreshEvent().postEvent();
     }
 
     @Override
@@ -167,21 +207,26 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
         @NonNull
         private final Board mProps;
 
+        @NonNull
+        private final IAPIChat mApiChat;
+
 
         public Factory(@NonNull final Application application,
                        @NonNull final RowViewModel.Factory rowFactory,
                        @NonNull final WordViewModel.Factory wordFactory,
+                       @NonNull final IAPIChat apiChat,
                        @NonNull final Board props) {
             super(BoardViewModel.class, application);
             mProps = Preconditions.requiresNonNull(props, "Props");
             mRowFactory = Preconditions.requiresNonNull(rowFactory, "RowFactory");
             mWordFactory = Preconditions.requiresNonNull(wordFactory, "Factory");
+            mApiChat = Preconditions.requiresNonNull(apiChat, "ApiChat");
         }
 
         @NonNull
         @Override
         public BoardViewModel create() {
-            return new BoardViewModel(mApplication, mRowFactory, mWordFactory, mProps);
+            return new BoardViewModel(mApplication, mRowFactory, mWordFactory, mApiChat, mProps);
         }
     }
 }

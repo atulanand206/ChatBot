@@ -14,12 +14,6 @@ public interface CheckboxContract {
     interface ViewModel extends MenuContract.ViewModel<Props> {
 
         /**
-         * @return liveData corresponding to the text.
-         */
-        @NonNull
-        LiveData<String> getTitle();
-
-        /**
          * @return true if title is to be displayed.
          */
         @NonNull

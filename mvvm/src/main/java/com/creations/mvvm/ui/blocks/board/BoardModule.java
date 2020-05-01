@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.blocks.board;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.ui.blocks.row.RowModule;
 import com.creations.mvvm.ui.blocks.row.RowViewModel;
@@ -32,11 +33,12 @@ public interface BoardModule extends MVVMModule {
                 @NonNull final FragmentActivity activity,
                 @NonNull final RowViewModel.Factory cellFactory,
                 @NonNull final WordViewModel.Factory worddFactory,
+                @NonNull final IAPIChat apiChat,
                 @NonNull final Board props) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new BoardViewModel.Factory(activity.getApplication(), cellFactory, worddFactory, props);
+            return new BoardViewModel.Factory(activity.getApplication(), cellFactory, worddFactory, apiChat, props);
         }
     }
 

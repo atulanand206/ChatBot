@@ -15,6 +15,8 @@ public interface RowContract {
 
         @NonNull
         RowAdapter getAdapter();
+
+        void notifyDataSetChanged();
     }
 
 }

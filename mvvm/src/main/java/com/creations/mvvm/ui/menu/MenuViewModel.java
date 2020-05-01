@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
@@ -25,6 +26,8 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
     protected IMessageManager mMessageManager;
 
     protected JsonConvertor jsonConvertor;
+
+    protected IAPIChat mApiChat;
 
     @NonNull
     private final MutableLiveData<Integer> mVisibility = new MutableLiveData<>(View.GONE);
@@ -57,6 +60,10 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
 
     public void setJsonConvertor(JsonConvertor jsonConvertor) {
         this.jsonConvertor = jsonConvertor;
+    }
+
+    public void setApiChat(IAPIChat apiChat) {
+        this.mApiChat = apiChat;
     }
 
     @Override
@@ -107,6 +114,9 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
         private final Props mProps;
 
         @NonNull
+        private final IAPIChat mApiChat;
+
+        @NonNull
         private final IMessageManager mMessageManager;
 
         @NonNull
@@ -114,10 +124,12 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
 
         public Factory(@NonNull final Application application,
                        @NonNull final Props props,
+                       @NonNull final IAPIChat apiChat,
                        @NonNull final IMessageManager messageManager,
                        @NonNull final JsonConvertor jsonConvertor) {
             super(application, props);
             mProps = Preconditions.requiresNonNull(props, "Props");
+            mApiChat = Preconditions.requiresNonNull(apiChat, "ApiChat");
             mMessageManager = Preconditions.requiresNonNull(messageManager, "MessageManager");
             mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "JsonConvertor");
         }
@@ -128,6 +140,7 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
             MenuViewModel<Props> propsMenuViewModel = new MenuViewModel<>(mApplication, mProps);
             propsMenuViewModel.setMessageManager(mMessageManager);
             propsMenuViewModel.setJsonConvertor(mJsonConvertor);
+            propsMenuViewModel.setApiChat(mApiChat);
             return propsMenuViewModel;
         }
     }

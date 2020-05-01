@@ -150,6 +150,11 @@ public interface IMVVMViewModel {
     static void bindRecyclerLayoutManager(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerUtils.LayoutType layoutTypeData) {
         if (layoutTypeData == null) return;
         recyclerView.setLayoutManager(RecyclerUtils.layoutManager(recyclerView.getContext(), layoutTypeData));
+        scrollToPosition(recyclerView, layoutTypeData);
+    }
+
+    @BindingAdapter("scrollToPosition")
+    static void scrollToPosition(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerUtils.LayoutType layoutTypeData){
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager == null) return;
         if (layoutTypeData == RecyclerUtils.LayoutType.LOOP_HORIZONTAL) {

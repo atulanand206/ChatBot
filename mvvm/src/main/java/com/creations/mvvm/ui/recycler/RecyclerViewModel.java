@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.application.utils.RecyclerUtils.LayoutType.LOOP_HORIZONTAL;
 
-public class RecyclerViewModel<T extends Props> extends MenuViewModel<T> implements IRecyclerViewModel<T> {
+public abstract class RecyclerViewModel<T extends Props> extends MenuViewModel<T> implements IRecyclerViewModel<T> {
 
     @NonNull
     private MutableLiveData<Integer> mSize = new MutableLiveData<>(-1);
@@ -31,6 +31,9 @@ public class RecyclerViewModel<T extends Props> extends MenuViewModel<T> impleme
     private MediatorLiveData<RecyclerView.LayoutManager> mLayoutManager = new MediatorLiveData<>();
     @NonNull
     private final LiveRunnable.Mutable mClickEvent = new LiveRunnable.Mutable();
+
+    @NonNull
+    private final LiveRunnable.Mutable mRefreshEvent = new LiveRunnable.Mutable();
     @NonNull
     private final LiveEvent.Mutable<Object> mPropClickEvent = new LiveEvent.Mutable<>();
 
@@ -74,6 +77,12 @@ public class RecyclerViewModel<T extends Props> extends MenuViewModel<T> impleme
         return mPropClickEvent;
     }
 
+    @NonNull
+    @Override
+    public LiveRunnable.Mutable getRefreshEvent() {
+        return mRefreshEvent;
+    }
+
     @Override
     public void onRecyclerItemClick() {
         mClickEvent.postEvent();
@@ -99,5 +108,9 @@ public class RecyclerViewModel<T extends Props> extends MenuViewModel<T> impleme
     @Override
     public LiveData<Integer> getSize() {
         return mSize;
+    }
+
+    public void setRows(@NonNull T board) {
+
     }
 }

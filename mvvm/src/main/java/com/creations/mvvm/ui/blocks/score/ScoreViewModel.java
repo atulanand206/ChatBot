@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
  */
 public class ScoreViewModel extends MenuViewModel<Score> implements ScoreContract.ViewModel<Score> {
 
+    private int score = 0;
+
     public ScoreViewModel(@NonNull final Application application,
                           @NonNull final Score props) {
         super(application, props);
@@ -30,8 +32,13 @@ public class ScoreViewModel extends MenuViewModel<Score> implements ScoreContrac
     }
 
     @Override
-    public void add(final String lengthOfWord) {
-        setText(String.valueOf(getProps().add()));
+    public void add(final int lengthOfWord) {
+        score += score(lengthOfWord);
+        setText(String.valueOf(score));
+    }
+
+    public int score(final int lengthOfWord) {
+        return lengthOfWord * lengthOfWord;
     }
 
     public static class Factory extends MVVMViewModel.Factory<ScoreViewModel> {

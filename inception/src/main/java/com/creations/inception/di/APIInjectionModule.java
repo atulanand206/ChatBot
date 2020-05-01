@@ -2,8 +2,8 @@ package com.creations.inception.di;
 
 import android.content.Context;
 
-import com.creations.blogger.IAPIChat;
 import com.creations.inception.network.APIChat;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.tools.network.NetworkManager;
 import com.example.dagger.scopes.AppScope;
 

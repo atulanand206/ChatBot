@@ -26,12 +26,6 @@ public class NavItemViewModel extends RecyclerViewModel<NavigationItem> implemen
         super(application, navigationBarProps);
     }
 
-    @NonNull
-    @Override
-    public String getTitle() {
-        return getProps().getLabel().name();
-    }
-
     @Override
     public Drawable getDrawable() {
         return getProps().getNavigationState().getDrawable(getApplication());

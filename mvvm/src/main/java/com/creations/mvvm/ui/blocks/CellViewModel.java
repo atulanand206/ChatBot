@@ -33,9 +33,6 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     private final LiveRunnable.Mutable mAddEvent = new LiveRunnable.Mutable();
 
     @NonNull
-    private final LiveRunnable.Mutable mRefreshEvent = new LiveRunnable.Mutable();
-
-    @NonNull
     private final LiveRunnable.Mutable mSelectionToggleEvent = new LiveRunnable.Mutable();
 
     public CellViewModel(@NonNull final Application application,
@@ -68,7 +65,7 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
                     switch (getProps().getState()) {
                         case Cell.State.COLORS:
                             shuffle(true);
-                            mRefreshEvent.postEvent();
+                            getRefreshEvent().postEvent();
                             break;
                         case Cell.State.SELECTED:
                             deselect();
@@ -101,12 +98,6 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
 
     private void showAddDialog() {
         mAddEvent.postEvent();
-    }
-
-    @NonNull
-    @Override
-    public LiveRunnable.Mutable getRefreshEvent() {
-        return mRefreshEvent;
     }
 
     @NonNull
