@@ -11,7 +11,9 @@ import com.creations.condition.Preconditions;
 import com.creations.inception.R;
 import com.creations.inception.databinding.FragmentRequestBinding;
 import com.creations.inception.ui.form.RequestModule.RequestSubcomponent.Builder;
+import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.fragment.MVVMFragmentView;
+import com.creations.mvvm.models.blocks.Preset;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.example.application.messages.MessageType;
 
@@ -29,13 +31,22 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
     RequestContract.ViewModel mViewModel;
     @Nullable
     private RequestContract.InteractionListener mListener;
+    @Inject
+    IAPIChat mApiChat;
 
     @NonNull
-    public static RequestFragment newInstance() {
+    public static RequestFragment newInstance(Preset boards, Builder builder1) {
         Bundle args = new Bundle();
         RequestFragment fragment = new RequestFragment();
         fragment.setArguments(args);
+        builder1.preset(boards);
+        fragment.mBuilder = builder1;
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

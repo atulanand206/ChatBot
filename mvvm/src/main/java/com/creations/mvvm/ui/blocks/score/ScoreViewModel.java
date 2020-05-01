@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.blocks.score;
 
 import android.app.Application;
+import android.view.View;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
@@ -26,6 +27,7 @@ public class ScoreViewModel extends MenuViewModel<Score> implements ScoreContrac
     @Override
     public void setProps(@NonNull Score props) {
         super.setProps(props);
+        setVisibility(View.GONE);
         setText(String.valueOf(props.score()));
         setTextSize(mApplication.getResources().getDimension(R.dimen.font_xxxx_large));
         setTextColorResId(mApplication.getResources().getColor(R.color.colorPrimary));

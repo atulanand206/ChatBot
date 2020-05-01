@@ -68,12 +68,12 @@ public class ImageViewModel extends RecyclerViewModel<ImageData> implements Imag
         mDescription.setValue(imageData.getDescription());
         setBackground(getApplication().getDrawable(R.drawable.image_background));
     }
-
-    @Override
-    public void onRecyclerItemClick() {
-        super.onRecyclerItemClick();
-        setBackground(getApplication().getDrawable(R.drawable.image_background_yellow));
-    }
+//
+//    @Override
+//    public void onRecyclerItemClick() {
+//        super.onRecyclerItemClick();
+//        setBackground(getApplication().getDrawable(R.drawable.image_background_yellow));
+//    }
 
     @NonNull
     @Override

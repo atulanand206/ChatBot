@@ -3,6 +3,7 @@ package com.creations.mvvm.ui.prop;
 import android.app.Application;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
@@ -23,6 +24,8 @@ public class PropViewModel<T extends Props> extends MVVMViewModel implements Pro
         mProps = props;
     }
 
+    @NonNull
+    private final LiveEvent.Mutable<T> mPropsEvent = new LiveEvent.Mutable<>();
     private T mProps;
 
     @NonNull
@@ -48,6 +51,12 @@ public class PropViewModel<T extends Props> extends MVVMViewModel implements Pro
     @Override
     public void setId(@IdRes final int id) {
         mId.postValue(id);
+    }
+
+    @NonNull
+    @Override
+    public LiveEvent.Mutable<T> getPropsEvent() {
+        return mPropsEvent;
     }
 
     @NonNull

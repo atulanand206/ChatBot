@@ -3,11 +3,16 @@ package com.creations.inception.ui;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.creations.blogger.callback.ListResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
 import com.creations.inception.App;
 import com.creations.inception.R;
 import com.creations.inception.ui.form.RequestContract;
 import com.creations.inception.ui.form.RequestFragment;
+import com.creations.mvvm.constants.IAPIChat;
+import com.creations.mvvm.models.blocks.Board;
+import com.creations.mvvm.models.blocks.Preset;
 import com.example.application.base.BaseActivity;
 import com.example.application.fragments.HomePagerAdapter;
 import com.example.application.utils.DisabledViewPager;
@@ -42,6 +47,8 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     private DisabledViewPager mViewPager;
     @NonNull
     private final List<Fragment> mFragmentList = new ArrayList<>();
+    @Inject
+    IAPIChat mApiChat;
 
     private RequestFragment fragment;
 
@@ -71,12 +78,22 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     }
 
     private void retrieveFragments(Bundle bundle) {
+        mApiChat.getBoards(new ListResponseCallback<Board>() {
+            @Override
+            public void onSuccess(@NonNull List<Board> response) {
+                Preset preset = new Preset(response);
+                preset.setColorResId(R.color.white);
+                Fragment hostFrag = getViewPagerFragmentById(1, 1);
+                mFragmentList.add(hostFrag != null ? hostFrag : getRequestFragment(preset,MainActivity.this));
+                setStatusBarColor(R.color.black);
+                mPagerAdapter.notifyDataSetChanged();
+            }
 
-        Fragment hostFrag = getViewPagerFragmentById(1, 1);
-        mFragmentList.add(hostFrag != null ? hostFrag : getRequestFragment(this));
-        setStatusBarColor(R.color.black);
-        mPagerAdapter.notifyDataSetChanged();
+            @Override
+            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
 
+            }
+        });
     }
 
     @Override

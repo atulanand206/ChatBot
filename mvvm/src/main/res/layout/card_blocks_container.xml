@@ -38,8 +38,11 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
 
+        <include layout="@layout/card_blocks_board_list" bind:viewmodel="@{viewmodel.presetViewModel}"/>
+
         <RelativeLayout
             android:id="@+id/info"
+            app:visibility="@{viewmodel.actionVisibility}"
             android:layout_below="@id/board_wrapper"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
@@ -106,10 +109,26 @@
 
 <!--        </LinearLayout>-->
 
+        <LinearLayout
+            android:id="@+id/exit"
+            android:visibility="@{viewmodel.actionVisibility}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_below="@id/info"
+            android:layout_alignParentStart="true"
+            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_EXIT_BOARD)}">
+
+            <include layout="@layout/icon_exit"/>
+
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/actions"
+            app:visibility="@{viewmodel.actionVisibility}"
             android:layout_below="@id/info"
-            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <LinearLayout

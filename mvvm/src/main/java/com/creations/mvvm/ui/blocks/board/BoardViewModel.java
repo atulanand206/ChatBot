@@ -82,6 +82,7 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
 
     @Override
     public void setRows(@NonNull final Board board) {
+        adapter.clearItems();
         List<Row> rows = board.getRows();
         for (int i = 0; i< rows.size(); i++) {
             RowViewModel viewModel;

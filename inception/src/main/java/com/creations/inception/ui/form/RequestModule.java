@@ -3,6 +3,7 @@ package com.creations.inception.ui.form;
 import com.creations.condition.Preconditions;
 import com.creations.inception.ui.blogger.BloggerModule;
 import com.creations.inception.ui.blogger.BloggerViewModel;
+import com.creations.mvvm.models.blocks.Preset;
 import com.creations.mvvm.ui.PropsModule;
 import com.creations.mvvm.ui.blocks.container.ContainerModule;
 import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
@@ -25,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import dagger.Binds;
+import dagger.BindsInstance;
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.AndroidInjector;
@@ -62,10 +64,11 @@ public interface RequestModule extends MVVMModule {
                 @NonNull final NavigationBarViewModel.Factory navigationFactory,
                 @NonNull final BloggerViewModel.Factory bloggerFactory,
                 @NonNull final DrawerViewModel.Factory drawerFactory,
-                @NonNull final ContainerViewModel.Factory boardFactory) {
+                @NonNull final ContainerViewModel.Factory boardFactory,
+                @NonNull final Preset preset) {
 
             return new RequestViewModel.RequestFactory(activity.getApplication(), navigationFactory,
-                    bloggerFactory, drawerFactory, boardFactory);
+                    bloggerFactory, drawerFactory, boardFactory, preset);
         }
     }
 
@@ -103,6 +106,9 @@ public interface RequestModule extends MVVMModule {
         @dagger.Subcomponent.Builder
         abstract class Builder extends Subcomponent.Builder<RequestFragment> {
 
+            @BindsInstance
+            @NonNull
+            public abstract Builder preset(@NonNull final Preset preset);
         }
 
     }

@@ -1,5 +1,6 @@
 package com.creations.mvvm.ui.prop;
 
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
@@ -24,6 +25,9 @@ public interface PropContract {
         void setProps(@NonNull final T props);
 
         void closeKeyboard();
+
+        @NonNull
+        LiveEvent.Mutable<T> getPropsEvent();
 
         @NonNull
         LiveRunnable.Mutable getCloseKeyboardEvent();

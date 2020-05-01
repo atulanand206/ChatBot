@@ -4,7 +4,8 @@ import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
-import com.creations.mvvm.ui.blocks.done.DoneViewModel;
+import com.creations.mvvm.ui.blocks.done.DoneContract;
+import com.creations.mvvm.ui.blocks.preset.PresetContract;
 import com.creations.mvvm.ui.blocks.score.ScoreContract;
 import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
 
@@ -30,10 +31,14 @@ public interface ContainerContract {
         @NonNull
         ScoreContract.ViewModel getScoreViewModel();
 
-
+        @NonNull
+        DoneContract.ViewModel getDoneViewModel();
 
         @NonNull
-        DoneViewModel getDoneViewModel();
+        PresetContract.ViewModel getPresetViewModel();
+
+        @NonNull
+        LiveData<Integer> getActionVisibility();
 
         @NonNull
         LiveData<Integer> getAddVisibility();

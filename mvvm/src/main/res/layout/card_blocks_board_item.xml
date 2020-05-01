@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.creations.mvvm.ui.blocks.add.AddContract.ViewModel"/>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.ui.blocks.item.ItemContract.ViewModel" />
+    </data>
+
+    <LinearLayout
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@color/message_progress"
+        android:onClick="@{() -> viewmodel.onRecyclerItemClick()}">
+
+        <androidx.cardview.widget.CardView
+            app:cardElevation="@dimen/margin_normal"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_margin="@dimen/margin_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{viewmodel.title}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_x_large" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.header}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:text="@{viewmodel.subHeader}"
+                    android:textSize="@dimen/font_normal"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</layout>

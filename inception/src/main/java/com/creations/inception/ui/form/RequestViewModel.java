@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.creations.condition.Preconditions;
 import com.creations.inception.ui.blogger.BloggerViewModel;
+import com.creations.mvvm.models.blocks.Preset;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
@@ -30,9 +31,11 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
                             @NonNull final NavigationBarViewModel.Factory navigationFactory,
                             @NonNull final BloggerViewModel.Factory bloggerFactory,
                             @NonNull final DrawerViewModel.Factory drawerFactory,
-                            @NonNull final ContainerViewModel.Factory boardFactory) {
+                            @NonNull final ContainerViewModel.Factory boardFactory,
+                            @NonNull final Preset preset) {
         super(application, new NavigationBarProps());
         mBoard = boardFactory.create();
+        mBoard.getPresetViewModel().setProps(preset);
         mContextCallback.addSource(mBoard.getContextCallback());
     }
 
@@ -70,24 +73,28 @@ public class RequestViewModel extends MenuViewModel<NavigationBarProps> implemen
         private final DrawerViewModel.Factory mDrawerFactory;
         @NonNull
         private final ContainerViewModel.Factory mBoardFactory;
+        @NonNull
+        private final Preset mPreset;
 
         public RequestFactory(@NonNull final Application application,
                               @NonNull final NavigationBarViewModel.Factory navigationFactory,
                               @NonNull final BloggerViewModel.Factory bloggerFactory,
                               @NonNull final DrawerViewModel.Factory drawerFactory,
-                              @NonNull final ContainerViewModel.Factory boardFactory) {
+                              @NonNull final ContainerViewModel.Factory boardFactory,
+                              @NonNull final Preset preset) {
             super(RequestViewModel.class, application);
             mNavigationFactory = Preconditions.requiresNonNull(navigationFactory, "NavigationFactory");
             mBloggerFactory = Preconditions.requiresNonNull(bloggerFactory, "BloggerFactory");
             mDrawerFactory = Preconditions.requiresNonNull(drawerFactory, "DrawerFactory");
             mBoardFactory = Preconditions.requiresNonNull(boardFactory, "BoardFactory");
+            mPreset = Preconditions.requiresNonNull(preset, "Preset");
         }
 
         @NonNull
         @Override
         public RequestViewModel create() {
             return new RequestViewModel(mApplication, mNavigationFactory,
-                    mBloggerFactory, mDrawerFactory, mBoardFactory);
+                    mBloggerFactory, mDrawerFactory, mBoardFactory, mPreset);
         }
     }
 }
