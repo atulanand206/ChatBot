@@ -9,11 +9,12 @@
     </data>
 
     <RelativeLayout
-        app:visibility="@{viewmodel.visibility}"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
+            app:visibility="@{viewmodel.visibility}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

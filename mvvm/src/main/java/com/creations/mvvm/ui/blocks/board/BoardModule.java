@@ -4,8 +4,9 @@ import com.creations.condition.Preconditions;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.ui.blocks.row.RowModule;
 import com.creations.mvvm.ui.blocks.row.RowViewModel;
+import com.creations.mvvm.ui.blocks.word.WordModule;
+import com.creations.mvvm.ui.blocks.word.WordViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
-import com.creations.tools.utils.JsonConvertor;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -14,11 +15,15 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = RowModule.class)
+@Module(includes = {
+        WordModule.class,
+        RowModule.class
+})
 public interface BoardModule extends MVVMModule {
 
     @Module(includes = {
             RowModule.InjectViewModelFactory.class,
+            WordModule.InjectViewModelFactory.class
     })
     abstract class InjectViewModelFactory {
         @Provides
@@ -26,12 +31,12 @@ public interface BoardModule extends MVVMModule {
         public static BoardViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
                 @NonNull final RowViewModel.Factory cellFactory,
-                @NonNull final JsonConvertor jsonConvertor,
+                @NonNull final WordViewModel.Factory worddFactory,
                 @NonNull final Board props) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new BoardViewModel.Factory(activity.getApplication(), cellFactory, jsonConvertor, props);
+            return new BoardViewModel.Factory(activity.getApplication(), cellFactory, worddFactory, props);
         }
     }
 

@@ -53,6 +53,8 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
 
         binding.setViewmodel(mViewModel);
 
+        hideNavigation(mRootView);
+
         return view;
     }
 
@@ -70,8 +72,17 @@ public class RequestFragment extends MVVMFragmentView<RequestContract.ViewModel,
         ((BoardViewModel) mViewModel.getBoard().getBoardViewModel()).getStatusBarColorEvent().listen(getViewLifecycleOwner(), mListener::setStatusBarColr);
         mViewModel.getBoard().getAnimation().listen(getViewLifecycleOwner(), super::crossfade);
         mViewModel.getBoard().getCloseKeyboardEvent().listen(getViewLifecycleOwner(), () -> hideKeyboard(mRootView));
-        mViewModel.getBoard().getWordViewModel().getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
+        mViewModel.getBoard().getAddViewModel().getHideNavigationEvent().listen(getViewLifecycleOwner(), () -> hideNavigation(mRootView));
+        mViewModel.getBoard().getBoardViewModel().getWordViewModel().getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
+        ((BoardViewModel) mViewModel.getBoard().getBoardViewModel()).getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
         mViewModel.getBoard().getDoneViewModel().getToastEvent().listen(getViewLifecycleOwner(), (x) -> showToast(x, MessageType.SUCCESS, Toast.LENGTH_SHORT));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mRootView != null)
+            hideNavigation(mRootView);
     }
 
     @Override

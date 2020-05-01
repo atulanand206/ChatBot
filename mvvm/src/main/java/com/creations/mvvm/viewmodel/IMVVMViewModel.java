@@ -37,6 +37,8 @@ import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.creations.mvvm.ui.recycler.LoopingRecyclerAdapter.ROW_CELL_COUNT;
+
 /**
  * Interface to support the basic shared operations between MVVMViewModel's
  * as well as define needed {@link BindingAdapter}'s. Supports {@link ContextCallback}'s
@@ -148,6 +150,13 @@ public interface IMVVMViewModel {
     static void bindRecyclerLayoutManager(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerUtils.LayoutType layoutTypeData) {
         if (layoutTypeData == null) return;
         recyclerView.setLayoutManager(RecyclerUtils.layoutManager(recyclerView.getContext(), layoutTypeData));
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager == null) return;
+        if (layoutTypeData == RecyclerUtils.LayoutType.LOOP_HORIZONTAL) {
+//            SnapHelper helper = new LinearSnapHelper();
+//            helper.attachToRecyclerView(recyclerView);
+            layoutManager.scrollToPosition(ROW_CELL_COUNT / 2);
+        }
     }
 
     @BindingAdapter("adapter")

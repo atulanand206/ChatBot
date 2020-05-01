@@ -3,6 +3,8 @@ package com.creations.mvvm.ui.blocks.word;
 import android.app.Application;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.models.array.Arr;
+import com.creations.mvvm.models.array.Item;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.Word;
 import com.creations.mvvm.models.blocks.Words;
@@ -49,12 +51,6 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
     }
 
     @Override
-    public void addCell(Cell cell) {
-        mCells.add(cell);
-        getToastEvent().postEvent(String.valueOf(cell.getCharacter()));
-    }
-
-    @Override
     public boolean valid() {
         return valid(getWord());
     }
@@ -63,34 +59,19 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
         return mWords.contains(word);
     }
 
-    public void green() {
-    }
-
-    @Override
-    public void clear() {
-        mCells.clear();
-    }
-
-    @Override
-    public void removeFirst() {
-        if (mCells.isEmpty())
-            return;
-        mCells.remove(0);
-    }
-
-    @Override
-    public void removeLast() {
-        if (mCells.isEmpty())
-            return;
-        mCells.remove(mCells.size()-1);
-    }
-
     @Override
     public String getWord() {
         StringBuilder builder = new StringBuilder();
         for (Cell cell : mCells)
             builder.append(cell.getCharacter());
         return builder.toString();
+    }
+
+    @Override
+    public void refresh(Arr selections) {
+        mCells.clear();
+        for (Item item : selections.getItems())
+            mCells.add(item.getCell());
     }
 
     public static class Factory extends MVVMViewModel.Factory<WordViewModel> {

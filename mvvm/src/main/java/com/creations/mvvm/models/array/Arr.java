@@ -14,11 +14,7 @@ public class Arr extends Props implements Serializable {
 
     private List<Item> items = new ArrayList<>();
 
-    private int currentIndex = -1;
-
-    public Arr() {
-
-    }
+    private int firstAvailable = -1, lastAvailable = -1;
 
     public List<Item> getItems() {
         return items;
@@ -30,35 +26,63 @@ public class Arr extends Props implements Serializable {
     }
 
     public void clear() {
-        this.currentIndex = -1;
+        this.firstAvailable = -1;
+        this.lastAvailable = -1;
         this.items.clear();
     }
 
-    public void addItem(Item item) {
-        this.items.add(item);
-    }
-
     public void add(int x, int y, Cell cell) {
-        this.items.add(new Item(x, y, cell));
+        if (firstAvailable == -1) {
+            firstAvailable = x - 1;
+            lastAvailable = x + 1;
+            items.add(new Item(x, y, cell));
+        } else {
+            if (x == firstAvailable) {
+                firstAvailable--;
+                items.add(0, new Item(x, y, cell));
+            } else if (x == lastAvailable) {
+                lastAvailable++;
+                items.add(new Item(x, y, cell));
+            }
+        }
+        Item item = atIndex(x);
+        if (item != null) {
+            items.set(items.indexOf(item), new Item(x, y, cell));
+        }
     }
 
-    public int getCurrentIndex() {
-        return currentIndex;
+    public int getFirstAvailable() {
+        return firstAvailable;
     }
 
-    public void setCurrentIndex(int currentIndex) {
-        this.currentIndex = currentIndex;
+    public int getLastAvailable() {
+        return lastAvailable;
     }
 
-    public Arr valid() {
+    public List<Item> valid() {
         for (Item item : items)
             item.setColorResId(COLOR_ADD_GO);
-        return this;
+        return items;
     }
 
-    public Arr invalid() {
+    public List<Item> invalid() {
         for (Item item : items)
             item.setColorResId(COLOR_ADD_ERROR);
-        return this;
+        return items;
+    }
+
+    public int[] selected() {
+        int[] s = new int[items.size()];
+        for (int i=0;i<items.size();i++)
+            s[i] = items.get(i).getI();
+        return s;
+    }
+
+    public Item atIndex(final int indx) {
+        for (int i=0;i<items.size();i++){
+            if(items.get(i).getI() == indx)
+                return items.get(i);
+        }
+        return null;
     }
 }

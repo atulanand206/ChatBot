@@ -23,16 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:minHeight="50dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                bind:recyclerLayoutManager="@{viewmodel.layoutType}"
+                bind:adapter="@{viewmodel.adapter}"/>
 
-                <include layout="@layout/card_blocks_board" bind:viewmodel="@{viewmodel}"/>
-
-            </RelativeLayout>
         </LinearLayout>
-
 
     </RelativeLayout>
 </layout>

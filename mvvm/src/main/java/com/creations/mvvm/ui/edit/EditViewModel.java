@@ -12,6 +12,8 @@ import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.lifecycle.LiveData;
 
 /**
@@ -21,6 +23,9 @@ public class EditViewModel<T extends Props> extends PropViewModel<T> implements 
 
     @NonNull
     private final MutableLiveData<Boolean> mEditable = new MutableLiveData<>(false);
+
+    @NonNull
+    private final MutableLiveData<Boolean> mSelected = new MutableLiveData<>(false);
 
     @NonNull
     private final LiveEvent.Mutable<T> mOnClickEvent = new LiveEvent.Mutable<>();
@@ -49,6 +54,17 @@ public class EditViewModel<T extends Props> extends PropViewModel<T> implements 
     @Override
     public void setEditable(final boolean editable) {
         mEditable.postValue(editable);
+    }
+
+    @NonNull
+    @Override
+    public MutableLiveData<Boolean> getSelected() {
+        return mSelected;
+    }
+
+    @Override
+    public void setSelected(final boolean selected) {
+        mSelected.postValue(selected);
     }
 
     @Override
@@ -84,6 +100,46 @@ public class EditViewModel<T extends Props> extends PropViewModel<T> implements 
     @Override
     public LiveEvent.Mutable<String> getToastEvent() {
         return mToastEvent;
+    }
+
+    @Override
+    public void removeSetError(@Nullable final MutableLiveData<String> textFieldError,
+                                  @Nullable final MutableLiveData<Boolean> errorEnabled) {
+        if (textFieldError == null || errorEnabled == null)
+            return;
+        textFieldError.setValue(null);
+        errorEnabled.setValue(false);
+    }
+
+    @Override
+    public void removePostError(@Nullable final MutableLiveData<String> textFieldError,
+                                @Nullable final MutableLiveData<Boolean> errorEnabled) {
+        if (textFieldError == null || errorEnabled == null)
+            return;
+        textFieldError.postValue(null);
+        errorEnabled.postValue(false);
+    }
+
+    @Override
+    public void setError(@Nullable final MutableLiveData<String> textFieldError,
+                         @Nullable final MutableLiveData<Boolean> errorEnabled,
+                         @StringRes final int errorResId) {
+        removeSetError(textFieldError, errorEnabled);
+        if (textFieldError == null || errorEnabled == null)
+            return;
+        textFieldError.setValue(getApplication().getString(errorResId));
+        errorEnabled.setValue(true);
+    }
+
+    @Override
+    public void postError(@Nullable final MutableLiveData<String> textFieldError,
+                          @Nullable final MutableLiveData<Boolean> errorEnabled,
+                          @StringRes final int errorResId) {
+        removePostError(textFieldError, errorEnabled);
+        if (textFieldError == null || errorEnabled == null)
+            return;
+        textFieldError.postValue(getApplication().getString(errorResId));
+        errorEnabled.postValue(true);
     }
 
     public static class Factory<T extends Props> extends MVVMViewModel.Factory<EditViewModel> {

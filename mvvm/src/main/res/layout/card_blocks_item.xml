@@ -9,7 +9,7 @@
             type="com.creations.mvvm.ui.blocks.CellContract.ViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         app:visibility="@{viewmodel.visibility}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,12 +27,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_x_small"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:textColor="@{viewmodel.textColorResId}"
             android:textSize="@{viewmodel.textSize}"
             android:layout_marginTop="@dimen/margin_x_small"
             android:layout_marginBottom="@dimen/margin_x_small"
             android:text="@{viewmodel.character}" />
 
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

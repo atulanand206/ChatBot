@@ -7,7 +7,6 @@ import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
 import com.creations.mvvm.ui.blocks.done.DoneViewModel;
 import com.creations.mvvm.ui.blocks.score.ScoreContract;
-import com.creations.mvvm.ui.blocks.word.WordViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -31,8 +30,7 @@ public interface ContainerContract {
         @NonNull
         ScoreContract.ViewModel getScoreViewModel();
 
-        @NonNull
-        WordViewModel getWordViewModel();
+
 
         @NonNull
         DoneViewModel getDoneViewModel();

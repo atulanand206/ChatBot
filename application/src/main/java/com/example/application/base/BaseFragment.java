@@ -36,13 +36,20 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
         this.context = context;
     }
 
-    public void hideKeyboard(View view) {
+    public void hideKeyboard(@NonNull final View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 //        if (ViewUtils.isKeyboardShown(view.getRootView())) {
             if (imm == null)
                 return;
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 //        }
+        hideNavigation(view);
+    }
+
+    public void hideNavigation(@NonNull final View view) {
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
     public boolean isActive() {

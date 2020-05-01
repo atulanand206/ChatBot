@@ -6,11 +6,8 @@ import android.net.Uri;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
-import com.creations.mvvm.live.MutableLiveData;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,42 +43,6 @@ public abstract class MVVMViewModel extends AndroidViewModel implements IMVVMVie
                 Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         getApplication().startActivity(dialerActivity);
-    }
-
-    protected void removeSetError(@Nullable final MutableLiveData<String> textFieldError,
-                                  @Nullable final MutableLiveData<Boolean> errorEnabled) {
-        if (textFieldError == null || errorEnabled == null)
-            return;
-        textFieldError.setValue(null);
-        errorEnabled.setValue(false);
-    }
-
-    protected void removePostError(@Nullable final MutableLiveData<String> textFieldError,
-                                   @Nullable final MutableLiveData<Boolean> errorEnabled) {
-        if (textFieldError == null || errorEnabled == null)
-            return;
-        textFieldError.postValue(null);
-        errorEnabled.postValue(false);
-    }
-
-    protected void setError(@Nullable final MutableLiveData<String> textFieldError,
-                            @Nullable final MutableLiveData<Boolean> errorEnabled,
-                            @StringRes final int errorResId) {
-        removeSetError(textFieldError, errorEnabled);
-        if (textFieldError == null || errorEnabled == null)
-            return;
-        textFieldError.setValue(getApplication().getString(errorResId));
-        errorEnabled.setValue(true);
-    }
-
-    protected void postError(@Nullable final MutableLiveData<String> textFieldError,
-                             @Nullable final MutableLiveData<Boolean> errorEnabled,
-                             @StringRes final int errorResId) {
-        removePostError(textFieldError, errorEnabled);
-        if (textFieldError == null || errorEnabled == null)
-            return;
-        textFieldError.postValue(getApplication().getString(errorResId));
-        errorEnabled.postValue(true);
     }
 
     /**

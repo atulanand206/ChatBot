@@ -77,6 +77,7 @@ public class AddViewModel extends RecyclerViewModel<Add> implements AddContract.
     @Override
     public void afterTextChanged(@Nullable Editable editable) {
         super.afterTextChanged(editable);
+        hideNavigation();
         mBoardViewModel.setProps(new Board(BoardUtils.row(getText().getValue(), LINEAR_HORIZONTAL)));
         mBoardViewModel.setBackgroundColor(COLOR_NORMAL);
     }

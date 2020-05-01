@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBinding> extends RecyclerView.Adapter<RecyclerViewHolder<T, E>> {
 
     @NonNull
-    private List<T> mViewModels;
+    protected List<T> mViewModels;
     @NonNull
     private RecyclerListener<T> mListener;
     private int mLayoutResId;
@@ -44,7 +44,7 @@ public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBin
         mViewModels.get(position).getClickedEvent().listen(holder, () -> onClick(holder.getAbsoluteAdapterPosition()));
     }
 
-    private void onClick(final int adapterPosition) {
+    public void onClick(final int adapterPosition) {
         mViewModels.get(adapterPosition).onRecyclerItemClick();
         mListener.onItemClick(mViewModels.get(adapterPosition));
     }

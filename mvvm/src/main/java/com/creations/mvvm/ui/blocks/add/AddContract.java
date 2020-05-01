@@ -24,7 +24,7 @@ public interface AddContract {
         int COLOR_ADD_CLEAR = R.color.pal_blue;
         int COLOR_ADD_GREY = R.color.pal_grey;
         int COLOR_MATCH = R.color.pal_pink;
-        int COLOR_NEAR = R.color.pal_yellow;
+        int COLOR_NEAR = R.color.colorPrimary;
         @NonNull
         BoardContract.ViewModel getBoardViewModel();
 

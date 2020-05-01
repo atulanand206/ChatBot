@@ -54,6 +54,8 @@ public class PropViewModel<T extends Props> extends MVVMViewModel implements Pro
     private final LiveRunnable.Mutable mKeyboardCloseEvent = new LiveRunnable.Mutable();
 
     @NonNull
+    private final LiveRunnable.Mutable mHideNavigationEvent = new LiveRunnable.Mutable();
+    @NonNull
     @Override
     public LiveRunnable.Mutable getCloseKeyboardEvent() {
         return mKeyboardCloseEvent;
@@ -62,6 +64,17 @@ public class PropViewModel<T extends Props> extends MVVMViewModel implements Pro
     @Override
     public void closeKeyboard() {
         mKeyboardCloseEvent.postEvent();
+    }
+
+    @NonNull
+    @Override
+    public LiveRunnable.Mutable getHideNavigationEvent() {
+        return mHideNavigationEvent;
+    }
+
+    @Override
+    public void hideNavigation() {
+        mHideNavigationEvent.postEvent();
     }
 
     private final MutableLiveData<Boolean> mClickable = new MutableLiveData<>(true);

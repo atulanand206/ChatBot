@@ -63,4 +63,9 @@ public class Row extends RecyclerProps {
         for (Cell cell : cells)
             cell.setClickable(clickable);
     }
+
+    @Override
+    public void setSelected(boolean selected) {
+        super.setSelected(selected);
+    }
 }

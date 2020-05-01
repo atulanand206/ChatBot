@@ -29,6 +29,11 @@ public interface PropContract {
         LiveRunnable.Mutable getCloseKeyboardEvent();
 
         @NonNull
+        LiveRunnable.Mutable getHideNavigationEvent();
+
+        void hideNavigation();
+
+        @NonNull
         MutableLiveData<Boolean> isClickable();
 
         void setClickable(boolean clickable);

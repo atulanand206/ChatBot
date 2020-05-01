@@ -10,8 +10,6 @@ import com.creations.mvvm.ui.blocks.done.DoneModule;
 import com.creations.mvvm.ui.blocks.done.DoneViewModel;
 import com.creations.mvvm.ui.blocks.score.ScoreModule;
 import com.creations.mvvm.ui.blocks.score.ScoreViewModel;
-import com.creations.mvvm.ui.blocks.word.WordModule;
-import com.creations.mvvm.ui.blocks.word.WordViewModel;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.example.application.messages.IMessageManager;
@@ -27,7 +25,7 @@ import dagger.Provides;
         BoardModule.class,
         AddModule.class,
         ScoreModule.class,
-        WordModule.class,
+
         DoneModule.class
 })
 public interface ContainerModule extends MenuModule {
@@ -36,7 +34,6 @@ public interface ContainerModule extends MenuModule {
             BoardModule.InjectViewModelFactory.class,
             AddModule.InjectViewModelFactory.class,
             ScoreModule.InjectViewModelFactory.class,
-            WordModule.InjectViewModelFactory.class,
             DoneModule.InjectViewModelFactory.class
     })
     abstract class InjectViewModelFactory {
@@ -47,7 +44,6 @@ public interface ContainerModule extends MenuModule {
                 @NonNull final BoardViewModel.Factory boardFactory,
                 @NonNull final AddViewModel.Factory addFactory,
                 @NonNull final ScoreViewModel.Factory scoreFactory,
-                @NonNull final WordViewModel.Factory wordFactory,
                 @NonNull final DoneViewModel.Factory doneFactory,
                 @NonNull final ContainerProps props,
                 @NonNull final IMessageManager messageManager) {
@@ -55,7 +51,7 @@ public interface ContainerModule extends MenuModule {
             Preconditions.requiresNonNull(props, "Props");
 
             return new ContainerViewModel.Factory(activity.getApplication(),
-                    addFactory, boardFactory, scoreFactory, wordFactory, doneFactory, props);
+                    addFactory, boardFactory, scoreFactory, doneFactory, props);
         }
     }
 

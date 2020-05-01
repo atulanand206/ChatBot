@@ -13,63 +13,66 @@
     <RelativeLayout
         app:visibility="@{viewmodel.visibility}"
         android:layout_width="match_parent"
-        bind:setId="@{viewmodel.containerId}"
         android:layout_height="wrap_content">
 
+        <include
+            android:id="@+id/score"
+            layout="@layout/card_blocks_score" bind:viewmodel="@{viewmodel.scoreViewModel}"/>
+
+        <include
+            android:id="@+id/board_wrapper"
+            android:layout_below="@id/score"
+            android:layout_margin="@dimen/margin_small"
+            layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/add"
+            android:layout_below="@id/board_wrapper"
+            android:layout_toStartOf="@id/close"
+            android:visibility="@{viewmodel.addVisibility}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_ROW)}">
 
-            <include layout="@layout/card_blocks_score" bind:viewmodel="@{viewmodel.scoreViewModel}"/>
+            <include layout="@layout/icon_add"/>
 
-            <include layout="@layout/card_blocks_board_wrapper" bind:viewmodel="@{viewmodel.boardViewModel}"/>
+        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:visibility="@{viewmodel.addVisibility}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_ROW)}">
+        <LinearLayout
+            android:id="@+id/close"
+            android:layout_below="@id/board_wrapper"
+            android:layout_centerHorizontal="true"
+            android:visibility="@{viewmodel.closeVisibility}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_CANCEL_WORD)}">
 
-                    <include layout="@layout/icon_add"/>
+            <include layout="@layout/icon_close"/>
 
-                </LinearLayout>
+        </LinearLayout>
 
-                <LinearLayout
-                    android:visibility="@{viewmodel.closeVisibility}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_CANCEL_WORD)}">
+        <LinearLayout
+            android:id="@+id/done"
+            android:layout_toEndOf="@id/close"
+            android:layout_below="@id/board_wrapper"
+            android:visibility="@{viewmodel.tickVisibility}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_WORD)}">
 
-                    <include layout="@layout/icon_close"/>
+            <include layout="@layout/icon_tick"/>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:visibility="@{viewmodel.tickVisibility}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_ADD_WORD)}">
-
-                    <include layout="@layout/icon_tick"/>
-
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
 
         <View
-            bind:setId="@{viewmodel.layoutId}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent" />
 
         <LinearLayout
-            bind:setId="@{viewmodel.contentId}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 

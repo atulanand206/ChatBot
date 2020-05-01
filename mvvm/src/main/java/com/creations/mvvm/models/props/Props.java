@@ -9,9 +9,11 @@ import androidx.annotation.ColorRes;
 public class Props implements Serializable {
 
     @ColorRes
-    private int colorResId = R.color.pal_pink;
+    private int colorResId = R.color.colorPrimary;
 
     private boolean mClickable = true;
+
+    private boolean mSelected = false;
 
     public Props() {
     }
@@ -26,6 +28,14 @@ public class Props implements Serializable {
 
     public void setClickable(boolean mClickable) {
         this.mClickable = mClickable;
+    }
+
+    public boolean isSelected() {
+        return mSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.mSelected = selected;
     }
 
     public int getColorResId() {

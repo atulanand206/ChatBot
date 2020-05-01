@@ -10,6 +10,7 @@ import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.prop.PropViewModel;
 import com.creations.mvvm.ui.text.TextViewModel;
+import com.creations.tools.utils.JsonConvertor;
 import com.example.application.messages.IMessageManager;
 
 import androidx.annotation.ColorRes;
@@ -22,6 +23,8 @@ import androidx.lifecycle.LiveData;
 public class MenuViewModel<T extends Props> extends TextViewModel<T> implements MenuContract.ViewModel<T> {
 
     protected IMessageManager mMessageManager;
+
+    protected JsonConvertor jsonConvertor;
 
     @NonNull
     private final MutableLiveData<Integer> mVisibility = new MutableLiveData<>(View.GONE);
@@ -50,6 +53,10 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
 
     private void setMessageManager(IMessageManager messageManager) {
         this.mMessageManager = messageManager;
+    }
+
+    public void setJsonConvertor(JsonConvertor jsonConvertor) {
+        this.jsonConvertor = jsonConvertor;
     }
 
     @Override
@@ -102,12 +109,17 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
         @NonNull
         private final IMessageManager mMessageManager;
 
+        @NonNull
+        private final JsonConvertor mJsonConvertor;
+
         public Factory(@NonNull final Application application,
                        @NonNull final Props props,
-                       @NonNull final IMessageManager messageManager) {
+                       @NonNull final IMessageManager messageManager,
+                       @NonNull final JsonConvertor jsonConvertor) {
             super(application, props);
             mProps = Preconditions.requiresNonNull(props, "Props");
             mMessageManager = Preconditions.requiresNonNull(messageManager, "MessageManager");
+            mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "JsonConvertor");
         }
 
         @NonNull
@@ -115,6 +127,7 @@ public class MenuViewModel<T extends Props> extends TextViewModel<T> implements 
         public MenuViewModel create() {
             MenuViewModel<Props> propsMenuViewModel = new MenuViewModel<>(mApplication, mProps);
             propsMenuViewModel.setMessageManager(mMessageManager);
+            propsMenuViewModel.setJsonConvertor(mJsonConvertor);
             return propsMenuViewModel;
         }
     }

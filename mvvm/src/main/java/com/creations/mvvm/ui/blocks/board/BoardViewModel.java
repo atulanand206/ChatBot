@@ -8,7 +8,6 @@ import com.creations.mvvm.databinding.CardBlocksRowBinding;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.models.array.Arr;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.Row;
@@ -16,9 +15,9 @@ import com.creations.mvvm.models.blocks.RowWrapper;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.blocks.row.RowContract;
 import com.creations.mvvm.ui.blocks.row.RowViewModel;
+import com.creations.mvvm.ui.blocks.word.WordViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
-import com.creations.tools.utils.JsonConvertor;
 import com.example.application.utils.RecyclerUtils;
 
 import java.util.List;
@@ -26,6 +25,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_ADD_ERROR;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_ADD_GO;
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_NORMAL;
 
 /**
@@ -35,6 +36,9 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
 
     @NonNull
     private final RowViewModel.Factory mRowFactory;
+
+    @NonNull
+    private final WordViewModel mWordViewModel;
     @NonNull
     private final BoardAdapter<RowContract.ViewModel, CardBlocksRowBinding> adapter = new BoardAdapter<>(viewModel -> {
 
@@ -52,19 +56,14 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
     @NonNull
     private final LiveEvent.Mutable<Props> mAddWordEvent = new LiveEvent.Mutable<>();
 
-    @NonNull
-    private final Arr mCells = new Arr();
-
-    @NonNull
-    private final JsonConvertor mJsonConvertor;
-
     public BoardViewModel(@NonNull final Application application,
                           @NonNull final RowViewModel.Factory rowFactory,
-                          @NonNull final JsonConvertor jsonConvertor,
+                          @NonNull final WordViewModel.Factory wordFactory,
                           @NonNull final Board board) {
         super(application, board);
         mRowFactory = Preconditions.requiresNonNull(rowFactory, "Factory");
-        mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "JsonConvertor");
+        mWordViewModel = wordFactory.create();
+        mContextCallback.addSource(mWordViewModel.getContextCallback());
         setProps(board);
         setLayoutType(RecyclerUtils.LayoutType.LINEAR_VERTICAL);
         setTopColor(COLOR_NORMAL);
@@ -88,42 +87,29 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
                     int clickedIndex = ((Row) o).getClickedIndex();
                     clickedIndex = clickedIndex % rowInfo.getCells().size();
                     Cell cell = rowInfo.getCells().get(clickedIndex);
-                    mCells.add(finalI1, clickedIndex, cell);
-                    mCells.setCurrentIndex(finalI1);
-                    postCharacter(rows, finalI1, clickedIndex);
+                    getProps().add(finalI1, clickedIndex, cell);
+                    mWordViewModel.refresh(getProps().getSelections());
+                    if (mWordViewModel.valid()) {
+                        setProps(board.valid());
+                        setBackgroundColor(COLOR_ADD_GO);
+                    } else {
+                        setProps(board.invalid());
+                        setBackgroundColor(COLOR_ADD_ERROR);
+                    }
                 }
             });
             adapter.addItem(viewModel);
         }
-        adapter.notifyDataSetChanged();
-    }
-
-    public void notifyDataSetChanged() {
-        Board board = getProps();
-        board = board.refresh(mCells);
-        setProps(board);
-    }
-
-    private void postCharacter(List<Row> rows, int finalI1, int clickedIndex) {
-        BoardViewModel.this.getClickEvent().postEvent(rows.get(finalI1).getCells().get(clickedIndex));
-    }
-
-    @Override
-    public void valid() {
-        mCells.setItems(mCells.valid().getItems());
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void invalid() {
-        mCells.setItems(mCells.invalid().getItems());
-        notifyDataSetChanged();
     }
 
     @Override
     public void clear() {
-        mCells.clear();
-        notifyDataSetChanged();
+        setProps(getProps().clear());
+    }
+
+    @Override
+    public String getWord() {
+        return mWordViewModel.getWord();
     }
 
     @NonNull
@@ -152,6 +138,13 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
 
     @NonNull
     @Override
+    public WordViewModel getWordViewModel() {
+        return mWordViewModel;
+    }
+
+
+    @NonNull
+    @Override
     public BoardAdapter getAdapter() {
         return adapter;
     }
@@ -169,7 +162,7 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
         private final RowViewModel.Factory mRowFactory;
 
         @NonNull
-        private final JsonConvertor mJsonConvertor;
+        private final WordViewModel.Factory mWordFactory;
 
         @NonNull
         private final Board mProps;
@@ -177,18 +170,18 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
 
         public Factory(@NonNull final Application application,
                        @NonNull final RowViewModel.Factory rowFactory,
-                       @NonNull final JsonConvertor jsonConvertor,
+                       @NonNull final WordViewModel.Factory wordFactory,
                        @NonNull final Board props) {
             super(BoardViewModel.class, application);
             mProps = Preconditions.requiresNonNull(props, "Props");
             mRowFactory = Preconditions.requiresNonNull(rowFactory, "RowFactory");
-            mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "JsonConvertor");
+            mWordFactory = Preconditions.requiresNonNull(wordFactory, "Factory");
         }
 
         @NonNull
         @Override
         public BoardViewModel create() {
-            return new BoardViewModel(mApplication, mRowFactory, mJsonConvertor, mProps);
+            return new BoardViewModel(mApplication, mRowFactory, mWordFactory, mProps);
         }
     }
 }

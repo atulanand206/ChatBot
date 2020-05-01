@@ -6,17 +6,18 @@ import android.view.ViewGroup;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.databinding.CardBlocksItemBinding;
 import com.creations.mvvm.ui.blocks.CellContract;
-import com.creations.mvvm.ui.recycler.RecyclerAdapter;
+import com.creations.mvvm.ui.recycler.LoopingRecyclerAdapter;
 import com.creations.mvvm.ui.recycler.RecyclerListener;
 import com.creations.mvvm.ui.recycler.RecyclerViewHolder;
+import com.example.application.utils.RecyclerUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
-public class RowAdapter<T extends CellContract.ViewModel, E extends CardBlocksItemBinding> extends RecyclerAdapter<T, E> {
+public class RowAdapter<T extends CellContract.ViewModel, E extends CardBlocksItemBinding> extends LoopingRecyclerAdapter<T, E> {
 
     public RowAdapter(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
-        super(listener, layoutResId);
+        super(listener, layoutResId, RecyclerUtils.LayoutType.LINEAR_HORIZONTAL);
     }
 
     @NonNull

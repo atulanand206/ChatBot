@@ -5,6 +5,7 @@ import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.blocks.RowWrapper;
 import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.blocks.word.WordViewModel;
 import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
 
 import androidx.annotation.NonNull;
@@ -30,13 +31,14 @@ public interface BoardContract {
         @NonNull
         BoardAdapter getAdapter();
 
+        @NonNull
+        WordViewModel getWordViewModel();
+
         void addRow(@NonNull final Row props);
 
-        void valid();
-
-        void invalid();
-
         void clear();
+
+        String getWord();
     }
 
 }

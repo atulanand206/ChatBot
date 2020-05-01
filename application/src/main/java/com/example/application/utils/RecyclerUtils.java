@@ -46,7 +46,7 @@ public class RecyclerUtils {
                 layoutManager = RecyclerUtils.loopingVertical(context);
                 break;
             case LOOP_HORIZONTAL:
-                layoutManager = RecyclerUtils.loopingHorizontal(context);
+                layoutManager = RecyclerUtils.linearHorizontal(context);
                 break;
             case LINEAR_HORIZONTAL:
                 layoutManager = RecyclerUtils.linearHorizontal(context);
