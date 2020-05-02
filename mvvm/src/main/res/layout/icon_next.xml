@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+    </data>
+    <View
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/small_icon_width"
+        android:layout_height="@dimen/small_icon_width"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/ic_navigate_next_black_24dp" />
+</layout>

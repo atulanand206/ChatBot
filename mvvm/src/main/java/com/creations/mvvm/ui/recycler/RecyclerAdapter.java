@@ -64,6 +64,12 @@ public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBin
         return mViewModels;
     }
 
+    public void setViewModels(@NonNull final List<T> viewModels) {
+        mViewModels.clear();
+        mViewModels.addAll(viewModels);
+        notifyDataSetChanged();
+    }
+
     public void deleteItem(final int position) {
         if (position < 0 || position >= mViewModels.size()) {
             return;

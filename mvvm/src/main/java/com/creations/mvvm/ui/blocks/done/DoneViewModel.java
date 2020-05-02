@@ -22,7 +22,7 @@ public class DoneViewModel extends MenuViewModel<Done> implements DoneContract.V
 
     @Override
     public void done(String word) {
-        getToastEvent().postEvent(word);
+//        getToastEvent().postEvent(word);
     }
 
     public static class Factory extends MVVMViewModel.Factory<DoneViewModel> {

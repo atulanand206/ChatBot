@@ -23,7 +23,7 @@ public class BoardSerializer implements JsonSerializer<Board>, JsonDeserializer<
         int id = jsonObject.get(ID).getAsInt();
         String name = jsonObject.get(NAME).getAsString();
         String board = jsonObject.get(BOARD).getAsString();
-        Board board1 = BoardUtils.board(board.split(","));
+        Board board1 = BoardUtils.board(board.replace("\"","").split(","));
         board1.setId(id);
         board1.setName(name);
         board1.setBoard(board);

@@ -30,8 +30,9 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_ADD_ROW;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_ADD_WORD;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_CANCEL_WORD;
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_EXIT_BOARD;
-import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_REFRESH;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -118,6 +119,7 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
 
     private void loadBoard(@NonNull Board board) {
         board.setRows();
+        board.clear();
         getProps().setColorResId(R.color.colorPrimary);
         setTitle(board.getName());
         setTitleTextSize(mApplication.getResources().getDimension(R.dimen.font_xxxx_large));
@@ -128,7 +130,6 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
         mBoardViewModel.getAddWordEvent().observeForever(props -> {
             if (props instanceof Word) {
                 String word = mBoardViewModel.getWord();
-                mScoreViewModel.add(word.length());
                 mDoneViewModel.done(word);
                 Word newWord = (Word) props;
                 setWord(newWord);
@@ -136,10 +137,14 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
                 setWord(null);
             }
         });
+        mBoardViewModel.getRefreshEvent().observeForever(sentinel -> {
+            if (sentinel != null) {
+                mScoreViewModel.setVisibility(View.VISIBLE);
+                mActionVisibility.postValue(View.VISIBLE);
+                mPresetViewModel.setVisibility(View.GONE);
+            }
+        });
         mContextCallback.addSource(mBoardViewModel.getContextCallback());
-        mScoreViewModel.setVisibility(View.VISIBLE);
-        mActionVisibility.postValue(View.VISIBLE);
-        mPresetViewModel.setVisibility(View.GONE);
     }
 
     private void setWord(@Nullable Word newWord) {
@@ -172,8 +177,10 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
                 mScoreViewModel.setVisibility(View.GONE);
                 mBoardViewModel.setVisibility(View.GONE);
                 mActionVisibility.setValue(View.GONE);
-            } else if (object.equals(CLICK_REFRESH)) {
-                mBoardViewModel.refresh();
+            } else if (object.equals(CLICK_CANCEL_WORD)) {
+                mBoardViewModel.clear();
+            } else if (object.equals(CLICK_ADD_WORD)) {
+                mScoreViewModel.add(mBoardViewModel.getWord().length());
             }
         }
     }

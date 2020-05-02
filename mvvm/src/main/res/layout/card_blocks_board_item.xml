@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
     <data>
         <import type="com.creations.mvvm.ui.blocks.add.AddContract.ViewModel"/>
         <import type="android.view.View" />
@@ -15,45 +16,63 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:clickable="true"
-        android:background="@color/message_progress"
-        android:onClick="@{() -> viewmodel.onRecyclerItemClick()}">
+        android:background="@color/message_progress">
 
         <androidx.cardview.widget.CardView
-            app:cardElevation="@dimen/margin_normal"
             android:layout_margin="@dimen/margin_small"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_margin="@dimen/margin_small"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@{viewmodel.title}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/font_x_large" />
+                    android:textStyle="bold"
+                    android:layout_margin="@dimen/margin_normal"
+                    android:textSize="@dimen/font_xxx_large" />
 
-                <TextView
+                <LinearLayout
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/close"
+                    android:visibility="@{viewmodel.visibility}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.onRecyclerItemClick()}">
+
+                    <include layout="@layout/icon_next"/>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@id/close"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewmodel.header}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_normal" />
+                    android:scrollbars="vertical"
+                    bind:recyclerLayoutManager="@{viewmodel.layoutType}"
+                    bind:adapter="@{viewmodel.adapter}"/>
 
                 <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:text="@{viewmodel.subHeader}"
                     android:textSize="@dimen/font_normal"
+                    android:textStyle="italic"
                     android:textColor="@color/black" />
 
-            </LinearLayout>
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>

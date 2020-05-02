@@ -25,6 +25,7 @@ import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.utils.RecyclerUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -83,6 +84,7 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
     @Override
     public void setRows(@NonNull final Board board) {
         adapter.clearItems();
+        List<RowContract.ViewModel> viewModels = new ArrayList<>();
         List<Row> rows = board.getRows();
         for (int i = 0; i< rows.size(); i++) {
             RowViewModel viewModel;
@@ -118,8 +120,10 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
                     });
                 }
             });
-            adapter.addItem(viewModel);
+            viewModels.add(viewModel);
         }
+        adapter.setViewModels(viewModels);
+        getRefreshEvent().postEvent();
         setProps(board);
     }
 

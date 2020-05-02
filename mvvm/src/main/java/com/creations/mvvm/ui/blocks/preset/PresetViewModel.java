@@ -40,7 +40,6 @@ public class PresetViewModel extends RecyclerViewModel<Preset> implements Preset
         mFactory = itemFactory;
         mApiChat = apiChat;
         setVisibility(View.VISIBLE);
-        setTextColorResId(props.getColorResId());
         setLayoutType(RecyclerUtils.LayoutType.LINEAR_VERTICAL);
     }
 

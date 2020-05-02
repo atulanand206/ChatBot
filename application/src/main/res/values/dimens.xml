@@ -51,4 +51,5 @@
     <dimen name="grid_width">10dp</dimen>
     <dimen name="margin_dialog_top">150dp</dimen>
     <dimen name="icon_width">64dp</dimen>
+    <dimen name="small_icon_width">48dp</dimen>
 </resources>

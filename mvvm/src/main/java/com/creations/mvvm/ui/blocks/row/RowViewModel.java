@@ -17,6 +17,7 @@ import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.messages.MessageType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,7 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         adapter.setLayoutType(rowInfo.getLayoutType());
         setLayoutType(rowInfo.getLayoutType());
         addViewModel.setProps(BoardUtils.addCell());
+        List<CellContract.ViewModel> viewModels = new ArrayList<>();
         for (int i=0;i<rowInfo.getCells().size();i++) {
             Cell cell = rowInfo.getCells().get(i);
             cell.setClickable(rowInfo.isClickable());
@@ -70,8 +72,9 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
                     }
                 }
             });
-            adapter.addItem(cellViewModel);
+            viewModels.add(cellViewModel);
         }
+        adapter.setViewModels(viewModels);
         setVisibility(View.VISIBLE);
         setEditable(rowInfo.isAddVisibility());
         setProps(rowInfo);

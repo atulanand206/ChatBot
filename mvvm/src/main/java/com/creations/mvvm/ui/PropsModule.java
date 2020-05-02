@@ -5,6 +5,7 @@ import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.ContainerProps;
 import com.creations.mvvm.models.blocks.Done;
+import com.creations.mvvm.models.blocks.Options;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.blocks.Score;
 import com.creations.mvvm.models.blocks.Word;
@@ -127,6 +128,12 @@ public class PropsModule {
     @NonNull
     public static Done provideDone() {
         return new Done();
+    }
+
+    @Provides
+    @NonNull
+    public static Options provideOptions() {
+        return new Options();
     }
 
 }

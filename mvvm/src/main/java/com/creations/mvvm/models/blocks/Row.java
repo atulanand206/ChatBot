@@ -34,6 +34,13 @@ public class Row extends RecyclerProps {
         return cells;
     }
 
+    public String getWord() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Cell cell : cells)
+            stringBuilder.append(cell.getCharacter());
+        return stringBuilder.toString();
+    }
+
     public boolean isAddVisibility() {
         return addVisibility;
     }

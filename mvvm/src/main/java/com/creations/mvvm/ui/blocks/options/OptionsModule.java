@@ -1,9 +1,7 @@
-package com.creations.mvvm.ui.blocks.item;
+package com.creations.mvvm.ui.blocks.options;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.models.blocks.Board;
-import com.creations.mvvm.ui.blocks.options.OptionsModule;
-import com.creations.mvvm.ui.blocks.options.OptionsViewModel;
+import com.creations.mvvm.models.blocks.Options;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.example.application.messages.IMessageManager;
@@ -15,48 +13,43 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {
-        OptionsModule.class
-})
-public interface ItemModule extends MenuModule {
+@Module()
+public interface OptionsModule extends MenuModule {
 
-    @Module(includes = {
-            OptionsModule.InjectViewModelFactory.class
-    })
+    @Module
     abstract class InjectViewModelFactory {
         @Provides
         @NonNull
-        public static ItemViewModel.Factory provideViewModelFactory(
+        public static OptionsViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
-                @NonNull final OptionsViewModel.Factory factory,
-                @NonNull final Board props,
+                @NonNull final Options props,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new ItemViewModel.Factory(activity.getApplication(), factory, props);
+            return new OptionsViewModel.Factory(activity.getApplication(), props);
         }
     }
 
     @Module(includes = InjectViewModelFactory.class)
-    abstract class InjectViewModel extends MVVMModule.InjectViewModel<ItemContract.ViewModel,
-            ItemViewModel> {
+    abstract class InjectViewModel extends MVVMModule.InjectViewModel<OptionsContract.ViewModel,
+            OptionsViewModel> {
 
         @Provides
         @NonNull
-        static ItemViewModel provideViewModel(
-                @NonNull final ItemViewModel.Factory factory,
+        static OptionsViewModel provideViewModel(
+                @NonNull final OptionsViewModel.Factory factory,
                 @NonNull final FragmentActivity application) {
             Preconditions.requiresNonNull(factory, "ViewModelFactory");
             Preconditions.requiresNonNull(application, "FragmentActivity");
 
-            ItemViewModel viewModel = ViewModelProviders.of(application, factory).get(ItemViewModel.class);
+            OptionsViewModel viewModel = ViewModelProviders.of(application, factory).get(OptionsViewModel.class);
             return Preconditions.requiresNonNull(viewModel, "ViewModel");
         }
 
         @Binds
         @NonNull
-        abstract ItemContract.ViewModel bindViewModel(@NonNull final ItemViewModel viewModel);
+        abstract OptionsContract.ViewModel bindViewModel(@NonNull final OptionsViewModel viewModel);
     }
 
 }

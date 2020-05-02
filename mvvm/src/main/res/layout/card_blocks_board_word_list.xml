@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.ui.blocks.options.OptionsContract.ViewModel" />
+    </data>
+
+    <LinearLayout
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/margin_normal"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_margin="@dimen/margin_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_margin="@dimen/margin_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/word"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@{viewmodel.text}"
+                    android:textSize="@dimen/font_xxx_large"
+                    android:textColor="@{@color/white}"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

@@ -17,6 +17,7 @@ public interface AddContract {
         int CLICK_FOREGROUND = 2;
         int CLICK_ADD_ROW = 3;
         int CLICK_CANCEL_WORD = 4;
+        int CLICK_START_BOARD = 5;
         int CLICK_EXIT_BOARD = 8;
         int CLICK_ADD_WORD = 5;
         int CLICK_REFRESH = 6;
