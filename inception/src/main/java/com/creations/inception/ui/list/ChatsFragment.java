@@ -18,16 +18,13 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.AndroidSupportInjection;
 
 public class ChatsFragment extends Fragment implements ListContract.View, ListRecyclerAdapter.OnItemClickListener {
-
-    private RecyclerView recyclerView;
-    private ListRecyclerAdapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+//
+//    private RecyclerView recyclerView;
+//    private ListRecyclerAdapter recyclerAdapter;
+//    private RecyclerView.LayoutManager layoutManager;
 
     private ListContract.Presenter presenter;
 
@@ -63,7 +60,7 @@ public class ChatsFragment extends Fragment implements ListContract.View, ListRe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.chats);
+//        recyclerView = view.findViewById(R.id.chats);
         setHasOptionsMenu(true);
     }
 
@@ -73,13 +70,13 @@ public class ChatsFragment extends Fragment implements ListContract.View, ListRe
 
         presenter = new ListPresenter(this, repository);
 
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerAdapter = new ListRecyclerAdapter(presenter.getUsers(),getContext(),this);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        layoutManager = new LinearLayoutManager(getContext());
+//        recyclerAdapter = new ListRecyclerAdapter(presenter.getUsers(),getContext(),this);
+//
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(recyclerAdapter);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -125,7 +122,7 @@ public class ChatsFragment extends Fragment implements ListContract.View, ListRe
 
     @Override
     public void onItemsLoaded() {
-        recyclerAdapter.notifyDataSetChanged();
+//        recyclerAdapter.notifyDataSetChanged();
     }
 
     @Override

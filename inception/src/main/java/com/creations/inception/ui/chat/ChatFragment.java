@@ -23,9 +23,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.AndroidSupportInjection;
 
 /**
@@ -46,9 +43,9 @@ public class ChatFragment extends Fragment implements ChatContract.View,
 
     private ImageButton sendButton;
 
-    private RecyclerView recyclerView;
-    private ChatRecyclerAdapter recyclerAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+//    private RecyclerView recyclerView;
+//    private ChatRecyclerAdapter recyclerAdapter;
+//    private RecyclerView.LayoutManager layoutManager;
 
     private ChatContract.Presenter presenter;
 
@@ -91,7 +88,7 @@ public class ChatFragment extends Fragment implements ChatContract.View,
 
         entryView = view.findViewById(R.id.form_entry);
         sendButton = view.findViewById(R.id.send);
-        recyclerView = view.findViewById(R.id.messages);
+//        recyclerView = view.findViewById(R.id.messages);
         setHasOptionsMenu(true);
     }
 
@@ -101,13 +98,13 @@ public class ChatFragment extends Fragment implements ChatContract.View,
 
         presenter = new ChatPresenter(this, chatRepository, user);
 
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerAdapter = new ChatRecyclerAdapter(presenter.getItems(),getContext());
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        layoutManager = new LinearLayoutManager(getContext());
+//        recyclerAdapter = new ChatRecyclerAdapter(presenter.getItems(),getContext());
+//
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(recyclerAdapter);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         sendButton.setOnClickListener(this);
         entryView.setOnEditorActionListener(this);
@@ -167,7 +164,7 @@ public class ChatFragment extends Fragment implements ChatContract.View,
 
     @Override
     public void onItemsLoaded() {
-        recyclerAdapter.notifyDataSetChanged();
+//        recyclerAdapter.notifyDataSetChanged();
     }
 
     @Override

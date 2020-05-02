@@ -4,20 +4,22 @@ import com.creations.mvvm.models.props.Props;
 
 import java.io.Serializable;
 
-public class Score  extends Props implements Serializable {
+public class Score extends Props implements Serializable {
 
-    private int words = 0;
+   private ScoreItem scoreItem = new ScoreItem();
 
-    public int add() {
-        words++;
-        return words;
+    public Score() {
     }
 
-    public int score() {
-        return words;
+    public Score(ScoreItem scoreItem) {
+        this.scoreItem = scoreItem;
     }
 
-    public String name() {
-        return "ROWS";
+    public ScoreItem getScoreItem() {
+        return scoreItem;
+    }
+
+    public void setScoreItem(ScoreItem scoreItem) {
+        this.scoreItem = scoreItem;
     }
 }

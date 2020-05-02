@@ -9,6 +9,7 @@ import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.databinding.CardBlocksBoardItemBinding;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Preset;
+import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.item.ItemContract;
 import com.creations.mvvm.ui.blocks.item.ItemViewModel;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
@@ -61,6 +62,14 @@ public class PresetViewModel extends RecyclerViewModel<Preset> implements Preset
     @Override
     public PresetAdapter<ItemContract.ViewModel, CardBlocksBoardItemBinding> getAdapter() {
         return adapter;
+    }
+
+    @Override
+    public void onClick(@NonNull Object object) {
+        if (object instanceof Integer) {
+            if (object.equals(AddContract.ViewModel.CLICK_TO_HOME))
+                PresetViewModel.this.getClickEvent().postEvent(AddContract.ViewModel.CLICK_TO_HOME);
+        }
     }
 
     public static class Factory extends MVVMViewModel.Factory<PresetViewModel> {

@@ -91,7 +91,7 @@ public class OkHttpNetworkManager extends NetworkManager {
             requestBody = requestObject == null ? null :
                     RequestBody.create(JSON, gson.toJson(requestObject));
         }
-
+        Log.d(TAG, String.valueOf(requestBody));
         return requestBuilder
                 .url(url)
                 .method(method, requestBody)

@@ -5,9 +5,12 @@ import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.ContainerProps;
 import com.creations.mvvm.models.blocks.Done;
+import com.creations.mvvm.models.blocks.Home;
 import com.creations.mvvm.models.blocks.Options;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.models.blocks.Score;
+import com.creations.mvvm.models.blocks.ScoreItem;
+import com.creations.mvvm.models.blocks.Scores;
 import com.creations.mvvm.models.blocks.Word;
 import com.creations.mvvm.models.navigation.NavigationBarProps;
 import com.creations.mvvm.models.navigation.NavigationItem;
@@ -126,6 +129,18 @@ public class PropsModule {
 
     @Provides
     @NonNull
+    public static ScoreItem provideScoreItem() {
+        return new ScoreItem();
+    }
+
+    @Provides
+    @NonNull
+    public static Scores provideScores() {
+        return new Scores();
+    }
+
+    @Provides
+    @NonNull
     public static Done provideDone() {
         return new Done();
     }
@@ -134,6 +149,12 @@ public class PropsModule {
     @NonNull
     public static Options provideOptions() {
         return new Options();
+    }
+
+    @Provides
+    @NonNull
+    public static Home provideHome() {
+        return new Home();
     }
 
 }

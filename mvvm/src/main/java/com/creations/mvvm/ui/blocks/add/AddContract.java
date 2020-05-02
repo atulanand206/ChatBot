@@ -21,6 +21,9 @@ public interface AddContract {
         int CLICK_EXIT_BOARD = 8;
         int CLICK_ADD_WORD = 5;
         int CLICK_REFRESH = 6;
+        int CLICK_SHOW_BOARDS = 9;
+        int CLICK_SHOW_SCORES = 10;
+        int CLICK_TO_HOME = 11;
         int CLICK_LOAD_BOARD = 7;
         int COLOR_WHITE = R.color.white;
         int COLOR_NORMAL = R.color.colorPrimary;

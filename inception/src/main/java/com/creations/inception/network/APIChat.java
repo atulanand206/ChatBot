@@ -10,6 +10,7 @@ import com.creations.inception.constants.AppConstants;
 import com.creations.inception.models.Request;
 import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.blocks.Board;
+import com.creations.mvvm.models.blocks.ScoreItem;
 import com.creations.mvvm.models.blocks.Word;
 import com.creations.tools.network.NetworkManager;
 import com.creations.tools.network.RequestMethod;
@@ -18,6 +19,8 @@ import androidx.annotation.NonNull;
 
 import static com.creations.inception.constants.AppConstants.URL_WORD_BOARD;
 import static com.creations.inception.constants.AppConstants.URL_WORD_POOL;
+import static com.creations.inception.constants.AppConstants.URL_WORD_SCORE;
+import static com.creations.inception.constants.AppConstants.URL_WORD_SCORES;
 
 public class APIChat implements IAPIChat {
 
@@ -79,5 +82,16 @@ public class APIChat implements IAPIChat {
     @Override
     public void getBoards(@NonNull ListResponseCallback<Board> callback) {
         mNetworkManager.makeListRequest(RequestMethod.GET, URL_WORD_BOARD, null, callback, Board.class);
+    }
+
+    @Override
+    public void postScore(@NonNull final ScoreItem score,
+                          @NonNull final ObjectResponseCallback<ScoreItem> callback) {
+        mNetworkManager.makeObjectRequest(RequestMethod.POST, URL_WORD_SCORE, score, callback, ScoreItem.class);
+    }
+
+    @Override
+    public void getScores(@NonNull final ListResponseCallback<ScoreItem> callback) {
+        mNetworkManager.makeListRequest(RequestMethod.GET, URL_WORD_SCORES, null, callback, ScoreItem.class);
     }
 }

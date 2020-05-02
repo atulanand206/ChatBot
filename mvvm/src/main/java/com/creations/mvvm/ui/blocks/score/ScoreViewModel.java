@@ -28,7 +28,7 @@ public class ScoreViewModel extends MenuViewModel<Score> implements ScoreContrac
     public void setProps(@NonNull Score props) {
         super.setProps(props);
         setVisibility(View.GONE);
-        setText(String.valueOf(props.score()));
+        setText(String.valueOf(props.getScoreItem().score()));
         setTextSize(mApplication.getResources().getDimension(R.dimen.font_xxxx_large));
         setTextColorResId(mApplication.getResources().getColor(R.color.colorPrimary));
     }

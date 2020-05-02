@@ -1,23 +1,22 @@
-package com.creations.mvvm.ui.blocks.row;
+package com.creations.mvvm.ui.blocks.scoreList;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.databinding.CardBlocksItemBinding;
-import com.creations.mvvm.ui.blocks.CellContract;
-import com.creations.mvvm.ui.recycler.LoopingRecyclerAdapter;
+import com.creations.mvvm.databinding.CardBlocksScoreItemBinding;
+import com.creations.mvvm.ui.blocks.scoreItem.ScoreItemContract;
+import com.creations.mvvm.ui.recycler.RecyclerAdapter;
 import com.creations.mvvm.ui.recycler.RecyclerListener;
 import com.creations.mvvm.ui.recycler.RecyclerViewHolder;
-import com.example.application.utils.RecyclerUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
-public class RowAdapter<T extends CellContract.ViewModel, E extends CardBlocksItemBinding> extends LoopingRecyclerAdapter<T, E> {
+public class ScoreListAdapter<T extends ScoreItemContract.ViewModel, E extends CardBlocksScoreItemBinding> extends RecyclerAdapter<T, E> {
 
-    public RowAdapter(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
-        super(listener, layoutResId, RecyclerUtils.LayoutType.LINEAR_HORIZONTAL);
+    public ScoreListAdapter(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
+        super(listener, layoutResId);
     }
 
     @NonNull
@@ -29,7 +28,7 @@ public class RowAdapter<T extends CellContract.ViewModel, E extends CardBlocksIt
         return new ViewHolder<T, E>(binding);
     }
 
-    public static class ViewHolder<T extends CellContract.ViewModel, E extends CardBlocksItemBinding> extends RecyclerViewHolder<T, E> {
+    public static class ViewHolder<T extends ScoreItemContract.ViewModel, E extends CardBlocksScoreItemBinding> extends RecyclerViewHolder<T, E> {
 
         ViewHolder(@NonNull final E binding) {
             super(binding);

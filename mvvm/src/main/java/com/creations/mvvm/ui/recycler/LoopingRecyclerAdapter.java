@@ -20,7 +20,7 @@ public class LoopingRecyclerAdapter<T extends IRecyclerViewModel, E extends View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder<T, E> holder, int position) {
-        if (isLoop()) {
+        if (isLoop() && !mViewModels.isEmpty()) {
             position = position % mViewModels.size();
             Preconditions.requiresNonNull(holder, "Holder").bind(mViewModels.get(position));
             mViewModels.get(position).getClickedEvent().listen(holder, () -> onClick(holder.getAbsoluteAdapterPosition()));
@@ -35,7 +35,7 @@ public class LoopingRecyclerAdapter<T extends IRecyclerViewModel, E extends View
     }
 
     private boolean isLoop() {
-        return mLayoutType.equals(RecyclerUtils.LayoutType.LOOP_HORIZONTAL) || mLayoutType.equals(RecyclerUtils.LayoutType.LINEAR_VERTICAL);
+        return mLayoutType.equals(RecyclerUtils.LayoutType.LOOP_HORIZONTAL) || mLayoutType.equals(RecyclerUtils.LayoutType.LOOP_VERTICAL);
     }
 
     public void setLayoutType(@NonNull RecyclerUtils.LayoutType layoutType) {

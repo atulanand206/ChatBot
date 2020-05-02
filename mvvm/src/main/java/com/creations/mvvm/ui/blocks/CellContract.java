@@ -22,6 +22,10 @@ public interface CellContract {
 
         void setCharacter(final char character);
 
+        LiveData<Integer> getCellColor();
+
+        void setCellColor(int color);
+
         LiveData<Integer> getColorResId();
 
         LiveData<String> getCharacter();

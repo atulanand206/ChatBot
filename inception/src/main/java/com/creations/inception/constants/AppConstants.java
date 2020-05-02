@@ -39,8 +39,12 @@ public interface AppConstants extends NetworkConstants {
     String URL_WORD_POOL_HOSTNAME = "http://192.168.0.154:8080";
     String URL_WORD_POOL_ENDPOINT = "/words/valid?word=%s";
     String URL_WORD_BOARD_ENDPOINT = "/boards";
+    String URL_WORD_SCORE_ENDPOINT = "/scores/game";
+    String URL_WORD_SCORES_ENDPOINT = "/scores";
     String URL_WORD_POOL = URL_WORD_POOL_HOSTNAME + URL_WORD_POOL_ENDPOINT;
     String URL_WORD_BOARD = URL_WORD_POOL_HOSTNAME + URL_WORD_BOARD_ENDPOINT;
+    String URL_WORD_SCORE = URL_WORD_POOL_HOSTNAME + URL_WORD_SCORE_ENDPOINT;
+    String URL_WORD_SCORES = URL_WORD_POOL_HOSTNAME + URL_WORD_SCORES_ENDPOINT;
 
     String CHAT_API = "Fetching chatbot reply";
 }

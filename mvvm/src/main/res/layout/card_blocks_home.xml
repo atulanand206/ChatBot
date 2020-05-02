@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import type="com.creations.mvvm.ui.blocks.add.AddContract.ViewModel"/>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.creations.mvvm.ui.blocks.home.HomeContract.ViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        bind:bkgrndColor="@{viewmodel.backgroundColor}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/image_list_height"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_1"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_2"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_3"
+                android:textSize="@{viewmodel.textSize}"/>
+
+
+            <TextView
+                android:textColor="@{viewmodel.textColorResId}"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:text="@string/name_4"
+                android:textSize="@{viewmodel.textSize}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_xxxxx_large"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginEnd="@dimen/margin_xxx_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_SHOW_BOARDS)}">
+
+                <include layout="@layout/icon_dashboard"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/margin_xxx_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewmodel.onClick(ViewModel.CLICK_SHOW_SCORES)}">
+
+                <include layout="@layout/icon_scores"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

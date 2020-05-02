@@ -2,19 +2,21 @@ package com.creations.mvvm.ui.blocks.container;
 
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.animate.IAnimatorViewModel;
 import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
 import com.creations.mvvm.ui.blocks.done.DoneContract;
+import com.creations.mvvm.ui.blocks.home.HomeContract;
 import com.creations.mvvm.ui.blocks.preset.PresetContract;
 import com.creations.mvvm.ui.blocks.score.ScoreContract;
-import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
+import com.creations.mvvm.ui.blocks.scoreList.ScoreListContract;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 public interface ContainerContract {
 
-    interface ViewModel<T extends Props> extends IRecyclerViewModel<T> {
+    interface ViewModel<T extends Props> extends IAnimatorViewModel<T> {
 
         int MAX_ROWS = 10;
         int MIN_COLUMNS = 10;
@@ -36,6 +38,12 @@ public interface ContainerContract {
 
         @NonNull
         PresetContract.ViewModel getPresetViewModel();
+
+        @NonNull
+        ScoreListContract.ViewModel getScoreListViewModel();
+
+        @NonNull
+        HomeContract.ViewModel getHomeViewModel();
 
         @NonNull
         LiveData<Integer> getActionVisibility();

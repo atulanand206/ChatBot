@@ -41,6 +41,10 @@
 
         <include layout="@layout/card_blocks_board_list" bind:viewmodel="@{viewmodel.presetViewModel}"/>
 
+        <include layout="@layout/card_blocks_score_list" bind:viewmodel="@{viewmodel.scoreListViewModel}"/>
+
+        <include layout="@layout/card_blocks_home" bind:viewmodel="@{viewmodel.homeViewModel}"/>
+
         <RelativeLayout
             android:id="@+id/info"
             app:visibility="@{viewmodel.actionVisibility}"

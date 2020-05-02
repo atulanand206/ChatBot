@@ -41,7 +41,9 @@ public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBin
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder<T, E> holder, final int position) {
         Preconditions.requiresNonNull(holder, "Holder").bind(mViewModels.get(position));
-        mViewModels.get(position).getClickedEvent().listen(holder, () -> onClick(holder.getAbsoluteAdapterPosition()));
+        mViewModels.get(position).getClickedEvent().listen(holder, () -> {
+            onClick(holder.getAbsoluteAdapterPosition());
+        });
     }
 
     public void onClick(final int adapterPosition) {

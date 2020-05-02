@@ -13,6 +13,7 @@ import com.creations.inception.ui.form.RequestFragment;
 import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.Preset;
+import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.example.application.base.BaseActivity;
 import com.example.application.fragments.HomePagerAdapter;
 import com.example.application.utils.DisabledViewPager;
@@ -81,12 +82,14 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         mApiChat.getBoards(new ListResponseCallback<Board>() {
             @Override
             public void onSuccess(@NonNull List<Board> response) {
-                Preset preset = new Preset(response);
-                preset.setColorResId(R.color.white);
-                Fragment hostFrag = getViewPagerFragmentById(1, 1);
-                mFragmentList.add(hostFrag != null ? hostFrag : getRequestFragment(preset,MainActivity.this));
-                setStatusBarColor(R.color.black);
-                mPagerAdapter.notifyDataSetChanged();
+                runOnUiThread(()-> {
+                    Preset preset = new Preset(response);
+                    preset.setColorResId(AddContract.ViewModel.COLOR_NORMAL);
+                    Fragment hostFrag = getViewPagerFragmentById(1, 1);
+                    mFragmentList.add(hostFrag != null ? hostFrag : getRequestFragment(preset,MainActivity.this));
+                    setStatusBarColor(R.color.black);
+                    mPagerAdapter.notifyDataSetChanged();
+                });
             }
 
             @Override

@@ -16,7 +16,7 @@
         android:focusable="true"
         android:clickable="true"
         android:onClick="@{() -> viewmodel.onClick()}"
-        bind:bkgrndColor="@{viewmodel.backgroundColor}">
+        app:cardBackgroundColor="@{viewmodel.colorResId}">
 
         <include layout="@layout/card_square" bind:side="@{viewmodel.side}"/>
 

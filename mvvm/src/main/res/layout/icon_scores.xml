@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+    </data>
+    <View
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/icon_width"
+        android:layout_height="@dimen/icon_width"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/ic_accessibility_black_24dp" />
+</layout>

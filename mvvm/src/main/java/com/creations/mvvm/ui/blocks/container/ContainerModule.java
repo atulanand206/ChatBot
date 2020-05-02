@@ -9,10 +9,14 @@ import com.creations.mvvm.ui.blocks.board.BoardModule;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.creations.mvvm.ui.blocks.done.DoneModule;
 import com.creations.mvvm.ui.blocks.done.DoneViewModel;
+import com.creations.mvvm.ui.blocks.home.HomeModule;
+import com.creations.mvvm.ui.blocks.home.HomeViewModel;
 import com.creations.mvvm.ui.blocks.preset.PresetModule;
 import com.creations.mvvm.ui.blocks.preset.PresetViewModel;
 import com.creations.mvvm.ui.blocks.score.ScoreModule;
 import com.creations.mvvm.ui.blocks.score.ScoreViewModel;
+import com.creations.mvvm.ui.blocks.scoreList.ScoreListModule;
+import com.creations.mvvm.ui.blocks.scoreList.ScoreListViewModel;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.creations.tools.utils.JsonConvertor;
@@ -30,7 +34,9 @@ import dagger.Provides;
         AddModule.class,
         ScoreModule.class,
         DoneModule.class,
-        PresetModule.class
+        PresetModule.class,
+        ScoreListModule.class,
+        HomeModule.class
 })
 public interface ContainerModule extends MenuModule {
 
@@ -39,7 +45,9 @@ public interface ContainerModule extends MenuModule {
             AddModule.InjectViewModelFactory.class,
             ScoreModule.InjectViewModelFactory.class,
             DoneModule.InjectViewModelFactory.class,
-            PresetModule.InjectViewModelFactory.class
+            PresetModule.InjectViewModelFactory.class,
+            ScoreListModule.InjectViewModelFactory.class,
+            HomeModule.InjectViewModelFactory.class
     })
     abstract class InjectViewModelFactory {
         @Provides
@@ -51,6 +59,8 @@ public interface ContainerModule extends MenuModule {
                 @NonNull final ScoreViewModel.Factory scoreFactory,
                 @NonNull final DoneViewModel.Factory doneFactory,
                 @NonNull final PresetViewModel.Factory presetFactory,
+                @NonNull final ScoreListViewModel.Factory scoreListFactory,
+                @NonNull final HomeViewModel.Factory homeFactory,
                 @NonNull final IAPIChat iapiChat,
                 @NonNull final ContainerProps props,
                 @NonNull final JsonConvertor jsonConvertor,
@@ -60,7 +70,8 @@ public interface ContainerModule extends MenuModule {
 
             return new ContainerViewModel.Factory(activity.getApplication(),
                     addFactory, boardFactory, scoreFactory, doneFactory,
-                    presetFactory, iapiChat, jsonConvertor, props);
+                    presetFactory, scoreListFactory, homeFactory,
+                    iapiChat, jsonConvertor, props);
         }
     }
 

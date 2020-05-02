@@ -33,4 +33,11 @@ public class Preset extends Props implements Serializable {
         for (Board board : response)
             addBoard(board);
     }
+
+    @Override
+    public void setColorResId(int colorResId) {
+        super.setColorResId(colorResId);
+        for (Board brd : board)
+            brd.setColorResId(colorResId);
+    }
 }

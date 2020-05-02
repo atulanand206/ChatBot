@@ -7,6 +7,7 @@ import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.blocks.Cell;
+import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
@@ -22,6 +23,8 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
 
     @NonNull
     private Application mApplication;
+
+    private MutableLiveData<Integer> cellColor = new MutableLiveData<>(AddContract.ViewModel.COLOR_NORMAL);
 
     private MutableLiveData<Integer> colorResId = new MutableLiveData<>();
 
@@ -44,12 +47,14 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     @Override
     public void setProps(@NonNull final Cell cell) {
         super.setProps(cell);
-        setBackgroundColor(cell.getColorResId());
         setClickable(cell.isClickable());
         setCharacter(cell.getCharacter());
         setTextColorResId(mApplication.getResources().getColor(cell.getTextColorResId()));
         setTextSize(mApplication.getResources().getDimension(cell.getTextSize()));
         setSide(mApplication.getResources().getDimension(cell.getSide()));
+        setCellColor(cell.getColorResId());
+        setColorResId(cell.getColorResId());
+        setBackgroundColor(cell.getColorResId());
         setVisibility(View.VISIBLE);
     }
 
@@ -83,17 +88,14 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
     @Override
     public void shuffle(final boolean shuffle) {
         super.shuffle(shuffle);
-        setBackgroundColor(getActiveColor());
     }
 
     private void select() {
         getClickEvent().postEvent(getProps());
-        getProps().setState(Cell.State.SELECTED);
     }
 
     private void deselect() {
         getClickEvent().postEvent(getProps());
-        getProps().setState(Cell.State.NOT_SELECTED);
     }
 
     private void showAddDialog() {
@@ -124,6 +126,16 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
 
     public void setSide(@Dimension float side) {
         this.side.postValue(side);
+    }
+
+    @Override
+    public LiveData<Integer> getCellColor() {
+        return cellColor;
+    }
+
+    @Override
+    public void setCellColor(final int color) {
+        cellColor.postValue(color);
     }
 
     @Override

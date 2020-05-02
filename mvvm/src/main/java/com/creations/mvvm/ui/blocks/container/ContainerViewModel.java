@@ -3,27 +3,32 @@ package com.creations.mvvm.ui.blocks.container;
 import android.app.Application;
 import android.view.View;
 
+import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
 import com.creations.mvvm.constants.IAPIChat;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.blocks.Board;
 import com.creations.mvvm.models.blocks.ContainerProps;
-import com.creations.mvvm.models.blocks.Row;
+import com.creations.mvvm.models.blocks.Score;
+import com.creations.mvvm.models.blocks.ScoreItem;
 import com.creations.mvvm.models.blocks.Word;
+import com.creations.mvvm.ui.animate.AnimatorViewModel;
 import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.blocks.add.AddViewModel;
 import com.creations.mvvm.ui.blocks.board.BoardContract;
 import com.creations.mvvm.ui.blocks.board.BoardViewModel;
 import com.creations.mvvm.ui.blocks.done.DoneViewModel;
+import com.creations.mvvm.ui.blocks.home.HomeContract;
+import com.creations.mvvm.ui.blocks.home.HomeViewModel;
 import com.creations.mvvm.ui.blocks.preset.PresetViewModel;
 import com.creations.mvvm.ui.blocks.score.ScoreContract;
 import com.creations.mvvm.ui.blocks.score.ScoreViewModel;
-import com.creations.mvvm.ui.recycler.RecyclerViewModel;
-import com.creations.mvvm.utils.BoardUtils;
+import com.creations.mvvm.ui.blocks.scoreList.ScoreListContract;
+import com.creations.mvvm.ui.blocks.scoreList.ScoreListViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.creations.tools.utils.JsonConvertor;
-import com.example.application.utils.RecyclerUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,11 +38,14 @@ import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_ADD_R
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_ADD_WORD;
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_CANCEL_WORD;
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_EXIT_BOARD;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_SHOW_BOARDS;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_SHOW_SCORES;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_TO_HOME;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
-public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implements ContainerContract.ViewModel<ContainerProps> {
+public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implements ContainerContract.ViewModel<ContainerProps> {
 
     @NonNull
     private final IAPIChat mApiChat;
@@ -58,6 +66,10 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
     @NonNull
     private final PresetViewModel mPresetViewModel;
     @NonNull
+    private final ScoreListViewModel mScoreListViewModel;
+    @NonNull
+    private final HomeViewModel mHomeViewModel;
+    @NonNull
     private final MutableLiveData<Integer> mActionVisibility = new MutableLiveData<>(View.GONE);
     @NonNull
     private final MutableLiveData<Integer> mAddVisibility = new MutableLiveData<>(View.VISIBLE);
@@ -74,6 +86,8 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
                               @NonNull final ScoreViewModel.Factory scoreFactory,
                               @NonNull final DoneViewModel.Factory doneFactory,
                               @NonNull final PresetViewModel.Factory presetFactory,
+                              @NonNull final ScoreListViewModel.Factory scoreListFactory,
+                              @NonNull final HomeViewModel.Factory homeFactory,
                               @NonNull final IAPIChat apiChat,
                               @NonNull final JsonConvertor jsonConvertor,
                               @NonNull final ContainerProps props) {
@@ -85,25 +99,56 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
         mScoreViewModel = scoreFactory.create();
         mDoneViewModel = doneFactory.create();
         mPresetViewModel = presetFactory.create();
+        mScoreListViewModel = scoreListFactory.create();
+        mHomeViewModel = homeFactory.create();
         mBorderWidth.postValue(props.getBorderWidth());
+        mContextCallback.addSource(mScoreListViewModel.getContextCallback());
+        mContextCallback.addSource(mPresetViewModel.getContextCallback());
+        mContextCallback.addSource(mHomeViewModel.getContextCallback());
         mContextCallback.addSource(mDoneViewModel.getContextCallback());
-
+        mPresetViewModel.setVisibility(View.GONE);
+        mScoreListViewModel.setVisibility(View.GONE);
+        mHomeViewModel.setVisibility(View.VISIBLE);
         mPresetViewModel.getClickEvent().observeForever(o -> {
             if (o instanceof Board) {
                 ContainerViewModel.this.loadBoard(((Board) o));
+            } else if (o instanceof Integer) {
+                if (o.equals(CLICK_TO_HOME)) {
+                    mHomeViewModel.setVisibility(View.VISIBLE);
+                    mPresetViewModel.setVisibility(View.GONE);
+                }
+            }
+        });
+        mScoreListViewModel.getClickEvent().observeForever(o -> {
+            if (o instanceof Integer) {
+                if (o.equals(CLICK_TO_HOME)) {
+                    mHomeViewModel.setVisibility(View.VISIBLE);
+                    mScoreListViewModel.setVisibility(View.GONE);
+                }
+            }
+        });
+        mHomeViewModel.getClickEvent().observeForever(o -> {
+            if (o instanceof Integer) {
+                if (o.equals(CLICK_SHOW_BOARDS)) {
+                    mPresetViewModel.setVisibility(View.VISIBLE);
+                    mHomeViewModel.setVisibility(View.GONE);
+                } else if (o.equals(CLICK_SHOW_SCORES)) {
+                    mScoreListViewModel.setVisibility(View.VISIBLE);
+                    mHomeViewModel.setVisibility(View.GONE);
+                }
             }
         });
 
-        mAddViewModel.getAddDoneEvent().observeForever(row -> {
-            mAddViewModel.setVisibility(View.GONE);
-            if (row instanceof Row) {
-                if (((Row) row).getCells().isEmpty())
-                    return;
-                row.setClickable(true);
-                ((Row) row).setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
-                closeKeyboard();
-            }
-        });
+//        mAddViewModel.getAddDoneEvent().observeForever(row -> {
+//            mAddViewModel.setVisibility(View.GONE);
+//            if (row instanceof Row) {
+//                if (((Row) row).getCells().isEmpty())
+//                    return;
+//                row.setClickable(true);
+//                ((Row) row).setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
+//                closeKeyboard();
+//            }
+//        });
 //        mBoardViewModel.getClickEvent().observeForever(o -> {
 //            if (o instanceof Cell) {
 //                mWordViewModel.addCell(((Cell) o));
@@ -114,13 +159,12 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
 //                    mBoardViewModel.invalid();
 //            }
 //        });
-        mAddViewModel.getAddCancelEvent().observeForever(props1 -> closeKeyboard());
+//        mAddViewModel.getAddCancelEvent().observeForever(props1 -> closeKeyboard());
     }
 
     private void loadBoard(@NonNull Board board) {
-        board.setRows();
         board.clear();
-        getProps().setColorResId(R.color.colorPrimary);
+        board.setColorResId(R.color.colorPrimary);
         setTitle(board.getName());
         setTitleTextSize(mApplication.getResources().getDimension(R.dimen.font_xxxx_large));
         setTitleTextColorResId(mApplication.getResources().getColor(R.color.black));
@@ -170,8 +214,8 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
     public void onClick(@NonNull Object object) {
         if (object instanceof Integer){
             if (object.equals(CLICK_ADD_ROW)) {
-                mAddViewModel.setRows(BoardUtils.newRow());
-                mAddViewModel.setVisibility(View.VISIBLE);
+//                mAddViewModel.setRows(BoardUtils.newRow());
+//                mAddViewModel.setVisibility(View.VISIBLE);
             } else if (object.equals(CLICK_EXIT_BOARD)) {
                 mPresetViewModel.setVisibility(View.VISIBLE);
                 mScoreViewModel.setVisibility(View.GONE);
@@ -180,7 +224,24 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
             } else if (object.equals(CLICK_CANCEL_WORD)) {
                 mBoardViewModel.clear();
             } else if (object.equals(CLICK_ADD_WORD)) {
-                mScoreViewModel.add(mBoardViewModel.getWord().length());
+                Score score = mScoreViewModel.getProps();
+                ScoreItem scoreItem = score.getScoreItem();
+                scoreItem.setBoard(mBoardViewModel.getProps().getId());
+                scoreItem.setName("User who rocks!");
+                int scr = mBoardViewModel.getWordViewModel().getWord().length();
+                scoreItem.setScore(scr * scr);
+                score.setScoreItem(scoreItem);
+                mApiChat.postScore(scoreItem, new ObjectResponseCallback<ScoreItem>() {
+                    @Override
+                    public void onSuccess(@NonNull ScoreItem response) {
+                        mScoreViewModel.add(mBoardViewModel.getWord().length());
+                    }
+
+                    @Override
+                    public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+
+                    }
+                });
             }
         }
     }
@@ -219,6 +280,18 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
     @Override
     public PresetViewModel getPresetViewModel() {
         return mPresetViewModel;
+    }
+
+    @NonNull
+    @Override
+    public ScoreListContract.ViewModel getScoreListViewModel() {
+        return mScoreListViewModel;
+    }
+
+    @NonNull
+    @Override
+    public HomeContract.ViewModel getHomeViewModel() {
+        return mHomeViewModel;
     }
 
     @NonNull
@@ -278,6 +351,12 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
         private final PresetViewModel.Factory mPresetFactory;
 
         @NonNull
+        private final ScoreListViewModel.Factory mScoreListFactory;
+
+        @NonNull
+        private final HomeViewModel.Factory mHomeFactory;
+
+        @NonNull
         private final IAPIChat mApiChat;
 
         @NonNull
@@ -289,6 +368,8 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
                        @NonNull final ScoreViewModel.Factory scoreFactory,
                        @NonNull final DoneViewModel.Factory doneFactory,
                        @NonNull final PresetViewModel.Factory presetFactory,
+                       @NonNull final ScoreListViewModel.Factory scoreListFactory,
+                       @NonNull final HomeViewModel.Factory homeFactory,
                        @NonNull final IAPIChat apiChat,
                        @NonNull final JsonConvertor jsonConvertor,
                        @NonNull final ContainerProps props) {
@@ -299,6 +380,8 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
             mScoreFactory = Preconditions.requiresNonNull(scoreFactory, "Factory");
             mDoneFactory = Preconditions.requiresNonNull(doneFactory, "Factory");
             mPresetFactory = Preconditions.requiresNonNull(presetFactory, "Factory");
+            mScoreListFactory = Preconditions.requiresNonNull(scoreListFactory, "Factory");
+            mHomeFactory = Preconditions.requiresNonNull(homeFactory, "Factory");
             mApiChat = Preconditions.requiresNonNull(apiChat, "ApiChat");
             mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "Js");
         }
@@ -307,7 +390,8 @@ public class ContainerViewModel extends RecyclerViewModel<ContainerProps> implem
         @Override
         public ContainerViewModel create() {
             return new ContainerViewModel(mApplication, mAddFactory,
-                    mFactory,  mScoreFactory, mDoneFactory, mPresetFactory, mApiChat, mJsonConvertor,  mProps);
+                    mFactory,  mScoreFactory, mDoneFactory, mPresetFactory,
+                    mScoreListFactory, mHomeFactory, mApiChat, mJsonConvertor,  mProps);
         }
     }
 }
