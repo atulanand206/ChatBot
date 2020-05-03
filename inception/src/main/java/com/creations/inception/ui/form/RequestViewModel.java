@@ -2,14 +2,14 @@ package com.creations.inception.ui.form;
 
 import android.app.Application;
 
+import com.creations.blocks.models.Preset;
+import com.creations.blocks.ui.container.ContainerViewModel;
+import com.creations.blogger.model.navigation.NavigationBarProps;
+import com.creations.blogger.ui.blogger.BloggerViewModel;
+import com.creations.blogger.ui.navigation.NavigationBarViewModel;
 import com.creations.condition.Preconditions;
-import com.creations.inception.ui.blogger.BloggerViewModel;
-import com.creations.mvvm.models.blocks.Preset;
-import com.creations.mvvm.models.navigation.NavigationBarProps;
-import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
 import com.creations.mvvm.ui.menu.MenuViewModel;
-import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 
 import androidx.annotation.NonNull;

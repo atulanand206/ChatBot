@@ -1,14 +1,14 @@
 package com.creations.inception.data;
 
-import com.creations.blogger.callback.EmptyResponseCallback;
-import com.creations.blogger.callback.ObjectResponseCallback;
+import com.creations.blogger.api.IAPIBlogger;
 import com.creations.inception.constants.AppConstants;
 import com.creations.inception.models.APIResponse;
 import com.creations.inception.models.ListItem;
 import com.creations.inception.models.Request;
 import com.creations.inception.models.User;
 import com.creations.inception.utils.FakeDataProvider;
-import com.creations.mvvm.constants.IAPIChat;
+import com.creations.tools.callback.EmptyResponseCallback;
+import com.creations.tools.callback.ObjectResponseCallback;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ public class ChatRepository {
 
     private static final String TAG = ChatRepository.class.getSimpleName();
 
-    private IAPIChat apiChat;
+    private IAPIBlogger apiChat;
 
     private Realm realm;
 
-    public ChatRepository(IAPIChat apiChat) {
+    public ChatRepository(IAPIBlogger apiChat) {
         this.apiChat = apiChat;
         realm = Realm.getDefaultInstance();
 //        addFakeUsers();

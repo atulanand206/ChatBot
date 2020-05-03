@@ -4,14 +4,14 @@ import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.creations.blogger.callback.EmptyResponseCallback;
-import com.creations.blogger.model.APIResponseBody;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.R;
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.models.props.ImageData;
+import com.creations.mvvm.models.ImageData;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
+import com.creations.tools.callback.EmptyResponseCallback;
+import com.creations.tools.model.APIResponseBody;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

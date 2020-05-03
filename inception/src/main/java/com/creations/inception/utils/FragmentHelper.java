@@ -1,8 +1,8 @@
 package com.creations.inception.utils;
 
+import com.creations.blocks.models.Preset;
 import com.creations.inception.ui.form.RequestFragment;
 import com.creations.inception.ui.form.RequestModule;
-import com.creations.mvvm.models.blocks.Preset;
 import com.example.application.fragments.HostFragment;
 import com.example.application.utils.MVVMInjector;
 

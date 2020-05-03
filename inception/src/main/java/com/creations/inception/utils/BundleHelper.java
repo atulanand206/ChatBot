@@ -2,8 +2,8 @@ package com.creations.inception.utils;
 
 import android.os.Bundle;
 
+import com.creations.blogger.model.navigation.NavigationBarProps;
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.models.navigation.NavigationBarProps;
 
 import androidx.annotation.Nullable;
 

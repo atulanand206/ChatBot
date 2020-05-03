@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.creations.blocks.ui.row.RowContract.ViewModel" />
+    </data>
+
+    <RelativeLayout
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_x_small"
+            android:layout_gravity="center"
+            android:textColor="@{viewmodel.textColorResId}"
+            android:textSize="@{viewmodel.textSize}"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:layout_marginBottom="@dimen/margin_x_small"
+            android:text="@{viewmodel.text}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            bind:adapter="@{viewmodel.adapter}" />
+
+    </RelativeLayout>
+</layout>

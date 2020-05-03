@@ -53,5 +53,4 @@ dependencies {
     implementation project(path: ':dagger')
     implementation project(path: ':application')
     implementation project(path: ':network')
-    implementation project(path: ':blogger')
 }

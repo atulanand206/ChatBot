@@ -2,15 +2,12 @@ package com.creations.mvvm.viewmodel;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.fragment.MVVMFragmentView;
-import com.creations.mvvm.ui.PropsModule;
 import com.example.dagger.scopes.FragmentScope;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
-import dagger.Module;
 import dagger.android.AndroidInjector;
 
-@Module(includes = PropsModule.class)
 public interface MVVMModule {
 
     abstract class InjectViewModel<CVM extends IMVVMViewModel, VM extends CVM> {

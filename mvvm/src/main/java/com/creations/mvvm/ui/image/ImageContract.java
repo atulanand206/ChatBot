@@ -3,7 +3,7 @@ package com.creations.mvvm.ui.image;
 import android.graphics.drawable.Drawable;
 
 import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.models.props.ImageData;
+import com.creations.mvvm.models.ImageData;
 import com.creations.mvvm.ui.recycler.IRecyclerViewModel;
 
 import androidx.annotation.NonNull;

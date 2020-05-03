@@ -22,9 +22,9 @@ import android.widget.TextView;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
-import com.creations.mvvm.models.props.ImageData;
-import com.creations.mvvm.ui.blocks.options.OptionsAdapter;
-import com.creations.mvvm.ui.blocks.row.RowAdapter;
+import com.creations.mvvm.models.ImageData;
+import com.creations.mvvm.ui.recycler.HorizontalRecyclerAdapter;
+import com.creations.mvvm.ui.recycler.LoopingRecyclerAdapter;
 import com.creations.mvvm.utils.ImageLoadTask;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -143,10 +143,10 @@ public interface IMVVMViewModel {
     @BindingAdapter("adapter")
     static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
         recyclerView.setAdapter(adapter);
-        if (adapter instanceof RowAdapter || adapter instanceof OptionsAdapter) {
+        if (adapter instanceof LoopingRecyclerAdapter || adapter instanceof HorizontalRecyclerAdapter) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
             recyclerView.setLayoutManager(layoutManager);
-            if (adapter instanceof RowAdapter)
+            if (adapter instanceof LoopingRecyclerAdapter)
                 layoutManager.scrollToPosition(ROW_CELL_COUNT / 2);
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));

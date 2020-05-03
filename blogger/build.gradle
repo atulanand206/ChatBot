@@ -18,17 +18,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "android.arch.lifecycle:extensions:${lifecycleExtensions}"
+
+    implementation "com.google.dagger:dagger:${dagger}"
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+    implementation "com.google.android.material:material:${supportLibraryVersion}"
 
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation "androidx.core:core:${androidXCore}"
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
+    implementation project(path: ':application')
     implementation project(path: ':condition')
-//    implementation project(path: ':mvvm')
+    implementation project(path: ':network')
+    implementation project(path: ':mvvm')
 }

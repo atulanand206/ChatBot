@@ -1,11 +1,11 @@
 package com.creations.inception.ui.form;
 
-import com.creations.inception.ui.blogger.BloggerViewModel;
+import com.creations.blocks.ui.container.ContainerViewModel;
+import com.creations.blogger.ui.blogger.BloggerViewModel;
+import com.creations.blogger.ui.navigation.NavigationBarViewModel;
 import com.creations.mvvm.models.props.Props;
-import com.creations.mvvm.ui.blocks.container.ContainerViewModel;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
 import com.creations.mvvm.ui.menu.MenuContract;
-import com.creations.mvvm.ui.navigation.NavigationBarViewModel;
 
 import androidx.annotation.NonNull;
 

@@ -1,7 +1,7 @@
 package com.creations.mvvm.ui.image;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.models.props.ImageData;
+import com.creations.mvvm.models.ImageData;
 import com.creations.mvvm.viewmodel.MVVMModule;
 
 import androidx.annotation.NonNull;

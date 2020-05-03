@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
-import com.creations.blogger.callback.EmptyResponseCallback;
-import com.creations.mvvm.models.props.ImageData;
+import com.creations.mvvm.models.ImageData;
+import com.creations.tools.callback.EmptyResponseCallback;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

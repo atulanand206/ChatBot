@@ -3,17 +3,17 @@ package com.creations.inception.ui;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.creations.blogger.callback.ListResponseCallback;
-import com.creations.blogger.model.APIResponseBody;
+import com.creations.blocks.api.IAPIBlocks;
+import com.creations.blocks.models.Board;
+import com.creations.blocks.models.Preset;
+import com.creations.blocks.ui.add.AddContract;
 import com.creations.condition.Preconditions;
 import com.creations.inception.App;
 import com.creations.inception.R;
 import com.creations.inception.ui.form.RequestContract;
 import com.creations.inception.ui.form.RequestFragment;
-import com.creations.mvvm.constants.IAPIChat;
-import com.creations.mvvm.models.blocks.Board;
-import com.creations.mvvm.models.blocks.Preset;
-import com.creations.mvvm.ui.blocks.add.AddContract;
+import com.creations.tools.callback.ListResponseCallback;
+import com.creations.tools.model.APIResponseBody;
 import com.example.application.base.BaseActivity;
 import com.example.application.fragments.HomePagerAdapter;
 import com.example.application.utils.DisabledViewPager;
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     @NonNull
     private final List<Fragment> mFragmentList = new ArrayList<>();
     @Inject
-    IAPIChat mApiChat;
+    IAPIBlocks mApiChat;
 
     private RequestFragment fragment;
 

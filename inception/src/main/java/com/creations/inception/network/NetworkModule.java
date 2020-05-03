@@ -1,7 +1,7 @@
 package com.creations.inception.network;
 
-import com.creations.mvvm.models.blocks.Board;
-import com.creations.mvvm.utils.BoardSerializer;
+import com.creations.blocks.models.Board;
+import com.creations.blocks.utils.BoardSerializer;
 import com.creations.tools.network.LoggingInterceptor;
 import com.creations.tools.network.NetworkManager;
 import com.creations.tools.network.OkHttpNetworkManager;
