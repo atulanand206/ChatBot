@@ -27,6 +27,11 @@ android {
     dataBinding {
         enabled = true
     }
+
+
+    dynamicFeatures = []
+
+
 }
 
 dependencies {

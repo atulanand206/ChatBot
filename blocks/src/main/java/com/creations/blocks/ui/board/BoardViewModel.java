@@ -1,6 +1,8 @@
 package com.creations.blocks.ui.board;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.AsyncTask;
 import android.view.View;
 
 import com.creations.blocks.api.IAPIBlocks;
@@ -81,50 +83,35 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
         setBackgroundColor(COLOR_NORMAL);
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void setRows(@NonNull final Board board) {
-        board.setColorResId(COLOR_NORMAL);
-        List<RowContract.ViewModel> viewModels = new ArrayList<>();
-        List<Row> rows = board.getRows();
-        for (int i = 0; i< rows.size(); i++) {
-            RowViewModel viewModel;
-                viewModel = mRowFactory.create();
-            mContextCallback.addSource(viewModel.getContextCallback());
-            Row rowInfo = rows.get(i);
-            rowInfo.setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
-            viewModel.setRows(rowInfo);
-            int finalI1 = i;
-            viewModel.getRefreshEvent().observeForever(sentinel -> {
-//                setProps(getProps());
-            });
-            viewModel.getClickEvent().observeForever(o -> {
-                if (o instanceof Row) {
-                    int clickedIndex = ((Row) o).getClickedIndex();
-                    clickedIndex = clickedIndex % rowInfo.getCells().size();
-                    Cell cell = rowInfo.getCells().get(clickedIndex);
-                    getProps().add(finalI1, clickedIndex, cell);
-                    mWordViewModel.refresh(getProps().getSelections());
-                    mWordViewModel.valid(new ObjectResponseCallback<Word>() {
-                        @Override
-                        public void onSuccess(@NonNull Word response) {
-                            BoardViewModel.this.getAddWordEvent().postEvent(response);
-                            setProps(board.valid());
-                            setBackgroundColor(COLOR_ADD_GO);
-                        }
+        new AsyncTask<Object, Object, List<RowContract.ViewModel>>() {
+            @Override
+            protected void onPostExecute(List<RowContract.ViewModel> o) {
+                for (RowContract.ViewModel viewModel : o)
+                    mContextCallback.addSource(viewModel.getContextCallback());
+                adapter.setViewModels(o);
+                getRefreshEvent().postEvent();
+                setProps(board);
+            }
 
-                        @Override
-                        public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
-                            BoardViewModel.this.getAddWordEvent().postEvent(new Word(mWordViewModel.getCells()));
-                            setProps(board.invalid());
-                            setBackgroundColor(COLOR_ADD_ERROR);
-                        }
-                    });
+            @Override
+            protected List<RowContract.ViewModel> doInBackground(Object[] objects) {
+                board.setColorResId(COLOR_NORMAL);
+                List<RowContract.ViewModel> viewModels = new ArrayList<>();
+                List<Row> rows = board.getRows();
+                for (int i = 0; i< rows.size(); i++) {
+                    RowViewModel viewModel;
+                    viewModel = mRowFactory.create();
+                    Row rowInfo = rows.get(i);
+                    rowInfo.setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
+                    viewModel.setRows(rowInfo);
+                    viewModels.add(viewModel);
                 }
-            });
-            viewModels.add(viewModel);
-        }
-        adapter.setViewModels(viewModels);
-        getRefreshEvent().postEvent();
+                return viewModels;
+            }
+        }.execute();
     }
 
     @Override
@@ -138,6 +125,31 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
                 Row rowInfo = board.getRows().get(i);
                 if (!rowInfo.getCells().isEmpty()) {
                     rowViewModel.setProps(rowInfo);
+                    int finalI1 = i;
+                    rowViewModel.getClickEvent().observeForever(o -> {
+                        if (o instanceof Row) {
+                            int clickedIndex = ((Row) o).getClickedIndex();
+                            clickedIndex = clickedIndex % rowInfo.getCells().size();
+                            Cell cell = rowInfo.getCells().get(clickedIndex);
+                            getProps().add(finalI1, clickedIndex, cell);
+                            mWordViewModel.refresh(getProps().getSelections());
+                            mWordViewModel.valid(new ObjectResponseCallback<Word>() {
+                                @Override
+                                public void onSuccess(@NonNull Word response) {
+                                    BoardViewModel.this.getAddWordEvent().postEvent(response);
+                                    setProps(board.valid());
+                                    setBackgroundColor(COLOR_ADD_GO);
+                                }
+
+                                @Override
+                                public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+                                    BoardViewModel.this.getAddWordEvent().postEvent(new Word(mWordViewModel.getCells()));
+                                    setProps(board.invalid());
+                                    setBackgroundColor(COLOR_ADD_ERROR);
+                                }
+                            });
+                        }
+                    });
                     rowViewModel.notifyDataSetChanged();
                 }
             }

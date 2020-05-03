@@ -62,19 +62,6 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
             CellViewModel cellViewModel = mCellFactory.create();
             mContextCallback.addSource(cellViewModel.getContextCallback());
             cellViewModel.setProps(cell);
-            int finalI = i;
-            cellViewModel.getRefreshEvent().observeForever(sentinel -> {
-                adapter.notifyDataSetChanged();
-            });
-            cellViewModel.getClickEvent().observeForever(o -> {
-                if (o instanceof Cell) {
-                    if (rowInfo.isClickable()) {
-                        getProps().setClickedIndex(finalI);
-                        RowViewModel.this.getClickEvent().postEvent(getProps());
-                                        RowViewModel.this.getRefreshEvent().postEvent();
-                    }
-                }
-            });
             viewModels.add(cellViewModel);
         }
         adapter.setViewModels(viewModels);
@@ -93,7 +80,21 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
         if (viewModels.size()==rowInfo.getCells().size()) {
             for (int i = 0; i < viewModels.size(); i++) {
-                ((CellViewModel) viewModels.get(i)).setProps(rowInfo.getCells().get(i));
+                int finalI = i;
+                CellViewModel cellViewModel = (CellViewModel) viewModels.get(i);
+                cellViewModel.setProps(rowInfo.getCells().get(i));
+                cellViewModel.getRefreshEvent().observeForever(sentinel -> {
+                    adapter.notifyDataSetChanged();
+                });
+                cellViewModel.getClickEvent().observeForever(o -> {
+                    if (o instanceof Cell) {
+                        if (rowInfo.isClickable()) {
+                            getProps().setClickedIndex(finalI);
+                            RowViewModel.this.getClickEvent().postEvent(getProps());
+                            RowViewModel.this.getRefreshEvent().postEvent();
+                        }
+                    }
+                });
                 notifyDataSetChanged();
             }
         }
