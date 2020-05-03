@@ -5,6 +5,7 @@ import com.creations.blogger.api.IAPIBlogger;
 import com.creations.inception.network.APIBlocks;
 import com.creations.inception.network.APIBlogger;
 import com.creations.tools.network.NetworkManager;
+import com.example.application.provider.IResourceProvider;
 import com.example.dagger.scopes.AppScope;
 
 import dagger.Module;
@@ -14,8 +15,9 @@ import dagger.Provides;
 public class APIInjectionModule {
 
     @Provides @AppScope
-    public static IAPIBlocks providesAPIChats(NetworkManager networkManager) {
-        return new APIBlocks(networkManager);
+    public static IAPIBlocks providesAPIChats(IResourceProvider resourceProvider,
+                                              NetworkManager networkManager) {
+        return new APIBlocks(resourceProvider, networkManager);
     }
 
     @Provides @AppScope

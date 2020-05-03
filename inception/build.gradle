@@ -13,9 +13,30 @@ android {
         versionName rootProject.ext.vc_inceptionVn
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
+    }
+    signingConfigs {
+        debug {
+            keyAlias 'debugkey-inception'
+            keyPassword 'Instrumental'
+            storeFile file('debugkey.jks')
+            storePassword 'Aspect786'
+        }
+        release {
+            keyAlias 'releasekey-inception'
+            keyPassword 'Instrumental'
+            storeFile file('releasekey.jks')
+            storePassword 'Aspect786'
+        }
     }
     buildTypes {
+        debug {
+            debuggable true
+            resValue "string", "hostname", "http://192.168.0.154:8080"
+        }
         release {
+            debuggable true
+            resValue "string", "hostname", "https://match-qiid44bnhq-de.a.run.app"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
