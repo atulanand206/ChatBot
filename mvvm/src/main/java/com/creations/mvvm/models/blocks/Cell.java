@@ -66,6 +66,7 @@ public class Cell extends Props implements Serializable {
         super.setProps(props);
         if (props instanceof Cell) {
             Cell cell = (Cell) props;
+            setColorResId(props.getColorResId());
             this.character = cell.character;
             this.textColorResId = cell.textColorResId;
             this.textSize = cell.textSize;

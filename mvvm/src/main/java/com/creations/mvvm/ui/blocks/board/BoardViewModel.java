@@ -83,7 +83,7 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
 
     @Override
     public void setRows(@NonNull final Board board) {
-        adapter.clearItems();
+        board.setColorResId(COLOR_NORMAL);
         List<RowContract.ViewModel> viewModels = new ArrayList<>();
         List<Row> rows = board.getRows();
         for (int i = 0; i< rows.size(); i++) {
@@ -114,6 +114,7 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
 
                         @Override
                         public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+                            BoardViewModel.this.getAddWordEvent().postEvent(new Word(mWordViewModel.getCells()));
                             setProps(board.invalid());
                             setBackgroundColor(COLOR_ADD_ERROR);
                         }
@@ -124,7 +125,6 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
         }
         adapter.setViewModels(viewModels);
         getRefreshEvent().postEvent();
-        setProps(board);
     }
 
     @Override
@@ -135,9 +135,11 @@ public class BoardViewModel extends RecyclerViewModel<Board> implements BoardCon
         if (viewModels.size()==board.getRows().size()) {
             for (int i = 0; i < viewModels.size(); i++) {
                 RowViewModel rowViewModel = (RowViewModel) viewModels.get(i);
-                rowViewModel.setProps(board.getRows().get(i));
-                rowViewModel.setLayoutType(RecyclerUtils.LayoutType.LOOP_HORIZONTAL);
-                rowViewModel.notifyDataSetChanged();
+                Row rowInfo = board.getRows().get(i);
+                if (!rowInfo.getCells().isEmpty()) {
+                    rowViewModel.setProps(rowInfo);
+                    rowViewModel.notifyDataSetChanged();
+                }
             }
         }
     }

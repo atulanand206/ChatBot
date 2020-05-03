@@ -17,7 +17,7 @@ public class Row extends RecyclerProps {
     private List<Cell> cells;
 
     public Row() {
-        this(false, RecyclerUtils.LayoutType.LOOP_HORIZONTAL, new ArrayList<>());
+        this(false, RecyclerUtils.LayoutType.LINEAR_HORIZONTAL, new ArrayList<>());
     }
 
     public Row(@NonNull final List<Cell> cells, RecyclerUtils.LayoutType layoutType) {

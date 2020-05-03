@@ -11,12 +11,12 @@
     </data>
 
     <LinearLayout
+        android:orientation="vertical"
         app:visibility="@{viewmodel.visibility}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:clickable="true"
-        android:background="@color/message_progress">
+        android:clickable="true">
 
         <androidx.cardview.widget.CardView
             android:layout_margin="@dimen/margin_small"
@@ -53,27 +53,26 @@
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_below="@id/close"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical"
-                    bind:recyclerLayoutManager="@{viewmodel.layoutType}"
-                    bind:adapter="@{viewmodel.adapter}"/>
-
-                <TextView
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:text="@{viewmodel.subHeader}"
-                    android:textSize="@dimen/font_normal"
-                    android:textStyle="italic"
-                    android:textColor="@color/black" />
+<!--                <TextView-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_alignParentTop="true"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_gravity="end"-->
+<!--                    android:text="@{viewmodel.subHeader}"-->
+<!--                    android:textSize="@dimen/font_normal"-->
+<!--                    android:textStyle="italic"-->
+<!--                    android:textColor="@color/black" />-->
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            bind:adapter="@{viewmodel.adapter}"/>
 
     </LinearLayout>
 </layout>

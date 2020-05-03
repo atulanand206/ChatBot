@@ -31,6 +31,8 @@ public class LoopingRecyclerAdapter<T extends IRecyclerViewModel, E extends View
 
     @Override
     public int getItemCount() {
+        if (mViewModels.isEmpty())
+            return 1;
         return isLoop() ? ROW_CELL_COUNT : mViewModels.size();
     }
 

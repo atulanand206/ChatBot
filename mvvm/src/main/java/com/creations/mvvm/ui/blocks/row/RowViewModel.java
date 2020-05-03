@@ -12,6 +12,7 @@ import com.creations.mvvm.models.blocks.Cell;
 import com.creations.mvvm.models.blocks.Row;
 import com.creations.mvvm.ui.blocks.CellContract;
 import com.creations.mvvm.ui.blocks.CellViewModel;
+import com.creations.mvvm.ui.blocks.add.AddContract;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
 import com.creations.mvvm.utils.BoardUtils;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
@@ -48,6 +49,8 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
 
     @Override
     public void setRows(@NonNull final Row rowInfo) {
+        if (rowInfo.getCells().isEmpty())
+            return;
         addViewModel = mCellFactory.create();
         adapter.setLayoutType(rowInfo.getLayoutType());
         setLayoutType(rowInfo.getLayoutType());
@@ -77,13 +80,16 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         adapter.setViewModels(viewModels);
         setVisibility(View.VISIBLE);
         setEditable(rowInfo.isAddVisibility());
-        setProps(rowInfo);
     }
 
     @Override
     public void setProps(@NonNull final Row rowInfo) {
-        super.setProps(rowInfo);
-        super.setBackgroundColor(rowInfo.getColorResId());
+        if (rowInfo.getCells().isEmpty())
+            return;
+        setBackgroundColor(rowInfo.getColorResId());
+        setText(rowInfo.getWord());
+        setTextColorResId(rowInfo.getColorResId());
+        setTextSize(AddContract.ViewModel.COLOR_ADD_CLEAR);
         List<CellContract.ViewModel> viewModels = adapter.getViewModels();
         if (viewModels.size()==rowInfo.getCells().size()) {
             for (int i = 0; i < viewModels.size(); i++) {

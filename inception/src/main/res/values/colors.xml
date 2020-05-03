@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="message_success">#60bd68</color>
+    <color name="ic_launcher_background" tools:ignore="MissingDefaultResource">#FFFFFF</color>
     <color name="message_failure">#e53838</color>
     <color name="message_progress">#0a9ec1</color>
 

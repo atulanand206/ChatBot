@@ -57,6 +57,12 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
     }
 
     @NonNull
+    @Override
+    public List<Cell> getCells() {
+        return mCells;
+    }
+
+    @NonNull
     public Set<String> getWords() {
         return mWords;
     }

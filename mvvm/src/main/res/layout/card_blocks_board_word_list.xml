@@ -15,7 +15,7 @@
 
         <androidx.cardview.widget.CardView
             app:cardCornerRadius="@dimen/margin_normal"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardBackgroundColor="@color/white"
             android:layout_margin="@dimen/margin_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -32,7 +32,7 @@
                     android:textStyle="bold"
                     android:text="@{viewmodel.text}"
                     android:textSize="@dimen/font_xxx_large"
-                    android:textColor="@{@color/white}"/>
+                    android:textColor="@{@color/colorPrimary}"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

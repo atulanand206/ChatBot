@@ -41,6 +41,7 @@ import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_EXIT_
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_SHOW_BOARDS;
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_SHOW_SCORES;
 import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.CLICK_TO_HOME;
+import static com.creations.mvvm.ui.blocks.add.AddContract.ViewModel.COLOR_NORMAL;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -149,26 +150,19 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
 //                closeKeyboard();
 //            }
 //        });
-//        mBoardViewModel.getClickEvent().observeForever(o -> {
-//            if (o instanceof Cell) {
-//                mWordViewModel.addCell(((Cell) o));
-//                mWordViewModel.getToastEvent().postEvent(String.valueOf(((Cell) o).getCharacter()));
-//                if (mWordViewModel.valid())
-//                    mBoardViewModel.valid();
-//                else
-//                    mBoardViewModel.invalid();
-//            }
-//        });
+//
 //        mAddViewModel.getAddCancelEvent().observeForever(props1 -> closeKeyboard());
     }
 
     private void loadBoard(@NonNull Board board) {
-        board.clear();
-        board.setColorResId(R.color.colorPrimary);
+        board = board.refresh(true);
+        board.setColorResId(COLOR_NORMAL);
         setTitle(board.getName());
         setTitleTextSize(mApplication.getResources().getDimension(R.dimen.font_xxxx_large));
         setTitleTextColorResId(mApplication.getResources().getColor(R.color.black));
-
+        mPresetViewModel.setVisibility(View.GONE);
+        mScoreViewModel.setVisibility(View.VISIBLE);
+        mActionVisibility.postValue(View.VISIBLE);
         mBoardViewModel.setRows(board);
         mBoardViewModel.setVisibility(View.VISIBLE);
         mBoardViewModel.getAddWordEvent().observeForever(props -> {
@@ -183,25 +177,35 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         });
         mBoardViewModel.getRefreshEvent().observeForever(sentinel -> {
             if (sentinel != null) {
-                mScoreViewModel.setVisibility(View.VISIBLE);
-                mActionVisibility.postValue(View.VISIBLE);
-                mPresetViewModel.setVisibility(View.GONE);
+
+
             }
         });
+//        mBoardViewModel.getClickEvent().observeForever(o -> {
+//            if (o instanceof Cell) {
+//                mWordViewModel.addCell(((Cell) o));
+
+//                if (mWordViewModel.valid())
+//                    mBoardViewModel.valid();
+//                else
+//                    mBoardViewModel.invalid();
+//            }
+//        });
         mContextCallback.addSource(mBoardViewModel.getContextCallback());
     }
 
     private void setWord(@Nullable Word newWord) {
-        if (newWord == null) {
+        if (newWord == null || newWord.getWord() == null || newWord.getWord().length() == 0) {
             setHeader("");
             setSubHeader("");
             setMeaning("");
             mPossibleScore.setValue(0);
         } else {
-            setHeader(newWord.getWord());
+            String word = newWord.getWord();
+            setHeader(word);
             setSubHeader(newWord.getSpeech());
             setMeaning(newWord.getMeaning());
-            mPossibleScore.setValue(mScoreViewModel.score(newWord.getWord().length()));
+            mPossibleScore.setValue(mScoreViewModel.score(word.length()));
         }
     }
 

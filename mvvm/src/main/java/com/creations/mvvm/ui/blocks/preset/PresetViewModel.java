@@ -42,6 +42,7 @@ public class PresetViewModel extends RecyclerViewModel<Preset> implements Preset
         mApiChat = apiChat;
         setVisibility(View.VISIBLE);
         setLayoutType(RecyclerUtils.LayoutType.LINEAR_VERTICAL);
+        setBackgroundColor(props.getColorResId());
     }
 
     @Override

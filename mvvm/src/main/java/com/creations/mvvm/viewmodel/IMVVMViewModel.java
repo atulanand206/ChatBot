@@ -22,11 +22,10 @@ import android.widget.TextView;
 
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
-import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.ImageData;
+import com.creations.mvvm.ui.blocks.options.OptionsAdapter;
 import com.creations.mvvm.ui.blocks.row.RowAdapter;
 import com.creations.mvvm.utils.ImageLoadTask;
-import com.example.application.utils.RecyclerUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -34,7 +33,6 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -132,8 +130,8 @@ public interface IMVVMViewModel {
         view.setLayoutParams(layoutParams);
     }
 
-    @BindingAdapter("cardBackgrouColor")
-    static void cardBackgroundColor(@NonNull final CardView view, final int colorResId) {
+    @BindingAdapter("bkgrndColor")
+    static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
         if (colorResId == 0) return;
         try {
             view.setBackgroundColor(view.getContext().getResources().getColor(colorResId));
@@ -142,49 +140,17 @@ public interface IMVVMViewModel {
         }
     }
 
-    @BindingAdapter("bkgrndColor")
-    static void bkgrndColor(@NonNull final View view, @ColorRes final int colorResId) {
-        try {
-            view.setBackgroundColor(view.getContext().getResources().getColor(colorResId));
-        } catch (android.content.res.Resources.NotFoundException e) {
-//            e.printStackTrace();
-        }
-    }
-
-    @BindingAdapter("recyclerViewLayoutManager")
-    static void setLayoutManager(@NonNull final RecyclerView recyclerView, @Nullable final MutableLiveData<RecyclerView.LayoutManager> layoutManagerData) {
-        if (layoutManagerData == null) return;
-        RecyclerView.LayoutManager layoutManager = layoutManagerData.getValue();
-        if (layoutManager == null) return;
-        recyclerView.setLayoutManager(layoutManager);
-    }
-
-    @BindingAdapter("recyclerLayoutManager")
-    static void bindRecyclerLayoutManager(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerUtils.LayoutType layoutTypeData) {
-        if (layoutTypeData == null) return;
-        recyclerView.setLayoutManager(RecyclerUtils.layoutManager(recyclerView.getContext(), layoutTypeData));
-        scrollToPosition(recyclerView, layoutTypeData);
-    }
-
-    @BindingAdapter("scrollToPosition")
-    static void scrollToPosition(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerUtils.LayoutType layoutTypeData){
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (layoutManager == null) return;
-        if (layoutTypeData == RecyclerUtils.LayoutType.LOOP_HORIZONTAL) {
-//            SnapHelper helper = new LinearSnapHelper();
-//            helper.attachToRecyclerView(recyclerView);
-            layoutManager.scrollToPosition(ROW_CELL_COUNT / 2);
-        }
-    }
-
     @BindingAdapter("adapter")
     static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
         recyclerView.setAdapter(adapter);
-        if (!(adapter instanceof RowAdapter))
+        if (adapter instanceof RowAdapter || adapter instanceof OptionsAdapter) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+            if (adapter instanceof RowAdapter)
+                layoutManager.scrollToPosition(ROW_CELL_COUNT / 2);
+        } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        else
-            recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-
+        }
     }
 
     @BindingAdapter("onFocusChange")
