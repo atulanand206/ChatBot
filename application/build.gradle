@@ -24,7 +24,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "javax.inject:javax.inject:${inject}"
+    implementation "javax.inject:javax.inject:${javaxInject}"
 
     implementation "com.google.dagger:dagger:${dagger}"
     implementation "com.google.dagger:dagger-android-support:${dagger}"
