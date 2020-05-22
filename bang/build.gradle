@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.vc_bangVc
+        versionName rootProject.ext.vc_bangVn
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = rootProject.ext.sourceCompatibility
+        targetCompatibility = rootProject.ext.targetCompatibility
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "android.arch.lifecycle:extensions:${lifecycleExtensions}"
+
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    implementation "com.google.dagger:dagger:${dagger}"
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
+    implementation "androidx.core:core:${androidXCore}"
+    implementation "com.google.android.material:material:${supportLibraryVersion}"
+
+    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
+    testImplementation "junit:junit:${jUnit}"
+    androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
+
+    implementation project(path: ':condition')
+    implementation project(path: ':dagger')
+    implementation project(path: ':application')
+    implementation project(path: ':network')
+    implementation project(path: ':mvvm')
+    implementation project(path: ':blogger')
+}

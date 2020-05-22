@@ -5,15 +5,15 @@ import android.view.ViewGroup;
 
 import com.creations.blocks.ui.row.RowContract.ViewModel;
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.ui.recycler.RecyclerAdapter;
 import com.creations.mvvm.ui.recycler.RecyclerListener;
 import com.creations.mvvm.ui.recycler.RecyclerViewHolder;
+import com.creations.mvvm.ui.recycler.VerticalRecyclerAdapter;
 import com.example.blocks.databinding.CardBlocksRowBinding;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
-public class BoardAdapter<T extends ViewModel, E extends CardBlocksRowBinding> extends RecyclerAdapter<T, E> {
+public class BoardAdapter<T extends ViewModel, E extends CardBlocksRowBinding> extends VerticalRecyclerAdapter<T, E> {
 
     public BoardAdapter(@NonNull final RecyclerListener<T> listener, final int layoutResId) {
         super(listener, layoutResId);

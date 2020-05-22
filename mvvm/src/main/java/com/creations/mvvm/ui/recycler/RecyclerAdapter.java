@@ -26,6 +26,7 @@ public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBin
         mViewModels = new ArrayList<>();
         mListener = Preconditions.requiresNonNull(listener, "Listener");
         mLayoutResId = layoutResId;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -49,6 +50,11 @@ public class RecyclerAdapter<T extends IRecyclerViewModel, E extends ViewDataBin
     public void onClick(final int adapterPosition) {
         mViewModels.get(adapterPosition).onRecyclerItemClick();
         mListener.onItemClick(mViewModels.get(adapterPosition));
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mViewModels.get(position).getProps().hashCode();
     }
 
     @Override

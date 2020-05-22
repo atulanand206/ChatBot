@@ -6,6 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 public interface IMessageManager {
+
+    /**
+     * Displays the message with given properties as Toast.
+     * @param message the string to be shown as toast message.
+     */
+    void showToast(@NonNull final String message);
+
     /**
      * Displays the message with given properties as Toast.
      * @param message the string to be shown as toast message.

@@ -7,7 +7,6 @@ import com.creations.blocks.api.IAPIBlocks;
 import com.creations.blocks.models.Board;
 import com.creations.blocks.models.Preset;
 import com.creations.blocks.ui.add.AddContract;
-import com.creations.condition.Preconditions;
 import com.creations.inception.App;
 import com.creations.inception.R;
 import com.creations.inception.ui.form.RequestContract;
@@ -22,17 +21,13 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
 import static com.creations.inception.utils.FragmentHelper.getRequestFragment;
@@ -41,9 +36,6 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         RequestContract.InteractionListener, MVVMInjector {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    @Inject DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
-
     private HomePagerAdapter mPagerAdapter;
     private DisabledViewPager mViewPager;
     @NonNull
@@ -67,15 +59,6 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         mViewPager.setAdapter(mPagerAdapter);
         Bundle bundle = getIntent().getExtras();
         retrieveFragments(bundle);
-    }
-
-    @Override
-    protected void onNetworkStatusChanged(boolean isConnected) {
-
-    }
-
-    private void getBoard() {
-
     }
 
     private void retrieveFragments(Bundle bundle) {
@@ -102,30 +85,6 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     @Override
     public void setStatusBarColr(int colorResId) {
         setStatusBarColor(colorResId);
-    }
-
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return fragmentDispatchingAndroidInjector;
-    }
-
-    @Inject
-    @Nullable
-    Map<Class<? extends Fragment>, Provider<AndroidInjector.Builder<? extends Fragment>>> mInjectorFactories;
-
-    @NonNull
-    @Override
-    public <T extends Fragment, B extends AndroidInjector.Builder<T>> B getBuilder(Class<T> klass, Class<B> builderKlass) {
-        Preconditions.verifyNonNull(mInjectorFactories, "InjectorFactoriesMap");
-        Preconditions.verify(mInjectorFactories.containsKey(klass), "InjectorFactoriesContainsKlass");
-        Provider<AndroidInjector.Builder<? extends Fragment>> provider = Preconditions.verifyNonNull(mInjectorFactories.get(klass), "BuilderForFragment");
-
-        AndroidInjector.Builder<? extends Fragment> builder = provider.get();
-
-        Preconditions.verify(builderKlass.isInstance(builder), "BuilderIsB");
-
-        //noinspection unchecked
-        return (B)builder;
     }
 
 }

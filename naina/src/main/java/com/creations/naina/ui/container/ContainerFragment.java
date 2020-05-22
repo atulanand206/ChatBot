@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.creations.bang.api.IAPIBang;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.fragment.MVVMFragmentView;
 import com.creations.naina.R;
-import com.creations.naina.api.APICanvas;
 import com.creations.naina.databinding.CardContainerBinding;
 import com.creations.naina.models.CanvasP;
 import com.creations.naina.ui.container.ContainerModule.ContainerSubcomponent.Builder;
@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import dagger.android.support.AndroidSupportInjection;
 
 public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewModel,
         Builder, ContainerFragment> {
@@ -29,7 +30,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     @Nullable
     private ContainerContract.InteractionListener mListener;
     @Inject
-    APICanvas mApiCanvas;
+    IAPIBang mApiCanvas;
 
     @NonNull
     public static ContainerFragment newInstance(CanvasP canvas, Builder builder) {
@@ -89,6 +90,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
 
     @Override
     public void onAttach(@NonNull final Context context) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context);
         mListener = Preconditions.verifyInstanceOf(context,
                 ContainerContract.InteractionListener.class, "ContextIsInteractionListener");

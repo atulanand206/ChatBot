@@ -16,6 +16,8 @@ public interface TextContract {
 
     interface ViewModel<T extends Props> extends EditContract.ViewModel<T> {
 
+        int getMaxLength();
+
         @NonNull
         MutableLiveData<Integer> getHeaderVisibility();
 
@@ -67,6 +69,7 @@ public interface TextContract {
 
         LiveData<Integer> getTextColorResId();
 
+        void setMaxLength(int size);
     }
 
 }

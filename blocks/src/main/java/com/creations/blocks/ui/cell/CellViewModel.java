@@ -65,19 +65,19 @@ public class CellViewModel extends RecyclerViewModel<Cell> implements CellContra
             switch (getProps().getType()) {
                 case Cell.Type.ADD:
                     showAddDialog();
-                    break;
+                    return;
                 case Cell.Type.FULL:
                     switch (getProps().getState()) {
                         case Cell.State.COLORS:
                             shuffle(true);
                             getRefreshEvent().postEvent();
-                            break;
+                            return;
                         case Cell.State.SELECTED:
                             deselect();
-                            break;
+                            return;
                         case Cell.State.NOT_SELECTED:
                             select();
-                            break;
+                            return;
                     }
                     break;
             }

@@ -9,7 +9,6 @@ import com.creations.blocks.models.Row;
 import com.creations.blocks.ui.add.AddContract;
 import com.creations.blocks.ui.cell.CellContract;
 import com.creations.blocks.ui.cell.CellViewModel;
-import com.creations.blocks.utils.BoardUtils;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.ui.recycler.RecyclerViewModel;
@@ -52,9 +51,7 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
         if (rowInfo.getCells().isEmpty())
             return;
         addViewModel = mCellFactory.create();
-        adapter.setLayoutType(rowInfo.getLayoutType());
-        setLayoutType(rowInfo.getLayoutType());
-        addViewModel.setProps(BoardUtils.addCell());
+//        addViewModel.setProps(BoardUtils.addCell());
         List<CellContract.ViewModel> viewModels = new ArrayList<>();
         for (int i=0;i<rowInfo.getCells().size();i++) {
             Cell cell = rowInfo.getCells().get(i);
@@ -88,10 +85,11 @@ public class RowViewModel extends RecyclerViewModel<Row> implements RowContract.
                 });
                 cellViewModel.getClickEvent().observeForever(o -> {
                     if (o instanceof Cell) {
+                        if (o.hashCode() != rowInfo.getCells().get(finalI).hashCode())
+                            return;
                         if (rowInfo.isClickable()) {
                             getProps().setClickedIndex(finalI);
                             RowViewModel.this.getClickEvent().postEvent(getProps());
-                            RowViewModel.this.getRefreshEvent().postEvent();
                         }
                     }
                 });

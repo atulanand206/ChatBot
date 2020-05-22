@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 
 public class Row extends RecyclerProps {
 
+    private int id = 0;
+
     private boolean addVisibility = false;
 
     private RecyclerUtils.LayoutType layoutType = RecyclerUtils.LayoutType.LINEAR_HORIZONTAL;

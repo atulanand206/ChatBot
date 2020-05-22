@@ -42,6 +42,8 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
 
     private MutableLiveData<Integer> textColorResId = new MutableLiveData<>();
 
+    private int maxLength = 0;
+
     public TextViewModel(@NonNull final Application application,
                          @NonNull final T props) {
         super(application, props);
@@ -164,6 +166,16 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
     @Override
     public LiveData<Integer> getTextColorResId() {
         return textColorResId;
+    }
+
+    @Override
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    @Override
+    public void setMaxLength(int size) {
+        maxLength = size;
     }
 
     public static class Factory<T extends Props> extends EditViewModel.Factory<T> {

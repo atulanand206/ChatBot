@@ -3,29 +3,22 @@ package com.creations.naina.di;
 import android.content.Context;
 
 import com.creations.naina.App;
-import com.creations.naina.api.APICanvas;
-import com.creations.naina.ui.MainActivity;
-import com.creations.tools.network.NetworkManager;
 import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageManager;
 import com.example.application.messages.SnackbarUtils;
 import com.example.application.messages.ToastUtils;
 import com.example.application.provider.IResourceProvider;
 import com.example.application.provider.ResourceProvider;
-import com.example.dagger.scopes.ActivityScope;
+import com.example.application.utils.Animations;
+import com.example.application.utils.NavigationDrawer;
 import com.example.dagger.scopes.AppScope;
 
 import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
-import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class AndroidInjectionModule {
-
-    @ActivityScope
-    @ContributesAndroidInjector()
-    public abstract MainActivity contributeMainActivityInjector();
+public class AndroidInjectionModule {
 
     @AppScope
     @Provides
@@ -56,8 +49,13 @@ public abstract class AndroidInjectionModule {
     }
 
     @AppScope @Provides
-    public static APICanvas provideAPICanvas(@NonNull final NetworkManager networkManager,
-                                             @NonNull final IResourceProvider resourceProvider) {
-        return new APICanvas();
+    public static NavigationDrawer provideNavigationDrawer() {
+        return new NavigationDrawer();
     }
+
+    @AppScope @Provides
+    public static Animations provideAnimator() {
+        return new Animations();
+    }
+
 }

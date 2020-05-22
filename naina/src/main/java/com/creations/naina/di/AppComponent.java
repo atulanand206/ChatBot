@@ -1,5 +1,6 @@
 package com.creations.naina.di;
 
+import com.creations.bang.di.BangModule;
 import com.creations.naina.App;
 import com.creations.naina.ui.container.ContainerModule;
 import com.example.dagger.scopes.AppScope;
@@ -13,8 +14,11 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AndroidInjectionModule.class,
+        ActivityInjectionModule.class,
+        NetworkModule.class,
+        AppModule.class,
         ContainerModule.class,
-        NetworkModule.class
+        BangModule.class
 })
 public interface AppComponent {
 

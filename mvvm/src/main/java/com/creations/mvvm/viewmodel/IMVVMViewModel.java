@@ -25,6 +25,7 @@ import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.models.ImageData;
 import com.creations.mvvm.ui.recycler.HorizontalRecyclerAdapter;
 import com.creations.mvvm.ui.recycler.LoopingRecyclerAdapter;
+import com.creations.mvvm.ui.recycler.VerticalRecyclerAdapter;
 import com.creations.mvvm.utils.ImageLoadTask;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -141,15 +142,19 @@ public interface IMVVMViewModel {
     }
 
     @BindingAdapter("adapter")
-    static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @NonNull final RecyclerView.Adapter<?> adapter) {
+    static void bindRecyclerViewAdapter(@NonNull final RecyclerView recyclerView, @Nullable final RecyclerView.Adapter<?> adapter) {
+        if (adapter == null)
+            return;
         recyclerView.setAdapter(adapter);
-        if (adapter instanceof LoopingRecyclerAdapter || adapter instanceof HorizontalRecyclerAdapter) {
+        if (adapter instanceof VerticalRecyclerAdapter) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        } else if ((adapter instanceof LoopingRecyclerAdapter || adapter instanceof HorizontalRecyclerAdapter)) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
             recyclerView.setLayoutManager(layoutManager);
             if (adapter instanceof LoopingRecyclerAdapter)
                 layoutManager.scrollToPosition(ROW_CELL_COUNT / 2);
         } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+            recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         }
     }
 

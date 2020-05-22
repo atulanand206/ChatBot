@@ -71,7 +71,7 @@ public interface ContainerModule extends MenuModule {
             return new ContainerViewModel.Factory(activity.getApplication(),
                     addFactory, boardFactory, scoreFactory, doneFactory,
                     presetFactory, scoreListFactory, homeFactory,
-                    iapiBlocks, jsonConvertor, props);
+                    iapiBlocks, jsonConvertor, props, messageManager);
         }
     }
 

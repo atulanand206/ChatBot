@@ -3,6 +3,7 @@ package com.example.application.base;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.example.application.listeners.OnFragmentBackPressedListener;
 import com.example.application.messages.IMessageManager;
@@ -70,6 +71,11 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
     @Override
     public boolean onFragmentBackPressed() {
         return false;
+    }
+
+    @Override
+    public void showToast(@NonNull String message) {
+        showToast(message, MessageType.SUCCESS, Toast.LENGTH_SHORT);
     }
 
     @Override

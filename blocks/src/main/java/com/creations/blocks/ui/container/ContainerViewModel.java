@@ -29,6 +29,7 @@ import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.creations.tools.callback.ObjectResponseCallback;
 import com.creations.tools.model.APIResponseBody;
 import com.creations.tools.utils.JsonConvertor;
+import com.example.application.messages.IMessageManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,6 +49,8 @@ import static com.creations.blocks.ui.add.AddContract.ViewModel.COLOR_NORMAL;
  */
 public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implements ContainerContract.ViewModel<ContainerProps> {
 
+    @NonNull
+    private final IMessageManager mMessageManager;
     @NonNull
     private final IAPIBlocks mApiChat;
     @NonNull
@@ -91,8 +94,10 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
                               @NonNull final HomeViewModel.Factory homeFactory,
                               @NonNull final IAPIBlocks apiChat,
                               @NonNull final JsonConvertor jsonConvertor,
-                              @NonNull final ContainerProps props) {
+                              @NonNull final ContainerProps props,
+                              @NonNull final IMessageManager messageManager) {
         super(application, props);
+        mMessageManager = messageManager;
         mApiChat = apiChat;
         mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "Js");
         mAddViewModel = addFactory.create();
@@ -160,11 +165,6 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         setTitle(board.getName());
         setTitleTextSize(mApplication.getResources().getDimension(R.dimen.font_xxxx_large));
         setTitleTextColorResId(mApplication.getResources().getColor(R.color.black));
-        mPresetViewModel.setVisibility(View.GONE);
-        mScoreViewModel.setVisibility(View.VISIBLE);
-        mActionVisibility.postValue(View.VISIBLE);
-        mBoardViewModel.setRows(board);
-        mBoardViewModel.setVisibility(View.VISIBLE);
         mBoardViewModel.getAddWordEvent().observeForever(props -> {
             if (props instanceof Word) {
                 String word = mBoardViewModel.getWord();
@@ -175,10 +175,14 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
                 setWord(null);
             }
         });
+        mContextCallback.addSource(mBoardViewModel.getContextCallback());
+        mBoardViewModel.setRows(board);
+        mPresetViewModel.setVisibility(View.GONE);
+        mScoreViewModel.setVisibility(View.VISIBLE);
+        mActionVisibility.postValue(View.VISIBLE);
         mBoardViewModel.getRefreshEvent().observeForever(sentinel -> {
             if (sentinel != null) {
-
-
+                mBoardViewModel.setVisibility(View.VISIBLE);
             }
         });
 //        mBoardViewModel.getClickEvent().observeForever(o -> {
@@ -191,7 +195,6 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
 //                    mBoardViewModel.invalid();
 //            }
 //        });
-        mContextCallback.addSource(mBoardViewModel.getContextCallback());
     }
 
     private void setWord(@Nullable Word newWord) {
@@ -229,6 +232,7 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
                 mBoardViewModel.clear();
             } else if (object.equals(CLICK_ADD_WORD)) {
                 Score score = mScoreViewModel.getProps();
+                mMessageManager.showToast(String.valueOf(mBoardViewModel.getWordViewModel().getWord()));
                 ScoreItem scoreItem = score.getScoreItem();
                 scoreItem.setBoard(mBoardViewModel.getProps().getId());
                 scoreItem.setName("User who rocks!");
@@ -366,6 +370,9 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         @NonNull
         private final JsonConvertor mJsonConvertor;
 
+        @NonNull
+        private final IMessageManager mMessageManager;
+
         public Factory(@NonNull final Application application,
                        @NonNull final AddViewModel.Factory addFactory,
                        @NonNull final BoardViewModel.Factory boardFactory,
@@ -376,7 +383,8 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
                        @NonNull final HomeViewModel.Factory homeFactory,
                        @NonNull final IAPIBlocks apiChat,
                        @NonNull final JsonConvertor jsonConvertor,
-                       @NonNull final ContainerProps props) {
+                       @NonNull final ContainerProps props,
+                       @NonNull final IMessageManager messageManager) {
             super(ContainerViewModel.class, application);
             mProps = Preconditions.requiresNonNull(props, "Props");
             mFactory = Preconditions.requiresNonNull(boardFactory, "Factory");
@@ -388,6 +396,7 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
             mHomeFactory = Preconditions.requiresNonNull(homeFactory, "Factory");
             mApiChat = Preconditions.requiresNonNull(apiChat, "ApiChat");
             mJsonConvertor = Preconditions.requiresNonNull(jsonConvertor, "Js");
+            mMessageManager = Preconditions.requiresNonNull(messageManager, "MM");
         }
 
         @NonNull
@@ -395,7 +404,7 @@ public class ContainerViewModel extends AnimatorViewModel<ContainerProps> implem
         public ContainerViewModel create() {
             return new ContainerViewModel(mApplication, mAddFactory,
                     mFactory,  mScoreFactory, mDoneFactory, mPresetFactory,
-                    mScoreListFactory, mHomeFactory, mApiChat, mJsonConvertor,  mProps);
+                    mScoreListFactory, mHomeFactory, mApiChat, mJsonConvertor,  mProps, mMessageManager);
         }
     }
 }

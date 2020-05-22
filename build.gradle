@@ -122,6 +122,9 @@ ext {
     vc_nainaVc = 1
     vc_nainaVn = '1.0'
 
+    vc_bangVc = 1
+    vc_bangVn = '1.0'
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 

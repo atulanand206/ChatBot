@@ -154,4 +154,11 @@ public class Board extends Props implements Serializable {
     public void setRows() {
 
     }
+
+    public boolean validRow(Row row) {
+        for (Row rw : rows)
+            if (rw.hashCode() == (row.hashCode()))
+                return true;
+        return false;
+    }
 }

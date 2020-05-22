@@ -36,6 +36,11 @@ public class LoopingRecyclerAdapter<T extends IRecyclerViewModel, E extends View
         return isLoop() ? ROW_CELL_COUNT : mViewModels.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return isLoop() ? mViewModels.get(position % mViewModels.size()).getProps().hashCode() : super.getItemId(position);
+    }
+
     private boolean isLoop() {
         return mLayoutType.equals(RecyclerUtils.LayoutType.LOOP_HORIZONTAL) || mLayoutType.equals(RecyclerUtils.LayoutType.LOOP_VERTICAL);
     }

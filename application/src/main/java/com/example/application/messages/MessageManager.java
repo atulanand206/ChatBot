@@ -1,6 +1,7 @@
 package com.example.application.messages;
 
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -16,6 +17,10 @@ public class MessageManager implements IMessageManager {
         this.toastUtils = toastUtils;
     }
 
+    @Override
+    public void showToast(@NonNull String message) {
+        showToast(message, MessageType.SUCCESS, Toast.LENGTH_SHORT);
+    }
 
     @Override
     public void showToast(@NonNull final String message,

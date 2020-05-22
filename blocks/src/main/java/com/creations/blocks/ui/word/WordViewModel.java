@@ -69,9 +69,12 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
 
     @Override
     public void valid(@NonNull final ObjectResponseCallback<Word> callback) {
-        if (getWord() == null)
+        String word = getWord();
+        if (word == null)
             return;
-        mApiChat.wordValidity(getWord(), new ObjectResponseCallback<Word>() {
+        if (word.length() > getMaxLength())
+            return;
+        mApiChat.wordValidity(word, new ObjectResponseCallback<Word>() {
             @Override
             public void onSuccess(@NonNull Word response) {
                 callback.onSuccess(response);
@@ -94,6 +97,9 @@ public class WordViewModel extends MenuViewModel<Props> implements WordContract.
 
     @Override
     public void refresh(Arr selections) {
+        if (selections.getItems().size() > getMaxLength()) {
+            return;
+        }
         mCells.clear();
         for (Item item : selections.getItems())
             mCells.add(item.getCell());

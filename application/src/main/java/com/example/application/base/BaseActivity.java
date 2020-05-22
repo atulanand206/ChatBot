@@ -9,20 +9,29 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import com.creations.condition.Preconditions;
 import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageType;
+import com.example.application.utils.MVVMInjector;
 import com.example.application.utils.ViewUtils;
 
+import java.util.Map;
+
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public abstract class BaseActivity extends AppCompatActivity implements IMessageManager {
+public abstract class BaseActivity extends AppCompatActivity implements IMessageManager, MVVMInjector, HasSupportFragmentInjector {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     private ConnectivityManager connectivityManager;
@@ -100,6 +109,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IMessage
     }
 
     @Override
+    public void showToast(@NonNull String message) {
+        showToast(message, MessageType.SUCCESS, Toast.LENGTH_SHORT);
+    }
+
+    @Override
     public void showToast(@NonNull String message, @NonNull MessageType messageType, int duration) {
         messageManager.showToast(message , messageType, duration);
     }
@@ -146,5 +160,41 @@ public abstract class BaseActivity extends AppCompatActivity implements IMessage
         ViewUtils.fullScreen(this);
     }
 
-    protected abstract void onNetworkStatusChanged(boolean isConnected);
+    protected void onNetworkStatusChanged(boolean isConnected) {
+
+    }
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
+    }
+
+    @Inject
+    @Nullable
+    Map<Class<? extends Fragment>, Provider<AndroidInjector.Builder<? extends Fragment>>> mInjectorFactories;
+
+    @Nullable
+    @Override
+    public Map<Class<? extends Fragment>, Provider<AndroidInjector.Builder<? extends Fragment>>> getInjectorFactories() {
+        return mInjectorFactories;
+    }
+
+    @NonNull
+    @Override
+    public <T extends Fragment, B extends AndroidInjector.Builder<T>> B getBuilder(Class<T> klass, Class<B> builderKlass) {
+        Map<Class<? extends Fragment>, Provider<AndroidInjector.Builder<? extends Fragment>>> mInjectorFactories = getInjectorFactories();
+        Preconditions.verifyNonNull(mInjectorFactories, "InjectorFactoriesMap");
+        Preconditions.verify(mInjectorFactories.containsKey(klass), "InjectorFactoriesContainsKlass");
+        Provider<AndroidInjector.Builder<? extends Fragment>> provider = Preconditions.verifyNonNull(mInjectorFactories.get(klass), "BuilderForFragment");
+
+        AndroidInjector.Builder<? extends Fragment> builder = provider.get();
+
+        Preconditions.verify(builderKlass.isInstance(builder), "BuilderIsB");
+
+        //noinspection unchecked
+        return (B)builder;
+    }
 }

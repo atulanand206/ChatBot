@@ -1,4 +1,6 @@
 package com.creations.naina.api;
 
-public class APICanvas {
+import com.creations.bang.api.IAPIBang;
+
+public class APICanvas implements IAPIBang {
 }

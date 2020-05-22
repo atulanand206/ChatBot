@@ -2,7 +2,6 @@ package com.creations.drama.ui.container;
 
 import com.creations.condition.Preconditions;
 import com.creations.drama.models.CanvasP;
-import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 import com.example.application.messages.IMessageManager;
@@ -29,7 +28,7 @@ public interface ContainerModule extends MenuModule {
         @NonNull
         public static ContainerViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
-                @NonNull final Props props,
+                @NonNull final CanvasP props,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
