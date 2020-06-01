@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import dagger.android.support.AndroidSupportInjection;
 
 public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewModel,
         Builder, ContainerFragment> {
@@ -64,8 +63,25 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         binding.setViewmodel(mViewModel);
 
         hideNavigation(mRootView);
-
+        if (getActivity() != null)
+            setStatusBarColor(getActivity(), R.color.black);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        mApiCanvas.authenticate(new EmptyResponseCallback() {
+//            @Override
+//            public void onSuccess() {
+//                Log.d("Ssas", "successs");
+//            }
+//
+//            @Override
+//            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
+//                Log.d("Ssas", "successs");
+//            }
+//        });
     }
 
     @Nullable
@@ -90,7 +106,6 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
 
     @Override
     public void onAttach(@NonNull final Context context) {
-        AndroidSupportInjection.inject(this);
         super.onAttach(context);
         mListener = Preconditions.verifyInstanceOf(context,
                 ContainerContract.InteractionListener.class, "ContextIsInteractionListener");

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.creations.bang.ui.card.CardContract.ViewModel" />
+    </data>
+
+    <RelativeLayout
+        app:visibility="@{viewmodel.visibility}"
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle"
+        android:padding="@dimen/padding_large"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mood Booster"
+            android:textSize="@dimen/font_x_large"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_below="@id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get happy with this pick-me-up playlist full of current feel-good songs!"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Playing"
+            android:layout_below="@id/description"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+</layout>

@@ -10,7 +10,7 @@
         android:networkSecurityConfig="@xml/network_security_policy"
         android:supportsRtl="true"
         android:name=".App"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

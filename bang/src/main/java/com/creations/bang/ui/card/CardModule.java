@@ -1,9 +1,6 @@
-package com.creations.bang.ui.bang;
+package com.creations.bang.ui.card;
 
-import com.creations.bang.di.PropsModule;
-import com.creations.bang.models.Bang;
-import com.creations.bang.ui.card.CardModule;
-import com.creations.bang.ui.card.CardViewModel;
+import com.creations.bang.models.Card;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
@@ -16,44 +13,43 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {CardModule.class, PropsModule.class})
-public interface BangModule extends MenuModule {
+@Module()
+public interface CardModule extends MenuModule {
 
-    @Module(includes = CardModule.InjectViewModelFactory.class)
+    @Module
     abstract class InjectViewModelFactory {
         @Provides
         @NonNull
-        public static BangViewModel.Factory provideViewModelFactory(
+        public static CardViewModel.Factory provideViewModelFactory(
                 @NonNull final FragmentActivity activity,
-                @NonNull final CardViewModel.Factory factory,
-                @NonNull final Bang props,
+                @NonNull final Card props,
                 @NonNull final IMessageManager messageManager) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new BangViewModel.Factory(activity.getApplication(), factory, props);
+            return new CardViewModel.Factory(activity.getApplication(), props);
         }
     }
 
     @Module(includes = InjectViewModelFactory.class)
-    abstract class InjectViewModel extends MVVMModule.InjectViewModel<BangContract.ViewModel,
-            BangViewModel> {
+    abstract class InjectViewModel extends MVVMModule.InjectViewModel<CardContract.ViewModel,
+            CardViewModel> {
 
         @Provides
         @NonNull
-        static BangViewModel provideViewModel(
-                @NonNull final BangViewModel.Factory factory,
+        static CardViewModel provideViewModel(
+                @NonNull final CardViewModel.Factory factory,
                 @NonNull final FragmentActivity application) {
             Preconditions.requiresNonNull(factory, "ViewModelFactory");
             Preconditions.requiresNonNull(application, "FragmentActivity");
 
-            BangViewModel viewModel = ViewModelProviders.of(application, factory).get(BangViewModel.class);
+            CardViewModel viewModel = ViewModelProviders.of(application, factory).get(CardViewModel.class);
             return Preconditions.requiresNonNull(viewModel, "ViewModel");
         }
 
         @Binds
         @NonNull
-        abstract BangContract.ViewModel bindViewModel(@NonNull final BangViewModel viewModel);
+        abstract CardContract.ViewModel bindViewModel(@NonNull final CardViewModel viewModel);
     }
 
 }

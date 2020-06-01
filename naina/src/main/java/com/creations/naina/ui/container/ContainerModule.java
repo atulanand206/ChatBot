@@ -21,10 +21,7 @@ import dagger.Provides;
 import dagger.android.AndroidInjector;
 import dagger.multibindings.IntoMap;
 
-@Module(subcomponents = ContainerModule.ContainerSubcomponent.class,
-        includes = {
-            BangModule.class
-})
+@Module(includes = {BangModule.class}, subcomponents = ContainerModule.ContainerSubcomponent.class)
 public interface ContainerModule extends MenuModule {
 
     @Module(includes = {

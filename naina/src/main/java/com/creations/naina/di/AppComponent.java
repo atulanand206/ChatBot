@@ -1,6 +1,6 @@
 package com.creations.naina.di;
 
-import com.creations.bang.di.BangModule;
+import com.creations.bang.di.PropsModule;
 import com.creations.naina.App;
 import com.creations.naina.ui.container.ContainerModule;
 import com.example.dagger.scopes.AppScope;
@@ -17,8 +17,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ActivityInjectionModule.class,
         NetworkModule.class,
         AppModule.class,
-        ContainerModule.class,
-        BangModule.class
+        PropsModule.class,
+        ContainerModule.class
 })
 public interface AppComponent {
 

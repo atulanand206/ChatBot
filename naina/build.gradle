@@ -13,7 +13,20 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        debug {
+            keyAlias 'debugkey-inception'
+            keyPassword 'Instrumental'
+            storeFile file('debugkey.jks')
+            storePassword 'Aspect786'
+        }
+        release {
+            keyAlias 'releasekey-inception'
+            keyPassword 'Instrumental'
+            storeFile file('releasekey.jks')
+            storePassword 'Aspect786'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -47,6 +60,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
     implementation "androidx.core:core:${androidXCore}"
     implementation "com.google.android.material:material:${supportLibraryVersion}"
+
+//    implementation "net.openid:appauth:0.7.1"
 
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     testImplementation "junit:junit:${jUnit}"

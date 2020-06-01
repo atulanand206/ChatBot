@@ -10,12 +10,16 @@ import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageType;
 import com.example.application.utils.Animations;
 import com.example.application.utils.NavigationDrawer;
+import com.example.application.utils.ViewUtils;
 
 import javax.inject.Inject;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 public abstract class BaseFragment extends Fragment implements OnFragmentBackPressedListener,
         BaseContract.BaseView, IMessageManager {
@@ -121,5 +125,10 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
     @Override
     public void closeDrawer() {
         drawer.closeDrawer(mRootView);
+    }
+
+    protected void setStatusBarColor(@NonNull final FragmentActivity appCompatActivity, @ColorRes int colorInt) {
+        if (appCompatActivity instanceof AppCompatActivity)
+            ViewUtils.setStatusBarColor(((AppCompatActivity) appCompatActivity), colorInt);
     }
 }

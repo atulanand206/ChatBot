@@ -10,17 +10,13 @@
     <RelativeLayout
         app:visibility="@{viewmodel.visibility}"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/title"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/font_xxxx_large"
-            android:text="@string/error_invalid_email"/>
-
+            android:layout_width="match_parent"
+            adapter="@{viewmodel.cardAdapter}"/>
 
     </RelativeLayout>
 </layout>
