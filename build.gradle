@@ -34,8 +34,8 @@ task clean(type: Delete) {
 
 ext {
     minSdkVersion = 26
-    targetSdkVersion = 28
-    compileSdkVersion = 28
+    targetSdkVersion = 30
+    compileSdkVersion = 30
     buildToolsVersion = '28.0.3'
 
     appCompatVersion = '1.2.0-beta01'
@@ -75,10 +75,12 @@ ext {
     apacheCommonsTextVersion = '1.8'
     easyPermissions = '1.2.0'
 
+    itextVersion = '7.0.2'
+
     espresso = '3.3.0-beta01'
     testRunner = '1.1.0-alpha4'
     jUnit = '4.13'
-    jUnitAndroid = '1.1.1'
+    jUnitAndroid = '1.1.2'
     mockito = '2.6.3'
     archTesting = '1.1.1'
 

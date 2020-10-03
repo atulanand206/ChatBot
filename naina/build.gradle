@@ -62,6 +62,7 @@ dependencies {
     implementation "com.google.android.material:material:${supportLibraryVersion}"
 
 //    implementation "net.openid:appauth:0.7.1"
+    implementation 'com.droidninja:filepicker:2.2.4'
 
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     testImplementation "junit:junit:${jUnit}"
@@ -75,4 +76,5 @@ dependencies {
     implementation project(path: ':mvvm')
     implementation project(path: ':blogger')
     implementation project(path: ':bang')
+    implementation project(path: ':billing')
 }
