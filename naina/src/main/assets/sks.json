@@ -1,0 +1,26 @@
+{
+  "entity": {
+    "gstin": "20AACFI2143J2ZW",
+    "mobile_number": "9876543210",
+    "firm": "M/s SKS",
+    "proprietor": "India Kumar Singh",
+    "home_address": "Bye Pass Road, Income Tax Office, Daltonganj",
+    "firm_address": "Crusher At.- Sehra, Satbarwa, Palamu (Jharkhand)",
+    "from": "Sehra"
+  },
+  "rates": {
+    "gst_rate": 5,
+    "sgst_rate": 2.5,
+    "cgst_rate": 2.5,
+    "igst_rate": 0,
+    "rate_value": 28,
+    "rate_unit": "(MT/CFT)",
+    "quantity_unit": "(MT/CFT)"
+  },
+  "bank_details": {
+    "name_of_bank": "State Bank of India, Narsanda",
+    "account_number": "234567890987",
+    "ifsc": "SBI0055225"
+  },
+  "authorised_signatory": "For Shailendra Kumar Singh"
+}

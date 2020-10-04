@@ -11,9 +11,6 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Created by zemoso on 5/3/18.
- */
 
 public class ViewUtils {
 

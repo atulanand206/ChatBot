@@ -164,7 +164,8 @@ public interface IMVVMViewModel {
     }
 
     @BindingAdapter("selectedItemPosition")
-    static void selectedItemPosition(@NonNull final Spinner spinner, @NonNull final Integer position) {
+    static void selectedItemPosition(@NonNull final Spinner spinner,  final Integer position) {
+        if (position != null)
         spinner.setSelection(position);
     }
     @BindingAdapter("onItemSelected")

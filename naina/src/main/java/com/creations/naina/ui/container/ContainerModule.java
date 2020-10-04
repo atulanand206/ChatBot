@@ -5,6 +5,8 @@ import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
+import com.creations.naina.api.ConfigurationRepository;
+import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
 import com.example.application.messages.IMessageManager;
 import com.example.dagger.key.CustomFragmentKey;
@@ -42,11 +44,11 @@ public interface ContainerModule extends MenuModule {
                 @NonNull final FragmentActivity activity,
                 @NonNull final BangViewModel.Factory bangFactory,
                 @NonNull final CanvasP props,
-                @NonNull final IMessageManager messageManager) {
+                @NonNull final IConfigurationRepository configurationRepository) {
             Preconditions.requiresNonNull(activity, "FragmentActivity");
             Preconditions.requiresNonNull(props, "Props");
 
-            return new ContainerViewModel.Factory(activity.getApplication(), bangFactory, props);
+            return new ContainerViewModel.Factory(activity.getApplication(), bangFactory, props, configurationRepository);
         }
     }
 
@@ -86,6 +88,10 @@ public interface ContainerModule extends MenuModule {
             @BindsInstance
             @NonNull
             public abstract Builder canvas(@NonNull final CanvasP preset);
+
+            @BindsInstance
+            @NonNull
+            public abstract Builder configurationRepository(final IConfigurationRepository configurationRepository);
         }
 
     }

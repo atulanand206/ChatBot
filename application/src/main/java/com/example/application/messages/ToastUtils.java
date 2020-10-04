@@ -19,10 +19,6 @@ import androidx.annotation.NonNull;
 import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.LENGTH_SHORT;
 
-/**
- * Created by zemoso on 19/1/18.
- */
-
 public class ToastUtils {
 
     @IntDef({LENGTH_SHORT, LENGTH_LONG})

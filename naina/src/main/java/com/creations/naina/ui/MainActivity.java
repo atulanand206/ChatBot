@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.creations.naina.R;
+import com.creations.naina.api.ConfigurationRepository;
+import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
 import com.creations.naina.ui.container.ContainerContract;
 import com.example.application.base.BaseActivity;
@@ -18,6 +20,7 @@ import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.service.BillService;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +49,20 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         Log.d(TAG, String.valueOf(getIntent().getExtras()));
         CanvasP preset = new CanvasP();
         setStatusBarColor(R.color.red);
-        Fragment containerFragment = getContainerFragment(preset, MainActivity.this);
+        IConfigurationRepository configurationRepository = new ConfigurationRepository(this, gson);
+        Fragment containerFragment = getContainerFragment(preset, MainActivity.this, configurationRepository);
         getSupportFragmentManager().beginTransaction().add(R.id.main_pager, containerFragment).commit();
-        outputFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/result.pdf";
+        externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        outputFileName = externalStoragePublicDirectory + "/result.pdf";
+    }
+    File externalStoragePublicDirectory;
+
+    @Override
+    public void onDocumentEventClicked() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Uri uri = Uri.parse(externalStoragePublicDirectory.toString());
+        intent.setDataAndType(uri, "*/*");
+        startActivity(Intent.createChooser(intent, "Documents"));
     }
 
     @Override
@@ -97,7 +111,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     }
 
     private void convertToPdf() {
-        Configuration configuration = gson.fromJson(readFromAssets(this, "invoice.json"), Configuration.class);
+        Configuration configuration = gson.fromJson(readFromAssets(this, "ies.json"), Configuration.class);
         BillService.convert(lists, configuration, outputFileName);
     }
 }

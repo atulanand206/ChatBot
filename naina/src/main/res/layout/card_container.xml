@@ -1,26 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewmodel"
             type="com.creations.naina.ui.container.ContainerContract.ViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-<!--        <include layout="@layout/card_bang" bind:viewmodel="@{viewmodel.bangViewModel}"/>-->
+        <Spinner
+            android:id="@+id/config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/divider"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:spinnerMode="dropdown"
+            android:entries="@{viewmodel.entries}"
+            app:onItemSelected="@{viewmodel.itemSelectedListener}"
+            app:selectedItemPosition="@{viewmodel.configurationIndex}"
+            style="@style/App.Component.Profile.Value" />
 
-        <Button
+        <include
+            android:id="@+id/divider"
+            layout="@layout/content_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_divider"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@id/buttons" />
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="upload"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Convert"
             android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
 
+        <Button
+            android:id="@+id/document"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documents"
+            android:onClick="@{() -> viewmodel.onDocumentClicked()}"/>
 
-    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </layout>

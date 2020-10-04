@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.App.Value.Details" parent="TextAppearance.App.XSmall">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="App.Component.Profile.Value" parent="AppTheme.Component">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">@dimen/margin_x_small</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Value.Details</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

@@ -10,6 +10,7 @@ import com.creations.bang.api.IAPIBang;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.fragment.MVVMFragmentView;
 import com.creations.naina.R;
+import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.databinding.CardContainerBinding;
 import com.creations.naina.models.CanvasP;
 import com.creations.naina.ui.container.ContainerModule.ContainerSubcomponent.Builder;
@@ -32,11 +33,12 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     IAPIBang mApiCanvas;
 
     @NonNull
-    public static ContainerFragment newInstance(CanvasP canvas, Builder builder) {
+    public static ContainerFragment newInstance(CanvasP canvas, Builder builder, IConfigurationRepository configurationRepository) {
         Bundle args = new Bundle();
         ContainerFragment fragment = new ContainerFragment();
         fragment.setArguments(args);
         builder.canvas(canvas);
+        builder.configurationRepository(configurationRepository);
         fragment.mBuilder = builder;
         return fragment;
     }
@@ -96,6 +98,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         Preconditions.verifyNonNull(mRootView, "RootView");
         Preconditions.verifyNonNull(mListener, "ContainerInteractionListener");
         mViewModel.getUploadEvent().listen(getViewLifecycleOwner(), () -> mListener.onUploadEventClicked());
+        mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), () -> mListener.onDocumentEventClicked());
 
     }
 
