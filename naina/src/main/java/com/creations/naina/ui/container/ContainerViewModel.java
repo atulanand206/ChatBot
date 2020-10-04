@@ -1,9 +1,10 @@
 package com.creations.naina.ui.container;
 
 import android.app.Application;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+
+import androidx.annotation.NonNull;
 
 import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
@@ -15,10 +16,7 @@ import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
-import com.creations.naina.models.Config;
 import com.experiment.billing.model.components.Configuration;
-
-import androidx.annotation.NonNull;
 
 import static android.view.View.VISIBLE;
 
@@ -91,6 +89,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @NonNull
   private final MutableLiveData<AdapterView.OnItemSelectedListener> mItemSelectedListener = new MutableLiveData<>();
   private Configuration mConfiguration;
+
   public ContainerViewModel(@NonNull final Application application,
                             @NonNull final BangViewModel.Factory bangFactory,
                             @NonNull final TextViewModel.Factory factory,
@@ -121,14 +120,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mItemSelectedListener.postValue(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mConfigurationIndex.postValue(position);
-        mConfigurationRepository.setConfig(position);
-        Config config = mConfigurationRepository.getConfig().getValue();
-        if (config != null) {
-          mConfiguration = config.getConfiguration();
-          setData();
-          Log.d("CVM", config.getConfiguration().getEntity().getProprietor());
-        }
+        setConfiguration(position);
       }
 
       @Override
@@ -136,7 +128,14 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
       }
     });
-    mEntries.postValue(configurationRepository.getEntries());
+    mEntries.postValue(mConfigurationRepository.getEntries());
+  }
+
+  private void setConfiguration(int position) {
+    mConfigurationIndex.postValue(position);
+    mConfigurationRepository.setConfig(position);
+    mConfiguration = mConfigurationRepository.getConfiguration();
+    setData();
   }
 
   private void setTextHeaders() {
@@ -222,7 +221,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
           mConfiguration.getRates().setGstRate(Double.parseDouble(enteredString));
           saveConfiguration();
         }
-      } catch (NumberFormatException ignored) { }
+      } catch (NumberFormatException ignored) {
+      }
     });
     mCgst.setAfterTextChangedCallback(enteredString -> {
       try {
@@ -230,7 +230,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
           mConfiguration.getRates().setCgstRate(Double.parseDouble(enteredString));
           saveConfiguration();
         }
-      } catch (NumberFormatException ignored) { }
+      } catch (NumberFormatException ignored) {
+      }
     });
     mSgst.setAfterTextChangedCallback(enteredString -> {
       try {
@@ -238,7 +239,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
           mConfiguration.getRates().setSgstRate(Double.parseDouble(enteredString));
           saveConfiguration();
         }
-      } catch (NumberFormatException ignored) { }
+      } catch (NumberFormatException ignored) {
+      }
     });
     mIgst.setAfterTextChangedCallback(enteredString -> {
       try {
@@ -246,7 +248,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
           mConfiguration.getRates().setIgstRate(Double.parseDouble(enteredString));
           saveConfiguration();
         }
-      } catch (NumberFormatException ignored) { }
+      } catch (NumberFormatException ignored) {
+      }
     });
     mRate.setAfterTextChangedCallback(enteredString -> {
       try {
@@ -254,7 +257,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
           mConfiguration.getRates().setRateValue(Double.parseDouble(enteredString));
           saveConfiguration();
         }
-      } catch (NumberFormatException ignored) { }
+      } catch (NumberFormatException ignored) {
+      }
     });
   }
 

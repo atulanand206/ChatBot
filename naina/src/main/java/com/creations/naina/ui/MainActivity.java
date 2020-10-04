@@ -16,6 +16,7 @@ import com.creations.naina.R;
 import com.creations.naina.api.ConfigurationRepository;
 import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
+import com.creations.naina.services.SessionContext;
 import com.creations.naina.ui.container.ContainerContract;
 import com.example.application.base.BaseActivity;
 import com.example.application.utils.MVVMInjector;
@@ -43,6 +44,8 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     @Inject
     Gson gson;
+    @Inject
+    SessionContext sessionContext;
     private RelativeLayout mProgressBar;
     private FrameLayout mFrameLayout;
 

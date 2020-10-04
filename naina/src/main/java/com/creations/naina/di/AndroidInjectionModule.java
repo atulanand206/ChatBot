@@ -3,9 +3,12 @@ package com.creations.naina.di;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import androidx.annotation.NonNull;
+
 import com.creations.naina.App;
 import com.creations.naina.api.ConfigurationRepository;
 import com.creations.naina.api.IConfigurationRepository;
+import com.creations.naina.services.SessionContext;
 import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageManager;
 import com.example.application.messages.SnackbarUtils;
@@ -18,7 +21,6 @@ import com.example.application.utils.SharedPreferenceHelper;
 import com.example.dagger.scopes.AppScope;
 import com.google.gson.Gson;
 
-import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
@@ -75,9 +77,14 @@ public class AndroidInjectionModule {
     }
 
     @AppScope @Provides
-    public static IConfigurationRepository configurationRepository(final SharedPreferenceHelper sharedPreferenceHelper,
-                                                                   final Context context,
-                                                                   final Gson gson) {
-        return new ConfigurationRepository(sharedPreferenceHelper, context, gson);
+    public static SessionContext sessionContext(final SharedPreferenceHelper sharedPreferenceHelper,
+                                                final Context context,
+                                                final Gson gson) {
+        return new SessionContext(sharedPreferenceHelper, context, gson);
+    }
+
+    @AppScope @Provides
+    public static IConfigurationRepository configurationRepository(final SessionContext sessionContext) {
+        return new ConfigurationRepository(sessionContext);
     }
 }

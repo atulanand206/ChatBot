@@ -5,55 +5,52 @@ import androidx.annotation.NonNull;
 
 import com.experiment.billing.model.components.Configuration;
 
-public enum Config {
+import java.util.ArrayList;
+import java.util.List;
 
-  IES(0),
-  SKS(1);
+public class Config {
 
-  @IntRange(
-          from = 0L,
-          to = 1L
-  )
-  private int index;
-  private Configuration configuration;
+  private List<Configuration> mConfigurations = new ArrayList<>();
 
-  Config(int index) {
-    this.index = index;
+  private int selectedIndex;
+
+  public void addConfiguration(final Configuration configuration) {
+    mConfigurations.add(configuration);
   }
 
-  public int getIndex() {
-    return index;
+  public List<Configuration> getConfigurations() {
+    return mConfigurations;
+  }
+
+  public int getSelectedIndex() {
+    return selectedIndex;
+  }
+
+  public void setSelectedIndex(int selectedIndex) {
+    this.selectedIndex = selectedIndex;
+  }
+
+  public void setConfiguration(final Configuration configuration) {
+    mConfigurations.set(selectedIndex, configuration);
+  }
+
+  public void setConfig(Config config) {
+    mConfigurations.clear();
+    mConfigurations.addAll(config.getConfigurations());
+    selectedIndex = config.getSelectedIndex();
+  }
+
+  public CharSequence[] entries() {
+    CharSequence[] sequences = new CharSequence[mConfigurations.size()];
+    for (int i = 0; i < mConfigurations.size(); i++) {
+      Configuration configuration = mConfigurations.get(i);
+      sequences[i] = configuration.getEntity().getFirm();
+    }
+    return sequences;
   }
 
   public Configuration getConfiguration() {
-    return configuration;
+    return mConfigurations.get(selectedIndex);
   }
 
-  public void setConfiguration(Configuration configuration) {
-    this.configuration = configuration;
-  }
-
-  @NonNull
-  public static Config fromIndex(@IntRange(from = 0L, to = 1L) int index) {
-    Config[] var1 = values();
-    int var2 = var1.length;
-
-    for (int var3 = 0; var3 < var2; ++var3) {
-      Config config = var1[var3];
-      if (config.getIndex() == index) {
-        return config;
-      }
-    }
-
-    throw new IllegalArgumentException("index was not valid");
-  }
-
-  @NonNull
-  public String getString() {
-    if (configuration != null) {
-      return configuration.getEntity().getProprietor();
-    } else {
-      throw new RuntimeException("MapViewNamesContainsIndex");
-    }
-  }
 }
