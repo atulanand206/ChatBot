@@ -2,6 +2,7 @@ package com.experiment.billing.service;
 
 import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.model.components.Page;
+import com.itextpdf.kernel.PdfException;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -42,7 +43,7 @@ public class BillWriter {
     fDocument = new Document(pdf);
   }
 
-  public void writeContent() {
+  public void writeContent() throws PdfException {
     for (Page page : fPages) {
       fCurrentPage = page;
       addPage();

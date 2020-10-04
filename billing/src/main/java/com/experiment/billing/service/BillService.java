@@ -3,6 +3,7 @@ package com.experiment.billing.service;
 import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.model.components.Page;
 import com.experiment.billing.model.dto.Permit;
+import com.itextpdf.kernel.PdfException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class BillService {
         try {
             List<Page> pages = getPages(lists, configuration);
             new BillWriter(configuration, outputFileName, pages).writeContent();
-        } catch (IOException e) {
+        } catch (IOException | PdfException e) {
             e.printStackTrace();
         }
     }

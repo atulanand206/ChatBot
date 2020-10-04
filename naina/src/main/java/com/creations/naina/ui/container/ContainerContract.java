@@ -1,9 +1,9 @@
 package com.creations.naina.ui.container;
 
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 
 import com.creations.bang.ui.bang.BangViewModel;
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
@@ -11,7 +11,6 @@ import com.creations.mvvm.ui.menu.MenuContract;
 import com.creations.mvvm.ui.text.TextViewModel;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 public interface ContainerContract {
 
@@ -75,20 +74,28 @@ public interface ContainerContract {
     TextViewModel getRate();
 
     @NonNull
+    MutableLiveData<String> getInputFileName();
+
+    @NonNull
+    TextViewModel getOutputFileName();
+
+    @NonNull
     LiveRunnable getUploadEvent();
 
     void onUploadClicked();
 
     @NonNull
-    LiveRunnable.Mutable getDocumentEvent();
+    LiveEvent.Mutable<String> getDocumentEvent();
 
     void onDocumentClicked();
+
+    void setFileName(String uri);
   }
 
   interface InteractionListener {
 
     void onUploadEventClicked();
 
-    void onDocumentEventClicked();
+    void onDocumentEventClicked(Object fileName);
   }
 }

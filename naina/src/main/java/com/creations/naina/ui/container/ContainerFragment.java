@@ -1,6 +1,7 @@
 package com.creations.naina.ui.container;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +98,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         Preconditions.verifyNonNull(mRootView, "RootView");
         Preconditions.verifyNonNull(mListener, "ContainerInteractionListener");
         mViewModel.getUploadEvent().listen(getViewLifecycleOwner(), () -> mListener.onUploadEventClicked());
-        mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), () -> mListener.onDocumentEventClicked());
+        mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onDocumentEventClicked(text));
 
     }
 
@@ -123,5 +124,9 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
 
     public ContainerFragment() {
         super(Builder.class, ContainerFragment.class);
+    }
+
+    public void setFileName(String uri) {
+        mViewModel.setFileName(uri);
     }
 }

@@ -61,7 +61,7 @@ public class SessionContext {
 
   public void updateFromSharedPrefs() {
     Config config = mGson.fromJson(mSharedPreferenceHelper.getString(CONFIG), Config.class);
-    if (!config.getConfigurations().isEmpty()) {
+    if (config!=null && !config.getConfigurations().isEmpty()) {
       setConfiguration(config);
     }
   }

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MediatorLiveData;
 import com.creations.mvvm.live.MutableLiveData;
@@ -18,7 +19,11 @@ import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
 import com.experiment.billing.model.components.Configuration;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import static android.view.View.VISIBLE;
+import static com.experiment.billing.model.components.Configuration.OUTPUT_DATE_FORMAT;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -34,7 +39,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private final LiveRunnable.Mutable mUploadEvent = new LiveRunnable.Mutable();
 
   @NonNull
-  private final LiveRunnable.Mutable mDocumentEvent = new LiveRunnable.Mutable();
+  private final LiveEvent.Mutable<String> mDocumentEvent = new LiveEvent.Mutable<>();
   @NonNull
   private final MediatorLiveData<Integer> mConfigurationIndex = new MediatorLiveData<>();
 
@@ -87,6 +92,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private final TextViewModel mRate;
 
   @NonNull
+  private final TextViewModel mOutputFileName;
+
+  @NonNull
+  private final MutableLiveData<String> mInputFileName = new MutableLiveData<>("");
+
+  @NonNull
   private final MutableLiveData<AdapterView.OnItemSelectedListener> mItemSelectedListener = new MutableLiveData<>();
   private Configuration mConfiguration;
 
@@ -112,6 +123,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mCgst = factory.create();
     mIgst = factory.create();
     mRate = factory.create();
+    mOutputFileName = factory.create();
     setTextHeaders();
     addContextCallbacks();
     setClickListeners();
@@ -154,6 +166,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mCgst.setHeader("CGST");
     mIgst.setHeader("IGST");
     mRate.setHeader("Rate");
+    mOutputFileName.setHeader("Output File Name");
   }
 
   private void addContextCallbacks() {
@@ -172,6 +185,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mContextCallback.addSource(mCgst.getContextCallback());
     mContextCallback.addSource(mIgst.getContextCallback());
     mContextCallback.addSource(mRate.getContextCallback());
+    mContextCallback.addSource(mOutputFileName.getContextCallback());
   }
 
   private void setClickListeners() {
@@ -184,19 +198,19 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
       saveConfiguration();
     });
     mWorkAddress.setAfterTextChangedCallback(enteredString -> {
-      mConfiguration.getEntity().setProprietor(enteredString);
+      mConfiguration.getEntity().setHomeAddress(enteredString);
       saveConfiguration();
     });
     mSiteAddress.setAfterTextChangedCallback(enteredString -> {
-      mConfiguration.getEntity().setProprietor(enteredString);
+      mConfiguration.getEntity().setFirmAddress(enteredString);
       saveConfiguration();
     });
     mGSTIN.setAfterTextChangedCallback(enteredString -> {
-      mConfiguration.getEntity().setProprietor(enteredString);
+      mConfiguration.getEntity().setGstin(enteredString);
       saveConfiguration();
     });
     mMobileNumber.setAfterTextChangedCallback(enteredString -> {
-      mConfiguration.getEntity().setProprietor(enteredString);
+      mConfiguration.getEntity().setMobileNumber(enteredString);
       saveConfiguration();
     });
     mBankDetails.setAfterTextChangedCallback(enteredString -> {
@@ -282,6 +296,17 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mSgst.setText(String.valueOf(mConfiguration.getRates().getSgstRate()));
     mIgst.setText(String.valueOf(mConfiguration.getRates().getIgstRate()));
     mRate.setText(String.valueOf(mConfiguration.getRates().getRateValue()));
+    refreshOutputFileName();
+  }
+
+  private void refreshOutputFileName() {
+    mOutputFileName.setText(getOutputFileNameText());
+  }
+
+  private String getOutputFileNameText() {
+    Object value = mEntityName.getText().getValue();
+    return String.format("%s-%s", value == null || value.equals("") ? "Doc" : value.toString(),
+            new SimpleDateFormat("dd-MMM-yyyy-hh-mm-ss").format(Calendar.getInstance().getTime()));
   }
 
   @NonNull
@@ -376,6 +401,18 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
   @NonNull
   @Override
+  public MutableLiveData<String> getInputFileName() {
+    return mInputFileName;
+  }
+
+  @NonNull
+  @Override
+  public TextViewModel getOutputFileName() {
+    return mOutputFileName;
+  }
+
+  @NonNull
+  @Override
   public LiveRunnable getUploadEvent() {
     return mUploadEvent;
   }
@@ -387,13 +424,20 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
   @NonNull
   @Override
-  public LiveRunnable.Mutable getDocumentEvent() {
+  public LiveEvent.Mutable<String> getDocumentEvent() {
     return mDocumentEvent;
   }
 
   @Override
   public void onDocumentClicked() {
-    mDocumentEvent.postEvent();
+    Object value = mOutputFileName.getText().getValue();
+    mDocumentEvent.postEvent(value != null ? value.toString() : "");
+  }
+
+  @Override
+  public void setFileName(String uri) {
+    mInputFileName.setValue(uri);
+    refreshOutputFileName();
   }
 
   @NonNull

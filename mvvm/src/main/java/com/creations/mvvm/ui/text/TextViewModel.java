@@ -2,8 +2,12 @@ package com.creations.mvvm.ui.text;
 
 import android.app.Application;
 import android.text.Editable;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
@@ -13,11 +17,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.R;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.IFormViewModelBase.TextChangedCallback;
 import com.creations.mvvm.ui.edit.EditViewModel;
 import com.example.application.utils.TextUtils;
+
+import static android.widget.LinearLayout.LayoutParams.*;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
@@ -144,16 +151,18 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
     @Override
     public void onClick() {
         mContextCallback.postEvent(context -> {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.App_Component_Dialog_Alert);
             String header = getHeader().getValue();
             alertDialog.setTitle(header);
             alertDialog.setMessage("Enter " + header);
-            final EditText input = new EditText(context);
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            View view = layoutInflater.inflate(R.layout.dialog_success, null);
+            final EditText input = view.findViewById(R.id.text_view);
             input.setText(getText().getValue());
-            alertDialog.setView(input);
-            alertDialog.setPositiveButton("YES",
+            alertDialog.setView(view);
+            alertDialog.setPositiveButton("CHANGE",
                     (dialog, which) -> setText(input.getText().toString()));
-            alertDialog.setNegativeButton("NO",
+            alertDialog.setNegativeButton("CANCEL",
                     (dialog, which) -> dialog.cancel());
             alertDialog.show();
         });
