@@ -4,6 +4,7 @@ import android.text.Editable;
 
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.IFormViewModelBase;
 import com.creations.mvvm.ui.edit.EditContract;
 
 import androidx.annotation.ColorInt;
@@ -52,6 +53,8 @@ public interface TextContract {
         void setText(@NonNull String txt);
 
         void afterTextChanged(@Nullable final Editable editable);
+
+        void setAfterTextChangedCallback(@Nullable IFormViewModelBase.TextChangedCallback callback);
 
         void setTitleTextSize(@Dimension float textSize);
 

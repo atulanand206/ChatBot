@@ -3,24 +3,29 @@ package com.creations.mvvm.ui.text;
 import android.app.Application;
 import android.text.Editable;
 import android.view.View;
-
-import com.creations.condition.Preconditions;
-import com.creations.mvvm.live.MutableLiveData;
-import com.creations.mvvm.models.props.Props;
-import com.creations.mvvm.ui.edit.EditViewModel;
-import com.example.application.utils.TextUtils;
+import android.widget.EditText;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
+
+import com.creations.condition.Preconditions;
+import com.creations.mvvm.live.MutableLiveData;
+import com.creations.mvvm.models.props.Props;
+import com.creations.mvvm.ui.IFormViewModelBase.TextChangedCallback;
+import com.creations.mvvm.ui.edit.EditViewModel;
+import com.example.application.utils.TextUtils;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
 public class TextViewModel<T extends Props> extends EditViewModel<T> implements TextContract.ViewModel<T> {
 
+    @Nullable
+    private TextChangedCallback mAfterTextChangedCallback;
     @NonNull
     private final MutableLiveData<String> mTitle = new MutableLiveData<>("");
     @NonNull
@@ -114,6 +119,9 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
     @Override
     public void setText(@NonNull final String txt) {
         mText.postValue(txt);
+        if (mAfterTextChangedCallback != null) {
+            mAfterTextChangedCallback.onTextChanged(txt);
+        }
     }
 
     @Override
@@ -126,6 +134,29 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
             text = null;
         }
         mText.setValue(text);
+    }
+
+    @Override
+    public void setAfterTextChangedCallback(@Nullable final TextChangedCallback callback) {
+        mAfterTextChangedCallback = callback;
+    }
+
+    @Override
+    public void onClick() {
+        mContextCallback.postEvent(context -> {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            String header = getHeader().getValue();
+            alertDialog.setTitle(header);
+            alertDialog.setMessage("Enter " + header);
+            final EditText input = new EditText(context);
+            input.setText(getText().getValue());
+            alertDialog.setView(input);
+            alertDialog.setPositiveButton("YES",
+                    (dialog, which) -> setText(input.getText().toString()));
+            alertDialog.setNegativeButton("NO",
+                    (dialog, which) -> dialog.cancel());
+            alertDialog.show();
+        });
     }
 
     @Override

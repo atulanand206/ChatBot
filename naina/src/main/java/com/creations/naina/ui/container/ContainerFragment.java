@@ -33,12 +33,11 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     IAPIBang mApiCanvas;
 
     @NonNull
-    public static ContainerFragment newInstance(CanvasP canvas, Builder builder, IConfigurationRepository configurationRepository) {
+    public static ContainerFragment newInstance(CanvasP canvas, Builder builder) {
         Bundle args = new Bundle();
         ContainerFragment fragment = new ContainerFragment();
         fragment.setArguments(args);
         builder.canvas(canvas);
-        builder.configurationRepository(configurationRepository);
         fragment.mBuilder = builder;
         return fragment;
     }

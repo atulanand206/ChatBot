@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -40,22 +43,35 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     @Inject
     Gson gson;
+    private RelativeLayout mProgressBar;
+    private FrameLayout mFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mProgressBar = findViewById(R.id.progress_bar);
+        mFrameLayout = findViewById(R.id.main_pager);
         Log.d(TAG, String.valueOf(getIntent().getExtras()));
         CanvasP preset = new CanvasP();
         setStatusBarColor(R.color.red);
-        IConfigurationRepository configurationRepository = new ConfigurationRepository(this, gson);
-        Fragment containerFragment = getContainerFragment(preset, MainActivity.this, configurationRepository);
+        Fragment containerFragment = getContainerFragment(preset, MainActivity.this);
         getSupportFragmentManager().beginTransaction().add(R.id.main_pager, containerFragment).commit();
         externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         outputFileName = externalStoragePublicDirectory + "/result.pdf";
     }
     File externalStoragePublicDirectory;
+
+    public void toggleProgress(boolean show) {
+        if(show) {
+            mFrameLayout.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            mFrameLayout.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onDocumentEventClicked() {
@@ -102,16 +118,21 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         try {
             Uri uri = data.getData();
             if (uri != null) {
+                toggleProgress(true);
                 lists.addAll(readFromTsv(getContentResolver().openInputStream(uri)));
                 convertToPdf();
+                toggleProgress(false);
             }
         } catch (IOException e) {
+            toggleProgress(false);
             e.printStackTrace();
         }
+        toggleProgress(false);
     }
 
     private void convertToPdf() {
         Configuration configuration = gson.fromJson(readFromAssets(this, "ies.json"), Configuration.class);
         BillService.convert(lists, configuration, outputFileName);
+        Log.d(TAG, "PDF");
     }
 }

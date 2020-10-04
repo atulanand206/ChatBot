@@ -7,4 +7,18 @@
         android:id="@+id/main_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+        <ProgressBar
+            android:translationZ="10dp"
+            style="@style/App.Component.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
 </RelativeLayout>

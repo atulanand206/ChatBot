@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public interface FragmentHelper {
-    static Fragment getContainerFragment(@NonNull final CanvasP preset, @NonNull final MVVMInjector builder, @NonNull final IConfigurationRepository configurationRepository) {
+    static Fragment getContainerFragment(@NonNull final CanvasP preset, @NonNull final MVVMInjector builder) {
         ContainerModule.ContainerSubcomponent.Builder builder1 = builder
                 .getBuilder(ContainerFragment.class, ContainerModule.ContainerSubcomponent.Builder.class);
-        return ContainerFragment.newInstance(preset, builder1, configurationRepository);
+        return ContainerFragment.newInstance(preset, builder1);
     }
 
 }

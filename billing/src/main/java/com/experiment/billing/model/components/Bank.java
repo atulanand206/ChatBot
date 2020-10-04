@@ -28,4 +28,16 @@ public class Bank {
   public String getIfsc() {
     return ifsc;
   }
+
+  public void setNameOfBank(String nameOfBank) {
+    this.nameOfBank = nameOfBank;
+  }
+
+  public void setAccountNumber(String accountNumber) {
+    this.accountNumber = accountNumber;
+  }
+
+  public void setIfsc(String ifsc) {
+    this.ifsc = ifsc;
+  }
 }

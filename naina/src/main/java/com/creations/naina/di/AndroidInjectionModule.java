@@ -1,8 +1,11 @@
 package com.creations.naina.di;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 
 import com.creations.naina.App;
+import com.creations.naina.api.ConfigurationRepository;
+import com.creations.naina.api.IConfigurationRepository;
 import com.example.application.messages.IMessageManager;
 import com.example.application.messages.MessageManager;
 import com.example.application.messages.SnackbarUtils;
@@ -11,7 +14,9 @@ import com.example.application.provider.IResourceProvider;
 import com.example.application.provider.ResourceProvider;
 import com.example.application.utils.Animations;
 import com.example.application.utils.NavigationDrawer;
+import com.example.application.utils.SharedPreferenceHelper;
 import com.example.dagger.scopes.AppScope;
+import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
 import dagger.Module;
@@ -58,4 +63,21 @@ public class AndroidInjectionModule {
         return new Animations();
     }
 
+    @AppScope @Provides
+    public static SharedPreferenceHelper preferenceHelper(Context context) {
+        try {
+            return new SharedPreferenceHelper(context, String.valueOf(context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0).versionCode));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @AppScope @Provides
+    public static IConfigurationRepository configurationRepository(final SharedPreferenceHelper sharedPreferenceHelper,
+                                                                   final Context context,
+                                                                   final Gson gson) {
+        return new ConfigurationRepository(sharedPreferenceHelper, context, gson);
+    }
 }

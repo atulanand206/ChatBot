@@ -40,4 +40,8 @@ public class Configuration {
   public String getAuthorisedSignatory() {
     return authorisedSignatory;
   }
+
+  public void setAuthorisedSignatory(String authorisedSignatory) {
+    this.authorisedSignatory = authorisedSignatory;
+  }
 }

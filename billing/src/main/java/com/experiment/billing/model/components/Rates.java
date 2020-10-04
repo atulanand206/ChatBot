@@ -60,4 +60,24 @@ public class Rates {
   public String getQuantityUnit() {
     return quantityUnit;
   }
+
+  public void setGstRate(double gstRate) {
+    this.gstRate = gstRate;
+  }
+
+  public void setSgstRate(double sgstRate) {
+    this.sgstRate = sgstRate;
+  }
+
+  public void setCgstRate(double cgstRate) {
+    this.cgstRate = cgstRate;
+  }
+
+  public void setIgstRate(double igstRate) {
+    this.igstRate = igstRate;
+  }
+
+  public void setRateValue(double rateValue) {
+    this.rateValue = rateValue;
+  }
 }

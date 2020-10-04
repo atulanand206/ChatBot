@@ -15,11 +15,12 @@
 
         <Spinner
             android:id="@+id/config"
+            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/divider"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"
             android:spinnerMode="dropdown"
             android:entries="@{viewmodel.entries}"
@@ -29,17 +30,74 @@
 
         <include
             android:id="@+id/divider"
+            android:layout_centerHorizontal="true"
             layout="@layout/content_divider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_divider"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="10dp"
-            android:layout_above="@id/buttons" />
+            android:layout_below="@id/config" />
 
         <LinearLayout
+            android:id="@+id/content"
+            android:orientation="vertical"
+            android:layout_below="@id/divider"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/card_text_view_model"
+              bind:viewmodel="@{viewmodel.entityNameViewModel}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.proprietor}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.workAddress}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.siteAddress}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.gstIn}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.mobileNumber}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.bankDetails}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.accountNumber}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.ifsc}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.authorisedSignatory}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.gst}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.cgst}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.sgst}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.igst}"/>
+
+            <include layout="@layout/card_text_view_model"
+                bind:viewmodel="@{viewmodel.rate}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/content"
             android:id="@+id/buttons"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -50,13 +108,6 @@
             android:layout_height="wrap_content"
             android:text="Convert"
             android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
-
-        <Button
-            android:id="@+id/document"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Documents"
-            android:onClick="@{() -> viewmodel.onDocumentClicked()}"/>
 
         </LinearLayout>
     </RelativeLayout>

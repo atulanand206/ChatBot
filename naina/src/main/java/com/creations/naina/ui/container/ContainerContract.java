@@ -8,6 +8,7 @@ import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.menu.MenuContract;
+import com.creations.mvvm.ui.text.TextViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -27,6 +28,51 @@ public interface ContainerContract {
 
     @NonNull
     BangViewModel getBangViewModel();
+
+    @NonNull
+    TextViewModel getEntityNameViewModel();
+
+    @NonNull
+    TextViewModel getProprietor();
+
+    @NonNull
+    TextViewModel getWorkAddress();
+
+    @NonNull
+    TextViewModel getSiteAddress();
+
+    @NonNull
+    TextViewModel getGstIn();
+
+    @NonNull
+    TextViewModel getMobileNumber();
+
+    @NonNull
+    TextViewModel getBankDetails();
+
+    @NonNull
+    TextViewModel getAccountNumber();
+
+    @NonNull
+    TextViewModel getIfsc();
+
+    @NonNull
+    TextViewModel getAuthorisedSignatory();
+
+    @NonNull
+    TextViewModel getGst();
+
+    @NonNull
+    TextViewModel getCgst();
+
+    @NonNull
+    TextViewModel getSgst();
+
+    @NonNull
+    TextViewModel getIgst();
+
+    @NonNull
+    TextViewModel getRate();
 
     @NonNull
     LiveRunnable getUploadEvent();

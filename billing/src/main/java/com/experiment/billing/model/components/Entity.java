@@ -60,4 +60,32 @@ public class Entity {
   public String getFrom() {
     return from;
   }
+
+  public void setGstin(String gstin) {
+    this.gstin = gstin;
+  }
+
+  public void setMobileNumber(String mobileNumber) {
+    this.mobileNumber = mobileNumber;
+  }
+
+  public void setFirm(String firm) {
+    this.firm = firm;
+  }
+
+  public void setProprietor(String proprietor) {
+    this.proprietor = proprietor;
+  }
+
+  public void setHomeAddress(String homeAddress) {
+    this.homeAddress = homeAddress;
+  }
+
+  public void setFirmAddress(String firmAddress) {
+    this.firmAddress = firmAddress;
+  }
+
+  public void setFrom(String from) {
+    this.from = from;
+  }
 }

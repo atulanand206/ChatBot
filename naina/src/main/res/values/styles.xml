@@ -19,4 +19,8 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="App.Component.ProgressBar" parent="@android:style/Widget.ProgressBar.Large">
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
 </resources>

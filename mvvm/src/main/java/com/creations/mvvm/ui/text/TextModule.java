@@ -1,13 +1,14 @@
 package com.creations.mvvm.ui.text;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.models.props.Props;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.viewmodel.MVVMModule;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -17,6 +18,13 @@ public interface TextModule extends MenuModule {
 
     @Module
     abstract class InjectViewModelFactory {
+
+        @Provides
+        @NonNull
+        public static Props provideProps() {
+            return new Props();
+        }
+
         @Provides
         @NonNull
         public static TextViewModel.Factory provideViewModelFactory(
