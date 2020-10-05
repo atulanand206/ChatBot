@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Dimension;
@@ -148,6 +149,12 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
         mAfterTextChangedCallback = callback;
     }
 
+    private String regex = "";
+
+    public void setRegex(final String regex) {
+        this.regex = regex;
+    }
+
     @Override
     public void onClick() {
         mContextCallback.postEvent(context -> {
@@ -161,7 +168,18 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
             input.setText(getText().getValue());
             alertDialog.setView(view);
             alertDialog.setPositiveButton("CHANGE",
-                    (dialog, which) -> setText(input.getText().toString()));
+                    (dialog, which) -> {
+                        String txt = input.getText().toString();
+                        if (txt.isEmpty())
+                            Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
+                        else if (!regex.isEmpty()) {
+                            if (!txt.matches(regex))
+                                Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
+                            else
+                                setText(txt);
+                        } else
+                            setText(txt);
+                    });
             alertDialog.setNegativeButton("CANCEL",
                     (dialog, which) -> dialog.cancel());
             alertDialog.show();

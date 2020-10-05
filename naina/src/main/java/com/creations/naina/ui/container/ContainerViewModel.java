@@ -17,6 +17,7 @@ import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
+import com.experiment.billing.constants.Constants;
 import com.experiment.billing.model.components.Configuration;
 
 import java.text.SimpleDateFormat;
@@ -156,15 +157,22 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mWorkAddress.setHeader("Work Address");
     mSiteAddress.setHeader("Site Address");
     mGSTIN.setHeader("GSTIN");
+    mGSTIN.setRegex(Constants.REGEX_GSTIN);
     mMobileNumber.setHeader("Mobile Number");
+    mMobileNumber.setRegex(Constants.REGEX_MOBILE_NUMBER);
     mBankDetails.setHeader("Bank Name");
     mAccountNumber.setHeader("A/c No");
     mIfsc.setHeader("IFSC");
+    mIfsc.setRegex(Constants.REGEX_IFSC);
     mAuthorisedSignatory.setHeader("Authorised Signatory");
     mGst.setHeader("GST");
+    mGst.setRegex(Constants.REGEX_DOUBLE_LESS_THAN_100);
     mSgst.setHeader("SGST");
+    mSgst.setRegex(Constants.REGEX_DOUBLE_LESS_THAN_100);
     mCgst.setHeader("CGST");
+    mCgst.setRegex(Constants.REGEX_DOUBLE_LESS_THAN_100);
     mIgst.setHeader("IGST");
+    mIgst.setRegex(Constants.REGEX_DOUBLE_LESS_THAN_100);
     mRate.setHeader("Rate");
     mOutputFileName.setHeader("Output File Name");
   }
@@ -306,7 +314,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private String getOutputFileNameText() {
     Object value = mEntityName.getText().getValue();
     return String.format("%s-%s", value == null || value.equals("") ? "Doc" : value.toString(),
-            new SimpleDateFormat("dd-MMM-yyyy-hh-mm-ss").format(Calendar.getInstance().getTime()));
+            new SimpleDateFormat("dd-MMM-yyyy-hh-mm-ss").format(Calendar.getInstance().getTime())).replace("/", "").replace(" ", "-");
   }
 
   @NonNull

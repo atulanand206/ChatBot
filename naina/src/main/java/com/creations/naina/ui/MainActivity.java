@@ -80,9 +80,11 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
   @Override
   public void onDocumentEventClicked(Object fileName) {
     toggleProgress(true);
+    showToast("Converting!");
     outputFileName = externalStoragePublicDirectory + "/" + fileName + ".pdf";
     convertToPdf();
     toggleProgress(false);
+    showToast("Finished! Please open documents folder.");
   }
 
   @Override

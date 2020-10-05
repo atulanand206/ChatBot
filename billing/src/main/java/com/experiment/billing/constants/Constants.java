@@ -34,6 +34,11 @@ public class Constants {
   public static final String RS_IN_WORDS = "Rs. in words: %s Only";
   public static final String AUTHORISED_SIGNATORY = "Authorised Signatory";
 
+  public static final String REGEX_GSTIN = "\\d{2}[A-Z]{5}\\d{4}[A-Z]{1}[A-Z\\d]{1}[Z]{1}[A-Z\\d]{1}";
+  public static final String REGEX_DOUBLE_LESS_THAN_100 = "^(?!0?0\\.00$)\\d{1,2}\\.\\d{2}$";
+  public static final String REGEX_MOBILE_NUMBER = "^[6-9]\\d{9}$";
+  public static final String REGEX_IFSC = "^[A-Z]{4}0[A-Z0-9]{6}$";
+
   public static final String STATE_NAME = "Jharkhand";
   public static final int STATE_CODE = 20;
 }
