@@ -8,128 +8,259 @@
             type="com.creations.naina.ui.container.ContainerContract.ViewModel" />
     </data>
 
-    <RelativeLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Spinner
-            android:id="@+id/config"
-            android:layout_centerHorizontal="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="10dp"
-            android:spinnerMode="dropdown"
-            android:entries="@{viewmodel.entries}"
-            app:onItemSelected="@{viewmodel.itemSelectedListener}"
-            app:selectedItemPosition="@{viewmodel.configurationIndex}"
-            style="@style/App.Component.Profile.Value" />
-
-        <include
-            android:id="@+id/divider"
-            android:layout_centerHorizontal="true"
-            layout="@layout/content_divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_divider"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@id/config" />
-
-        <LinearLayout
-            android:id="@+id/content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
             android:orientation="vertical"
-            android:layout_below="@id/divider"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/card_text_view_model"
-              bind:viewmodel="@{viewmodel.entityNameViewModel}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.proprietor}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.workAddress}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.siteAddress}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.gstIn}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.mobileNumber}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.bankDetails}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.accountNumber}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.ifsc}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.authorisedSignatory}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.gst}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.cgst}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.sgst}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.igst}"/>
-
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.rate}"/>
-
-            <TextView
+            <Spinner
+                android:id="@+id/config"
+                android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
-                android:text="@{viewmodel.inputFileName}" />
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="10dp"
+                android:spinnerMode="dropdown"
+                android:entries="@{viewmodel.entries}"
+                app:onItemSelected="@{viewmodel.itemSelectedListener}"
+                app:selectedItemPosition="@{viewmodel.configurationIndex}"
+                style="@style/App.Component.Profile.Value" />
 
-            <include layout="@layout/card_text_view_model"
-                bind:viewmodel="@{viewmodel.outputFileName}"/>
+            <include
+                android:id="@+id/divider"
+                android:layout_centerHorizontal="true"
+                layout="@layout/content_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_divider"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/config" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/content"
+                android:orientation="vertical"
+                android:layout_below="@id/divider"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_below="@id/content"
-            android:id="@+id/buttons"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/color_accordion">
 
-            <Button
-                android:id="@+id/upload"
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{()->viewmodel.expandEntity()}"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:background="@drawable/transparent"
+                        android:src="@{viewmodel.entityExpanded ? @drawable/ic_baseline_keyboard_arrow_down_24 : @drawable/ic_baseline_keyboard_arrow_right_24}"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_34"
+                        android:text="Entity"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/font_xx_large"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+                <com.example.application.utils.expandablelayout.ExpandableLayout
+                    android:id="@+id/entity_expandable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/card_text_view_model"
+                          bind:viewmodel="@{viewmodel.entityNameViewModel}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.proprietor}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.workAddress}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.siteAddress}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.gstIn}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.mobileNumber}"/>
+
+                    </LinearLayout>
+
+                </com.example.application.utils.expandablelayout.ExpandableLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/color_accordion">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{()->viewmodel.expandBank()}"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:background="@drawable/transparent"
+                        android:src="@{viewmodel.bankExpanded ? @drawable/ic_baseline_keyboard_arrow_down_24 : @drawable/ic_baseline_keyboard_arrow_right_24}"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_34"
+                        android:text="Bank Details"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/font_xx_large"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+                <com.example.application.utils.expandablelayout.ExpandableLayout
+                    android:id="@+id/bank_expandable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.bankDetails}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.accountNumber}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.ifsc}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.authorisedSignatory}"/>
+
+                    </LinearLayout>
+
+                </com.example.application.utils.expandablelayout.ExpandableLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/color_accordion">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{()->viewmodel.expandRate()}"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:background="@drawable/transparent"
+                        android:src="@{viewmodel.rateExpanded ? @drawable/ic_baseline_keyboard_arrow_down_24 : @drawable/ic_baseline_keyboard_arrow_right_24}"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_34"
+                        android:text="Rates"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/font_xx_large"
+                        android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+                <com.example.application.utils.expandablelayout.ExpandableLayout
+                    android:id="@+id/rate_expandable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.gst}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.cgst}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.sgst}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.igst}"/>
+
+                        <include layout="@layout/card_text_view_model"
+                            bind:viewmodel="@{viewmodel.rate}"/>
+
+                    </LinearLayout>
+
+                </com.example.application.utils.expandablelayout.ExpandableLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:text="@{viewmodel.inputFileName}" />
+
+                <include layout="@layout/card_text_view_model"
+                    bind:viewmodel="@{viewmodel.outputFileName}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@id/content"
+                android:id="@+id/buttons"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Browse"
-                android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/convert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Convert"
-                android:onClick="@{() -> viewmodel.onDocumentClicked()}"/>
+                <Button
+                    android:id="@+id/upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Browse"
+                    android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/convert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Convert"
+                    android:onClick="@{() -> viewmodel.onDocumentClicked()}"/>
 
-    </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
 </layout>

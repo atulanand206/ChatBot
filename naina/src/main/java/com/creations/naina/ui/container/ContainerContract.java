@@ -89,6 +89,30 @@ public interface ContainerContract {
 
     void onDocumentClicked();
 
+    @NonNull
+    MutableLiveData<Boolean> getEntityExpanded();
+
+    @NonNull
+    LiveRunnable.Mutable getEntityExpandEvent();
+
+    void expandEntity();
+
+    @NonNull
+    MutableLiveData<Boolean> getBankExpanded();
+
+    @NonNull
+    LiveRunnable.Mutable getBankExpandEvent();
+
+    void expandBank();
+
+    @NonNull
+    MutableLiveData<Boolean> getRateExpanded();
+
+    @NonNull
+    LiveRunnable.Mutable getRatteExpandEvent();
+
+    void expandRate();
+
     void setFileName(String uri);
   }
 

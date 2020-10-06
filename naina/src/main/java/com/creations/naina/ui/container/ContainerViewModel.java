@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
@@ -38,6 +39,18 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   IConfigurationRepository mConfigurationRepository;
   @NonNull
   private final LiveRunnable.Mutable mUploadEvent = new LiveRunnable.Mutable();
+  @NonNull
+  private final LiveRunnable.Mutable mEntityExpandEvent = new LiveRunnable.Mutable();
+  @NonNull
+  private final MutableLiveData<Boolean> mEntityExpanded = new MutableLiveData<>(false);
+  @NonNull
+  private final LiveRunnable.Mutable mBankExpandEvent = new LiveRunnable.Mutable();
+  @NonNull
+  private final MutableLiveData<Boolean> mBankExpanded = new MutableLiveData<>(false);
+  @NonNull
+  private final LiveRunnable.Mutable mRateExpandEvent = new LiveRunnable.Mutable();
+  @NonNull
+  private final MutableLiveData<Boolean> mRateExpanded = new MutableLiveData<>(false);
 
   @NonNull
   private final LiveEvent.Mutable<String> mDocumentEvent = new LiveEvent.Mutable<>();
@@ -440,6 +453,63 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   public void onDocumentClicked() {
     Object value = mOutputFileName.getText().getValue();
     mDocumentEvent.postEvent(value != null ? value.toString() : "");
+  }
+
+  @NonNull
+  @Override
+  public MutableLiveData<Boolean> getEntityExpanded() {
+    return mEntityExpanded;
+  }
+
+  @NonNull
+  @Override
+  public LiveRunnable.Mutable getEntityExpandEvent() {
+    return mEntityExpandEvent;
+  }
+
+  @Override
+  public void expandEntity() {
+    boolean b = mEntityExpanded.getValue().booleanValue();
+    mEntityExpanded.postValue(!b);
+    mEntityExpandEvent.postEvent();
+  }
+
+  @NonNull
+  @Override
+  public MutableLiveData<Boolean> getBankExpanded() {
+    return mBankExpanded;
+  }
+
+  @NonNull
+  @Override
+  public LiveRunnable.Mutable getBankExpandEvent() {
+    return mBankExpandEvent;
+  }
+
+  @Override
+  public void expandBank() {
+    boolean b = mBankExpanded.getValue().booleanValue();
+    mBankExpanded.postValue(!b);
+    mBankExpandEvent.postEvent();
+  }
+
+  @NonNull
+  @Override
+  public MutableLiveData<Boolean> getRateExpanded() {
+    return mRateExpanded;
+  }
+
+  @NonNull
+  @Override
+  public LiveRunnable.Mutable getRatteExpandEvent() {
+    return mRateExpandEvent;
+  }
+
+  @Override
+  public void expandRate() {
+    boolean b = mRateExpanded.getValue().booleanValue();
+    mRateExpanded.postValue(!b);
+    mRateExpandEvent.postEvent();
   }
 
   @Override

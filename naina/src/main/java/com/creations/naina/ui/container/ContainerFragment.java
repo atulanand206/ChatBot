@@ -1,7 +1,6 @@
 package com.creations.naina.ui.container;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,10 @@ import com.creations.bang.api.IAPIBang;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.fragment.MVVMFragmentView;
 import com.creations.naina.R;
-import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.databinding.CardContainerBinding;
 import com.creations.naina.models.CanvasP;
 import com.creations.naina.ui.container.ContainerModule.ContainerSubcomponent.Builder;
+import com.example.application.utils.expandablelayout.ExpandableLayout;
 
 import javax.inject.Inject;
 
@@ -32,6 +31,10 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     private ContainerContract.InteractionListener mListener;
     @Inject
     IAPIBang mApiCanvas;
+
+    private ExpandableLayout mEntityExpandableLayout;
+    private ExpandableLayout mBankExpandableLayout;
+    private ExpandableLayout mRateExpandableLayout;
 
     @NonNull
     public static ContainerFragment newInstance(CanvasP canvas, Builder builder) {
@@ -58,6 +61,9 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
                 R.layout.card_container, container, false);
         View view = binding.getRoot();
         mRootView = view;
+        mEntityExpandableLayout = view.findViewById(R.id.entity_expandable);
+        mBankExpandableLayout = view.findViewById(R.id.bank_expandable);
+        mRateExpandableLayout = view.findViewById(R.id.rate_expandable);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
         super.onCreateView(inflater, container, savedInstanceState);
@@ -68,22 +74,6 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         if (getActivity() != null)
             setStatusBarColor(getActivity(), R.color.black);
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        mApiCanvas.authenticate(new EmptyResponseCallback() {
-//            @Override
-//            public void onSuccess() {
-//                Log.d("Ssas", "successs");
-//            }
-//
-//            @Override
-//            public void onError(int statusCode, @NonNull String errorResponse, @NonNull APIResponseBody serializedErrorResponse, @Nullable Exception e) {
-//                Log.d("Ssas", "successs");
-//            }
-//        });
     }
 
     @Nullable
@@ -99,7 +89,16 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         Preconditions.verifyNonNull(mListener, "ContainerInteractionListener");
         mViewModel.getUploadEvent().listen(getViewLifecycleOwner(), () -> mListener.onUploadEventClicked());
         mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onDocumentEventClicked(text));
+        mViewModel.getEntityExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mEntityExpandableLayout));
+        mViewModel.getBankExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mBankExpandableLayout));
+        mViewModel.getRatteExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mRateExpandableLayout));
+    }
 
+    private void expandEntity(ExpandableLayout expandableLayout) {
+        if (expandableLayout.isExpanded())
+            expandableLayout.collapse();
+        else
+            expandableLayout.expand();
     }
 
     @Override

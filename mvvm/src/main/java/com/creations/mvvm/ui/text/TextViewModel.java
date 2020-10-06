@@ -1,6 +1,7 @@
 package com.creations.mvvm.ui.text;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.Editable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -150,6 +151,7 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
     }
 
     private String regex = "";
+    private boolean mDialogShowing = false;
 
     public void setRegex(final String regex) {
         this.regex = regex;
@@ -157,33 +159,46 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
 
     @Override
     public void onClick() {
-        mContextCallback.postEvent(context -> {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.App_Component_Dialog_Alert);
-            String header = getHeader().getValue();
-            alertDialog.setTitle(header);
-            alertDialog.setMessage("Enter " + header);
-            LayoutInflater layoutInflater = LayoutInflater.from(context);
-            View view = layoutInflater.inflate(R.layout.dialog_success, null);
-            final EditText input = view.findViewById(R.id.text_view);
-            input.setText(getText().getValue());
-            alertDialog.setView(view);
-            alertDialog.setPositiveButton("CHANGE",
-                    (dialog, which) -> {
-                        String txt = input.getText().toString();
-                        if (txt.isEmpty())
-                            Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
-                        else if (!regex.isEmpty()) {
-                            if (!txt.matches(regex))
-                                Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
-                            else
-                                setText(txt);
-                        } else
-                            setText(txt);
-                    });
-            alertDialog.setNegativeButton("CANCEL",
-                    (dialog, which) -> dialog.cancel());
-            alertDialog.show();
-        });
+        mDialogShowing = true;
+        mContextCallback.postEvent(this::showEditDialog);
+    }
+
+    private void showEditDialog(Context context) {
+        if (!mDialogShowing)
+            return;
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.App_Component_Dialog_Alert);
+        String header = getHeader().getValue();
+        alertDialog.setTitle(header);
+        alertDialog.setMessage("Enter " + header);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.dialog_success, null);
+        final EditText input = view.findViewById(R.id.text_view);
+        input.setText(getText().getValue());
+        alertDialog.setView(view);
+        alertDialog.setPositiveButton("CHANGE",
+                (dialog, which) -> {
+                    setEditedText(context, input);
+                    mDialogShowing = false;
+                });
+        alertDialog.setNegativeButton("CANCEL",
+                (dialog, which) -> {
+                    dialog.cancel();
+                    mDialogShowing = false;
+                });
+        alertDialog.show();
+    }
+
+    private void setEditedText(Context context, EditText input) {
+        String txt = input.getText().toString();
+        if (txt.isEmpty())
+            Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
+        else if (!regex.isEmpty()) {
+            if (!txt.matches(regex))
+                Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
+            else
+                setText(txt);
+        } else
+            setText(txt);
     }
 
     @Override
