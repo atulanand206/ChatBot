@@ -14,7 +14,7 @@
         <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <Spinner
                 android:id="@+id/config"
@@ -68,38 +68,38 @@
                 <include layout="@layout/content_rate_items"
                     bind:viewmodel="@{viewmodel}"/>
 
+                <Button
+                    android:id="@+id/upload"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:text="Browse"
+                    android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:text="@{viewmodel.inputFileName}" />
 
+                <include layout="@layout/content_clients_header"
+                    bind:viewmodel="@{viewmodel}"/>
+
+                <include layout="@layout/content_clients_items"
+                    bind:viewmodel="@{viewmodel}"/>
+
                 <include layout="@layout/card_text_view_model"
                     bind:viewmodel="@{viewmodel.outputFileName}"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_below="@id/content"
-                android:id="@+id/buttons"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/upload"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Browse"
-                    android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
-
                 <Button
                     android:id="@+id/convert"
+                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Convert"

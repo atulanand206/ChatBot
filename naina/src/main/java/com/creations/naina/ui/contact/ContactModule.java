@@ -1,8 +1,11 @@
-package com.creations.mvvm.ui.contact;
+package com.creations.naina.ui.contact;
 
 import com.creations.condition.Preconditions;
+import com.creations.mvvm.models.props.EditableProps;
 import com.creations.mvvm.ui.editable.EditableModule;
 import com.creations.mvvm.ui.editable.EditableViewModel;
+import com.creations.mvvm.ui.text.TextModule;
+import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
 
 import androidx.annotation.NonNull;
@@ -15,18 +18,27 @@ import dagger.Provides;
 @Module()
 public interface ContactModule extends MVVMModule {
 
-    @Module(includes = EditableModule.InjectViewModelFactory.class)
+    @Module(includes = {
+            EditableModule.InjectViewModelFactory.class,
+            TextModule.InjectViewModelFactory.class
+    })
     abstract class InjectViewModelFactory {
+
+        @Provides
+        public static EditableProps editableProps() {
+            return new EditableProps();
+        }
 
         @Provides
         @NonNull
         public static ContactViewModel.Factory provideContactViewModelFactory(
                 @NonNull final FragmentActivity activity,
+                @NonNull final TextViewModel.Factory textFactory,
                 @NonNull final EditableViewModel.Factory editableFactory) {
             Preconditions.requiresNonNull(activity, "ContactFragmentActivity");
             Preconditions.requiresNonNull(editableFactory, "EditableFactory");
 
-            return new ContactViewModel.Factory(activity.getApplication(), editableFactory);
+            return new ContactViewModel.Factory(activity.getApplication(), textFactory, editableFactory);
         }
     }
 

@@ -35,6 +35,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     private ExpandableLayout mEntityExpandableLayout;
     private ExpandableLayout mBankExpandableLayout;
     private ExpandableLayout mRateExpandableLayout;
+    private ExpandableLayout mClientExpandableLayout;
 
     @NonNull
     public static ContainerFragment newInstance(CanvasP canvas, Builder builder) {
@@ -64,6 +65,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         mEntityExpandableLayout = view.findViewById(R.id.entity_expandable);
         mBankExpandableLayout = view.findViewById(R.id.bank_expandable);
         mRateExpandableLayout = view.findViewById(R.id.rate_expandable);
+        mClientExpandableLayout = view.findViewById(R.id.client_expandable);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
         super.onCreateView(inflater, container, savedInstanceState);
@@ -91,7 +93,8 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onDocumentEventClicked(text));
         mViewModel.getEntityExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mEntityExpandableLayout));
         mViewModel.getBankExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mBankExpandableLayout));
-        mViewModel.getRatteExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mRateExpandableLayout));
+        mViewModel.getRateExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mRateExpandableLayout));
+        mViewModel.getClientExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mClientExpandableLayout));
     }
 
     private void expandEntity(ExpandableLayout expandableLayout) {
@@ -126,6 +129,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     }
 
     public void setFileName(String uri) {
+        Preconditions.verifyNonNull(mViewModel, "ContainerViewModel");
         mViewModel.setFileName(uri);
     }
 }

@@ -1,5 +1,6 @@
 package com.experiment.billing.service;
 
+import com.experiment.billing.model.components.Client;
 import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.model.components.Page;
 import com.experiment.billing.model.dto.Permit;
@@ -7,15 +8,16 @@ import com.itextpdf.kernel.PdfException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BillService {
 
-    public static void convert(final List<List<String>> lists,
+    public static void convert(final List<Page> pages,
                                final Configuration configuration,
                                final String outputFileName) {
         try {
-            List<Page> pages = getPages(lists, configuration);
             new BillWriter(configuration, outputFileName, pages).writeContent();
         } catch (IOException | PdfException e) {
             e.printStackTrace();
@@ -35,5 +37,19 @@ public class BillService {
             page.calculateTotals(configuration);
         }
         return pages;
+    }
+
+    public static Set<Client> getClients(final List<Page> pages, final Configuration configuration) {
+        Set<Client> clients = new HashSet<>();
+        Set<String> ids = new HashSet<>();
+        for (Page page : pages) {
+            String id = page.getTarget().getGstin().trim();
+            String billTo = page.getTarget().getBillTo();
+            if (!ids.contains(id)) {
+                ids.add(id);
+                clients.add(new Client(billTo, id, ""));
+            }
+        }
+        return clients;
     }
 }

@@ -4,38 +4,44 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-
 import com.creations.naina.R;
 import com.creations.naina.models.CanvasP;
+import com.creations.naina.models.FileUploadType;
 import com.creations.naina.services.SessionContext;
 import com.creations.naina.ui.container.ContainerContract;
 import com.creations.naina.ui.container.ContainerFragment;
 import com.example.application.base.BaseActivity;
 import com.example.application.utils.MVVMInjector;
+import com.experiment.billing.model.components.Client;
 import com.experiment.billing.model.components.Configuration;
-import com.experiment.billing.service.BillService;
+import com.experiment.billing.model.components.Page;
 import com.google.gson.Gson;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
-import static com.creations.naina.utils.FileUtils.readFromAssets;
+import static com.creations.naina.models.FileUploadType.FILE_UPLOAD_TYPE;
 import static com.creations.naina.utils.FileUtils.readFromTsv;
 import static com.creations.naina.utils.FragmentHelper.getContainerFragment;
+import static com.experiment.billing.service.BillService.*;
+import static com.experiment.billing.service.BillService.getClients;
 
 public class MainActivity extends BaseActivity implements HasSupportFragmentInjector,
         ContainerContract.InteractionListener, MVVMInjector {
@@ -82,23 +88,26 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     toggleProgress(true);
     showToast("Converting!");
     outputFileName = externalStoragePublicDirectory + "/" + fileName + ".pdf";
+    Log.d(TAG, outputFileName);
     convertToPdf();
+//    writeConfigurations();
     toggleProgress(false);
     showToast("Finished! Please open documents folder.");
   }
 
   @Override
   public void onUploadEventClicked() {
-    showFileChooser();
+    showFileChooser(FileUploadType.PERMITS);
   }
 
   private static final int FILE_SELECT_CODE = 0;
   private String outputFileName;
   private List<List<String>> lists = new ArrayList<>();
 
-  private void showFileChooser() {
+  private void showFileChooser(FileUploadType type) {
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
     intent.setType("*/*");
+    intent.putExtra(FILE_UPLOAD_TYPE, type.name());
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     try {
@@ -122,20 +131,56 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
   private void processData(Intent data) {
     try {
+      String fileType = data.getStringExtra(FILE_UPLOAD_TYPE);
       Uri uri = data.getData();
       if (uri != null) {
-        lists.clear();
-        lists.addAll(readFromTsv(getContentResolver().openInputStream(uri)));
-        containerFragment.setFileName(String.format("Document Attached with %d permits", lists.size()));
+          lists.clear();
+          lists.addAll(readFromTsv(getContentResolver().openInputStream(uri)));
+          setClients();
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
+  Configuration configuration;
+  List<Page> pages;
+
+  private void setClients() {
+    configuration = sessionContext.getConfig().getConfiguration();
+    pages = getPages(lists, configuration);
+    Set<Client> clients = getClients(pages, configuration);
+    configuration.setClients(new ArrayList<>(clients));
+    sessionContext.setConfiguration(configuration);
+    containerFragment.setFileName(String.format("Document Attached with %d permits", lists.size()));
+  }
+
   private void convertToPdf() {
-    Configuration configuration = gson.fromJson(readFromAssets(this, "ies.json"), Configuration.class);
-    BillService.convert(lists, configuration, outputFileName);
+    convert(pages, configuration, outputFileName);
     Log.d(TAG, "PDF");
+  }
+
+  private void writeConfigurations() {
+    String data = gson.toJson(sessionContext.getConfig());
+    writeConfigurationsToFile(data);
+  }
+
+  private void writeConfigurationsToFile(String data) {
+    try {
+      String path = String.format("content://%s/%s",externalStoragePublicDirectory, "config.txt");
+//      Uri parse = Uri.fromFile(new File(path));
+      Uri parse = Uri.parse(path);
+      Log.d(TAG, parse.getPath());
+      ParcelFileDescriptor parcelFileDescriptor = getApplicationContext().getContentResolver().openFileDescriptor(parse, "r", null);
+      if (parcelFileDescriptor == null)
+        return;
+      FileOutputStream outputStreamWriter = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
+      BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStreamWriter);
+      outputStreamWriter.write(data.getBytes());
+      outputStreamWriter.close();
+    }
+    catch (IOException e) {
+      Log.e("Exception", "File write failed: " + e.toString());
+    }
   }
 }

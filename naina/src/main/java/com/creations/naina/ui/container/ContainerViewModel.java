@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
@@ -13,28 +12,36 @@ import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MediatorLiveData;
 import com.creations.mvvm.live.MutableLiveData;
+import com.creations.naina.models.ContactProps;
 import com.creations.mvvm.ui.menu.MenuViewModel;
 import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
+import com.creations.naina.ui.contact.ContactAdapter;
+import com.creations.naina.ui.contact.ContactContract;
+import com.creations.naina.ui.contact.ContactViewModel;
 import com.experiment.billing.constants.Constants;
+import com.experiment.billing.model.components.Client;
 import com.experiment.billing.model.components.Configuration;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static android.view.View.VISIBLE;
-import static com.experiment.billing.model.components.Configuration.OUTPUT_DATE_FORMAT;
 
 /**
  * This ViewModel works with a TextInputLayout and is to be used for creating forms.
  */
 public class ContainerViewModel extends MenuViewModel<CanvasP> implements ContainerContract.ViewModel<CanvasP> {
 
+  //region Variables
   @NonNull
   BangViewModel mBangViewModel;
-
+  @NonNull
+  private final ContactViewModel.Factory mContactFactory;
   @NonNull
   IConfigurationRepository mConfigurationRepository;
   @NonNull
@@ -51,6 +58,10 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private final LiveRunnable.Mutable mRateExpandEvent = new LiveRunnable.Mutable();
   @NonNull
   private final MutableLiveData<Boolean> mRateExpanded = new MutableLiveData<>(false);
+  @NonNull
+  private final LiveRunnable.Mutable mClientExpandEvent = new LiveRunnable.Mutable();
+  @NonNull
+  private final MutableLiveData<Boolean> mClientExpanded = new MutableLiveData<>(false);
 
   @NonNull
   private final LiveEvent.Mutable<String> mDocumentEvent = new LiveEvent.Mutable<>();
@@ -106,6 +117,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private final TextViewModel mRate;
 
   @NonNull
+  private final List<ContactContract.ViewModel> mClients = new ArrayList<>();
+
+  @NonNull
+  private final ContactAdapter mContactAdapter = new ContactAdapter(mClients);
+
+  @NonNull
   private final TextViewModel mOutputFileName;
 
   @NonNull
@@ -114,14 +131,17 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @NonNull
   private final MutableLiveData<AdapterView.OnItemSelectedListener> mItemSelectedListener = new MutableLiveData<>();
   private Configuration mConfiguration;
+  //endregion
 
   public ContainerViewModel(@NonNull final Application application,
                             @NonNull final BangViewModel.Factory bangFactory,
                             @NonNull final TextViewModel.Factory factory,
+                            @NonNull final ContactViewModel.Factory contactFactory,
                             @NonNull final CanvasP props,
                             @NonNull final IConfigurationRepository configurationRepository) {
     super(application, props);
     mBangViewModel = bangFactory.create();
+    mContactFactory = contactFactory;
     mEntityName = factory.create();
     mProprietor = factory.create();
     mWorkAddress = factory.create();
@@ -160,8 +180,19 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private void setConfiguration(int position) {
     mConfigurationIndex.postValue(position);
     mConfigurationRepository.setConfig(position);
-    mConfiguration = mConfigurationRepository.getConfiguration();
+    setClients();
     setData();
+  }
+
+  private void setClients() {
+    mConfiguration = mConfigurationRepository.getConfiguration();
+    mContactAdapter.clearItems();
+    List<Client> clients = mConfiguration.getClients();
+    if (clients != null)
+      for (int i = 0; i < clients.size(); i++) {
+        Client client = clients.get(i);
+        addCrewMember(i, client);
+      }
   }
 
   private void setTextHeaders() {
@@ -320,6 +351,54 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     refreshOutputFileName();
   }
 
+  @Override
+  public void expandEntity() {
+    boolean b = mEntityExpanded.getValue().booleanValue();
+    mEntityExpanded.postValue(!b);
+    mEntityExpandEvent.postEvent();
+  }
+
+  @Override
+  public void expandBank() {
+    boolean b = mBankExpanded.getValue().booleanValue();
+    mBankExpanded.postValue(!b);
+    mBankExpandEvent.postEvent();
+  }
+
+  @Override
+  public void expandRate() {
+    boolean b = mRateExpanded.getValue().booleanValue();
+    mRateExpanded.postValue(!b);
+    mRateExpandEvent.postEvent();
+  }
+
+  @Override
+  public void expandClient() {
+    boolean b = mClientExpanded.getValue().booleanValue();
+    mClientExpanded.postValue(!b);
+    mClientExpandEvent.postEvent();
+  }
+
+  private void addCrewMember(int i, @NonNull Client observer) {
+    ContactProps observerProps = new ContactProps(observer.getClient(), observer.getId(), observer.getGstin());
+    addCrewMember(i, observerProps);
+  }
+
+  private void addCrewMember(int i, @NonNull ContactProps observerProps) {
+    ContactViewModel contactViewModel = mContactFactory.create();
+    contactViewModel.postContactProps(observerProps, enteredString -> {
+      try {
+        if (enteredString != null) {
+          mConfiguration.getClients().get(i).setGstin(enteredString);
+          ContainerViewModel.this.saveConfiguration();
+        }
+      } catch (NumberFormatException ignored) {
+      }
+    });
+    mContextCallback.addSource(contactViewModel.getContextCallback());
+    mContactAdapter.addContactItem(contactViewModel);
+  }
+
   private void refreshOutputFileName() {
     mOutputFileName.setText(getOutputFileNameText());
   }
@@ -330,6 +409,25 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
             new SimpleDateFormat("dd-MMM-yyyy-hh-mm-ss").format(Calendar.getInstance().getTime())).replace("/", "").replace(" ", "-");
   }
 
+  @Override
+  public void onUploadClicked() {
+    mUploadEvent.postEvent();
+  }
+
+  @Override
+  public void onDocumentClicked() {
+    Object value = mOutputFileName.getText().getValue();
+    mDocumentEvent.postEvent(value != null ? value.toString() : "");
+  }
+
+  @Override
+  public void setFileName(String uri) {
+    mInputFileName.setValue(uri);
+    setClients();
+    refreshOutputFileName();
+  }
+
+  //region Getters
   @NonNull
   @Override
   public TextViewModel getEntityNameViewModel() {
@@ -438,21 +536,10 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     return mUploadEvent;
   }
 
-  @Override
-  public void onUploadClicked() {
-    mUploadEvent.postEvent();
-  }
-
   @NonNull
   @Override
   public LiveEvent.Mutable<String> getDocumentEvent() {
     return mDocumentEvent;
-  }
-
-  @Override
-  public void onDocumentClicked() {
-    Object value = mOutputFileName.getText().getValue();
-    mDocumentEvent.postEvent(value != null ? value.toString() : "");
   }
 
   @NonNull
@@ -467,13 +554,6 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     return mEntityExpandEvent;
   }
 
-  @Override
-  public void expandEntity() {
-    boolean b = mEntityExpanded.getValue().booleanValue();
-    mEntityExpanded.postValue(!b);
-    mEntityExpandEvent.postEvent();
-  }
-
   @NonNull
   @Override
   public MutableLiveData<Boolean> getBankExpanded() {
@@ -486,13 +566,6 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     return mBankExpandEvent;
   }
 
-  @Override
-  public void expandBank() {
-    boolean b = mBankExpanded.getValue().booleanValue();
-    mBankExpanded.postValue(!b);
-    mBankExpandEvent.postEvent();
-  }
-
   @NonNull
   @Override
   public MutableLiveData<Boolean> getRateExpanded() {
@@ -501,21 +574,26 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
   @NonNull
   @Override
-  public LiveRunnable.Mutable getRatteExpandEvent() {
+  public LiveRunnable.Mutable getRateExpandEvent() {
     return mRateExpandEvent;
   }
 
+  @NonNull
   @Override
-  public void expandRate() {
-    boolean b = mRateExpanded.getValue().booleanValue();
-    mRateExpanded.postValue(!b);
-    mRateExpandEvent.postEvent();
+  public MutableLiveData<Boolean> getClientExpanded() {
+    return mClientExpanded;
   }
 
+  @NonNull
   @Override
-  public void setFileName(String uri) {
-    mInputFileName.setValue(uri);
-    refreshOutputFileName();
+  public LiveRunnable.Mutable getClientExpandEvent() {
+    return mClientExpandEvent;
+  }
+
+  @NonNull
+  @Override
+  public ContactAdapter getContactAdapter() {
+    return mContactAdapter;
   }
 
   @NonNull
@@ -541,6 +619,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   public BangViewModel getBangViewModel() {
     return mBangViewModel;
   }
+  //endregion
 
   public static class Factory extends MVVMViewModel.Factory<ContainerViewModel> {
 
@@ -551,6 +630,9 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     private final TextViewModel.Factory mFactory;
 
     @NonNull
+    private final ContactViewModel.Factory mContactFactory;
+
+    @NonNull
     private final BangViewModel.Factory mBangFactory;
 
     @NonNull
@@ -559,10 +641,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     public Factory(@NonNull final Application application,
                    @NonNull final BangViewModel.Factory bangFactory,
                    @NonNull final TextViewModel.Factory factory,
+                   @NonNull final ContactViewModel.Factory contactFactory,
                    @NonNull final CanvasP props,
                    @NonNull final IConfigurationRepository configurationRepository) {
       super(ContainerViewModel.class, application);
       mBangFactory = Preconditions.requiresNonNull(bangFactory, "BangFactory");
+      mContactFactory = Preconditions.requiresNonNull(contactFactory, "ContactFactory");
       mFactory = Preconditions.requiresNonNull(factory, "Factory");
       mProps = Preconditions.requiresNonNull(props, "Props");
       mConfigurationRepository = Preconditions.requiresNonNull(configurationRepository, "ConfigurationRepo");
@@ -571,7 +655,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     @NonNull
     @Override
     public ContainerViewModel create() {
-      return new ContainerViewModel(mApplication, mBangFactory, mFactory, mProps, mConfigurationRepository);
+      return new ContainerViewModel(mApplication, mBangFactory, mFactory, mContactFactory, mProps, mConfigurationRepository);
     }
   }
 }

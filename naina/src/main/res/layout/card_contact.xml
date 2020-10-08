@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.creations.mvvm.form.contact.ContactAdapter">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.creations.naina.ui.contact.ContactContract.ViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <include
+            layout="@layout/card_text_view_model_double"
+            bind:viewmodel="@{viewmodel.client}"/>
+
+
+
+     </LinearLayout>
+</layout>

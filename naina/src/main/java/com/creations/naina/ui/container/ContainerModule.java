@@ -3,15 +3,14 @@ package com.creations.naina.ui.container;
 import com.creations.bang.ui.bang.BangModule;
 import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
+import com.creations.naina.ui.contact.ContactModule;
+import com.creations.naina.ui.contact.ContactViewModel;
 import com.creations.mvvm.ui.menu.MenuModule;
 import com.creations.mvvm.ui.text.TextModule;
 import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
-import com.creations.naina.api.ConfigurationRepository;
 import com.creations.naina.api.IConfigurationRepository;
 import com.creations.naina.models.CanvasP;
-import com.creations.naina.models.TextP;
-import com.example.application.messages.IMessageManager;
 import com.example.dagger.key.CustomFragmentKey;
 import com.example.dagger.scopes.FragmentScope;
 
@@ -32,7 +31,8 @@ public interface ContainerModule extends MenuModule {
 
   @Module(includes = {
           BangModule.InjectViewModelFactory.class,
-          TextModule.InjectViewModelFactory.class
+          TextModule.InjectViewModelFactory.class,
+          ContactModule.InjectViewModelFactory.class
   })
   abstract class InjectViewModelFactory {
     @Provides
@@ -49,12 +49,13 @@ public interface ContainerModule extends MenuModule {
             @NonNull final FragmentActivity activity,
             @NonNull final BangViewModel.Factory bangFactory,
             @NonNull final TextViewModel.Factory factory,
+            @NonNull final ContactViewModel.Factory contactFactory,
             @NonNull final CanvasP props,
             @NonNull final IConfigurationRepository configurationRepository) {
       Preconditions.requiresNonNull(activity, "FragmentActivity");
       Preconditions.requiresNonNull(props, "Props");
 
-      return new ContainerViewModel.Factory(activity.getApplication(), bangFactory, factory, props, configurationRepository);
+      return new ContainerViewModel.Factory(activity.getApplication(), bangFactory, factory, contactFactory, props, configurationRepository);
     }
   }
 

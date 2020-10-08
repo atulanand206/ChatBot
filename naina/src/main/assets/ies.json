@@ -22,5 +22,11 @@
     "account_number": "234567890987",
     "ifsc": "SBI0055225"
   },
-  "authorised_signatory": "For Shailendra Kumar Singh"
+  "authorised_signatory": "For Shailendra Kumar Singh",
+  "clients": [
+    {
+      "client": "CLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENTCLIENT",
+      "gstin": "31245"
+    }
+  ]
 }

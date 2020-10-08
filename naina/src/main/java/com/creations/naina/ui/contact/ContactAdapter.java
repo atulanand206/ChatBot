@@ -1,14 +1,7 @@
-package com.creations.mvvm.ui.contact;
+package com.creations.naina.ui.contact;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import com.creations.condition.Preconditions;
-import com.creations.mvvm.R;
-import com.creations.mvvm.databinding.CardContactBinding;
-import com.creations.mvvm.ui.contact.ContactContract.ViewModel;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -18,6 +11,13 @@ import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.creations.condition.Preconditions;
+import com.creations.naina.R;
+import com.creations.naina.databinding.CardContactBinding;
+import com.creations.naina.ui.contact.ContactContract.ViewModel;
+
+import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.RecyclerViewHolder> {
 

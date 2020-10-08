@@ -1,5 +1,10 @@
 package com.creations.inception.ui.form;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.creations.blocks.di.PropsModule;
 import com.creations.blocks.models.Preset;
 import com.creations.blocks.ui.container.ContainerModule;
@@ -10,7 +15,6 @@ import com.creations.blogger.ui.navigation.NavigationBarModule;
 import com.creations.blogger.ui.navigation.NavigationBarViewModel;
 import com.creations.condition.Preconditions;
 import com.creations.mvvm.ui.button.ButtonModule;
-import com.creations.mvvm.ui.contact.ContactModule;
 import com.creations.mvvm.ui.daterange.DateRangeModule;
 import com.creations.mvvm.ui.drawer.DrawerModule;
 import com.creations.mvvm.ui.drawer.DrawerViewModel;
@@ -21,10 +25,6 @@ import com.creations.mvvm.viewmodel.MVVMModule;
 import com.example.dagger.key.CustomFragmentKey;
 import com.example.dagger.scopes.FragmentScope;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
 import dagger.Binds;
 import dagger.BindsInstance;
 import dagger.Module;
@@ -37,7 +37,6 @@ public interface RequestModule extends MVVMModule {
 
     @Module(includes = {
             EditableModule.InjectViewModelFactory.class,
-            ContactModule.InjectViewModelFactory.class,
             DateRangeModule.InjectViewModelFactory.class,
             SpinnerModule.InjectViewModelFactory.class,
             ButtonModule.InjectViewModelFactory.class,

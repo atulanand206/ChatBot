@@ -7,6 +7,7 @@ import com.creations.mvvm.live.LiveEvent;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
+import com.creations.naina.ui.contact.ContactAdapter;
 import com.creations.mvvm.ui.menu.MenuContract;
 import com.creations.mvvm.ui.text.TextViewModel;
 
@@ -74,6 +75,9 @@ public interface ContainerContract {
     TextViewModel getRate();
 
     @NonNull
+    ContactAdapter getContactAdapter();
+
+    @NonNull
     MutableLiveData<String> getInputFileName();
 
     @NonNull
@@ -109,9 +113,17 @@ public interface ContainerContract {
     MutableLiveData<Boolean> getRateExpanded();
 
     @NonNull
-    LiveRunnable.Mutable getRatteExpandEvent();
+    LiveRunnable.Mutable getRateExpandEvent();
 
     void expandRate();
+
+    @NonNull
+    MutableLiveData<Boolean> getClientExpanded();
+
+    @NonNull
+    LiveRunnable.Mutable getClientExpandEvent();
+
+    void expandClient();
 
     void setFileName(String uri);
   }
