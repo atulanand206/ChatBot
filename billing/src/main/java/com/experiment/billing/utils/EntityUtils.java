@@ -2,6 +2,7 @@ package com.experiment.billing.utils;
 
 import com.experiment.billing.model.components.Entity;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ public class EntityUtils {
         .setFontSize(20)
         .setWidth(UnitValue.createPercentValue(100))
         .setHorizontalAlignment(HorizontalAlignment.CENTER)
-        .add(entity.getFirm());
+        .add(new Paragraph(entity.getFirm()));
     Cell entityProp = new Cell()
-        .add(String.format(PROP, entity.getProprietor()));
+        .add(new Paragraph(String.format(PROP, entity.getProprietor())));
     Cell entityHomeAddress = new Cell()
-        .add(entity.getHomeAddress());
+        .add(new Paragraph(entity.getHomeAddress()));
     Cell entityFirmAddress = new Cell()
-        .add(entity.getFirmAddress());
+        .add(new Paragraph(entity.getFirmAddress()));
     cells.add(entityName);
     cells.add(entityProp);
     cells.add(entityHomeAddress);

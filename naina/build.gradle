@@ -61,7 +61,7 @@ dependencies {
     implementation "androidx.core:core:${androidXCore}"
     implementation "com.google.android.material:material:${supportLibraryVersion}"
 
-
+    implementation "pub.devrel:easypermissions:$rootProject.ext.easyPermissions"
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"

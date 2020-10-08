@@ -5,8 +5,9 @@ import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.model.components.Page;
 import com.experiment.billing.model.components.Particular;
 import com.experiment.billing.model.components.Rates;
-import com.itextpdf.layout.border.SolidBorder;
+import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import java.text.SimpleDateFormat;
@@ -72,11 +73,11 @@ public class InvoiceUtils {
     List<Cell> cells = new ArrayList<>();
     Cell invoiceNumber = new Cell()
         .setTextAlignment(TextAlignment.RIGHT)
-        .add(String.format(INVOICE_NO, page.getInvoiceNumber()));
+        .add(new Paragraph(String.format(INVOICE_NO, page.getInvoiceNumber())));
     Cell date = new Cell()
         .setTextAlignment(TextAlignment.RIGHT)
-        .add(String.format(DATE,
-            new SimpleDateFormat(Configuration.OUTPUT_DATE_FORMAT).format(page.getDate())));
+        .add(new Paragraph(String.format(DATE,
+            new SimpleDateFormat(Configuration.OUTPUT_DATE_FORMAT).format(page.getDate()))));
     cells.add(invoiceNumber);
     cells.add(date);
     return cells;

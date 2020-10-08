@@ -75,7 +75,7 @@ ext {
     apacheCommonsTextVersion = '1.8'
     easyPermissions = '1.2.0'
 
-    itextVersion = '7.0.2'
+    itextVersion = '7.1.12'
 
     espresso = '3.3.0-beta01'
     testRunner = '1.1.0-alpha4'

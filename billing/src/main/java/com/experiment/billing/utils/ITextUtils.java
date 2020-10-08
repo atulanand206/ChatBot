@@ -2,9 +2,10 @@ package com.experiment.billing.utils;
 
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.LineSeparator;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ITextUtils {
   }
 
   public static Cell getTableCell(final String content) {
-    return new Cell().add(content).setTextAlignment(TextAlignment.CENTER);
+    return new Cell().add(new Paragraph(content)).setTextAlignment(TextAlignment.CENTER);
   }
 
   public static void addTableCells(List<Cell> cells, Table table) {

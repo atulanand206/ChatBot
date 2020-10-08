@@ -3,6 +3,7 @@ package com.experiment.billing.utils;
 import com.experiment.billing.model.components.Particular;
 import com.experiment.billing.model.components.Rates;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
 
 import org.apache.commons.text.WordUtils;
 
@@ -22,34 +23,34 @@ public class TotalUtils {
 
   public static List<Cell> addTotalRow(final Rates rates, final int total) {
     List<Cell> cells = new ArrayList<>();
-    cells.add(new Cell().add(TOTAL));
-    cells.add(new Cell().add(getPercentage((int) rates.getGstRate())));
-    cells.add(new Cell().add(String.valueOf((int) total)));
+    cells.add(new Cell().add(new Paragraph(TOTAL)));
+    cells.add(new Cell().add(new Paragraph(getPercentage((int) rates.getGstRate()))));
+    cells.add(new Cell().add(new Paragraph(String.valueOf((int) total))));
     return cells;
   }
 
   public static List<Cell> addRoundOffRow() {
     List<Cell> cells = new ArrayList<>();
-    cells.add(new Cell().add(ROUND_OFF));
-    cells.add(new Cell().add(""));
-    cells.add(new Cell().add(""));
+    cells.add(new Cell().add(new Paragraph(ROUND_OFF)));
+    cells.add(new Cell().add(new Paragraph("")));
+    cells.add(new Cell().add(new Paragraph("")));
     return cells;
   }
 
   public static List<Cell> addGrandTotalRow(final int grandTotal) {
     List<Cell> cells = new ArrayList<>();
-    cells.add(new Cell().add(GRAND_TOTAL));
-    cells.add(new Cell().add(""));
-    cells.add(new Cell().add(String.valueOf(grandTotal)));
+    cells.add(new Cell().add(new Paragraph(GRAND_TOTAL)));
+    cells.add(new Cell().add(new Paragraph("")));
+    cells.add(new Cell().add(new Paragraph(String.valueOf(grandTotal))));
     return cells;
   }
 
   public static List<Cell> getTotalInWords(final int grandTotal) {
     List<Cell> cells = new ArrayList<>();
     cells.add(new Cell()
-        .add(String.format(
+        .add(new Paragraph(String.format(
             RS_IN_WORDS,
-            WordUtils.capitalize(EnglishNumberToWords.convert(grandTotal)).trim().replaceAll("  ", " "))));
+            WordUtils.capitalize(EnglishNumberToWords.convert(grandTotal)).trim().replaceAll("  ", " ")))));
     return cells;
   }
 
@@ -71,10 +72,10 @@ public class TotalUtils {
       final boolean skip,
       final int total) {
     List<Cell> cells = new ArrayList<>();
-    cells.add(new Cell().add(xgst));
-    cells.add(new Cell().add(skip ? "" : getPercentage(xgstRate)));
-    cells.add(new Cell().add(skip ? "" :
-        String.valueOf((int) ((total * xgstRate) / 100))));
+    cells.add(new Cell().add(new Paragraph(xgst)));
+    cells.add(new Cell().add(new Paragraph(skip ? "" : getPercentage(xgstRate))));
+    cells.add(new Cell().add(new Paragraph(skip ? "" :
+        String.valueOf((int) ((total * xgstRate) / 100)))));
     return cells;
   }
 

@@ -1,5 +1,6 @@
 package com.creations.naina.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.creations.naina.R;
 import com.creations.naina.models.CanvasP;
@@ -36,6 +39,8 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.HasSupportFragmentInjector;
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
 
 import static com.creations.naina.models.FileUploadType.FILE_UPLOAD_TYPE;
 import static com.creations.naina.utils.FileUtils.readFromTsv;
@@ -62,6 +67,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     setContentView(R.layout.activity_main);
     mProgressBar = findViewById(R.id.progress_bar);
     mFrameLayout = findViewById(R.id.main_pager);
+    requestStoragePermission();
     Log.d(TAG, String.valueOf(getIntent().getExtras()));
     CanvasP preset = new CanvasP();
     setStatusBarColor(R.color.red);
@@ -90,7 +96,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     outputFileName = externalStoragePublicDirectory + "/" + fileName + ".pdf";
     Log.d(TAG, outputFileName);
     convertToPdf();
-//    writeConfigurations();
+    writeConfigurations();
     toggleProgress(false);
     showToast("Finished! Please open documents folder.");
   }
@@ -182,5 +188,26 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     catch (IOException e) {
       Log.e("Exception", "File write failed: " + e.toString());
     }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                         @NonNull int[] grantResults) {
+
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+  }
+
+  private static final int STORAGE_PERMISSION_CODE = 1000;
+  private static final int REQUEST_CHECK_STORAGE_SETTINGS = 1001;
+
+  private void requestStoragePermission() {
+    EasyPermissions.requestPermissions(
+            new PermissionRequest.Builder(this, STORAGE_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .setRationale(getString(R.string.storage_rationale))
+                    .setPositiveButtonText("ok")
+                    .setNegativeButtonText("cancel")
+                    .setTheme(R.style.Rationale)
+                    .build());
   }
 }

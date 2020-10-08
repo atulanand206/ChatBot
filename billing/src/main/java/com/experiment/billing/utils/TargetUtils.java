@@ -2,8 +2,9 @@ package com.experiment.billing.utils;
 
 import com.experiment.billing.model.components.Page;
 import com.experiment.billing.model.components.Target;
-import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ public class TargetUtils {
     Cell targetName = new Cell()
         .setTextAlignment(TextAlignment.CENTER)
         .setFontSize(18)
-        .add(String.format(MS, target != null ? target.getBillTo() : ""));
+        .add(new Paragraph(String.format(MS, target != null ? target.getBillTo() : "")));
     Cell targetAddress = new Cell()
         .setTextAlignment(TextAlignment.CENTER)
-        .add(target != null ? target.getAddress() : "");
+        .add(new Paragraph(target != null ? target.getAddress() : ""));
 //    cells.add(getFromToCell(page.getTripDetails()));
     cells.add(targetName);
     cells.add(targetAddress);
@@ -34,13 +35,13 @@ public class TargetUtils {
   public static Table addTargetTable(final Target target) {
     Table table = new Table(new float[]{300F, 200F, 100F}).setBorder(Border.NO_BORDER);
     Cell gstin = new Cell()
-        .add(String.format(GSTIN, target.getGstin()));
+        .add(new Paragraph(String.format(GSTIN, target.getGstin())));
     Cell state = new Cell()
         .setTextAlignment(TextAlignment.RIGHT)
-        .add(String.format(STATE, target.getStateName()));
+        .add(new Paragraph(String.format(STATE, target.getStateName())));
     Cell stateCode = new Cell()
         .setTextAlignment(TextAlignment.RIGHT)
-        .add(String.format(CODE, target.getStateCode()));
+        .add(new Paragraph(String.format(CODE, target.getStateCode())));
     table.addCell(gstin.setBorder(Border.NO_BORDER));
     table.addCell(state.setBorder(Border.NO_BORDER));
     table.addCell(stateCode.setBorder(Border.NO_BORDER));
