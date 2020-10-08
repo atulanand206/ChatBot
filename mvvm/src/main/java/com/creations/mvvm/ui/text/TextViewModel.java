@@ -169,7 +169,8 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context, R.style.App_Component_Dialog_Alert);
         String header = getHeader().getValue();
         alertDialog.setTitle(header);
-        alertDialog.setMessage("Enter " + header);
+        String title = getTitle().getValue();
+        alertDialog.setMessage("Enter " + (title == null ? header : title));
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.dialog_success, null);
         final EditText input = view.findViewById(R.id.text_view);
@@ -192,7 +193,7 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
         String txt = input.getText().toString();
         if (txt.isEmpty())
             Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
-        else if (!regex.isEmpty()) {
+        else if (regex != null && !regex.isEmpty()) {
             if (!txt.matches(regex))
                 Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
             else

@@ -93,6 +93,11 @@ public interface ContainerContract {
 
     void onDocumentClicked();
 
+    void onSaveConfig();
+
+    @NonNull
+    LiveEvent.Mutable<String> getSaveConfigEvent();
+
     @NonNull
     MutableLiveData<Boolean> getEntityExpanded();
 
@@ -132,6 +137,8 @@ public interface ContainerContract {
 
     void onUploadEventClicked();
 
-    void onDocumentEventClicked(Object fileName);
+    void onDocumentEventClicked(String fileName);
+
+    void onSaveConfig(String text);
   }
 }

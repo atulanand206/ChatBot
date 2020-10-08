@@ -94,6 +94,16 @@
                 <include layout="@layout/content_clients_items"
                     bind:viewmodel="@{viewmodel}"/>
 
+                <Button
+                    android:id="@+id/save_config"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="12dp"
+                    android:text="Save Config"
+                    android:onClick="@{() -> viewmodel.onSaveConfig()}"/>
+
                 <include layout="@layout/card_text_view_model"
                     bind:viewmodel="@{viewmodel.outputFileName}"/>
 

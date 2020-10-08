@@ -6,6 +6,7 @@ public class Target {
 
   public static final String BILL_TO = "bill_to";
   public static final String ADDRESS = "address";
+  public static final String ID = "id";
   public static final String GSTIN = "gstin";
   public static final String STATE_NAME = "state_name";
   public static final String STATE_CODE = "state_code";
@@ -15,6 +16,9 @@ public class Target {
 
   @SerializedName(ADDRESS)
   private String address;
+
+  @SerializedName(ID)
+  private String id;
 
   @SerializedName(GSTIN)
   private String gstin;
@@ -28,11 +32,13 @@ public class Target {
   public Target(
       final String billTo,
       final String address,
+      final String id,
       final String gstin,
       final String stateName,
       final int stateCode) {
     this.billTo = billTo;
     this.address = address;
+    this.id = id;
     this.gstin = gstin;
     this.stateName = stateName;
     this.stateCode = stateCode;
@@ -44,6 +50,10 @@ public class Target {
 
   public String getAddress() {
     return address;
+  }
+
+  public String getId() {
+    return id;
   }
 
   public String getGstin() {

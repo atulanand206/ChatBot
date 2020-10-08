@@ -44,9 +44,11 @@ public class BillWriter {
   }
 
   public void writeContent() throws PdfException {
-    for (Page page : fPages) {
-      fCurrentPage = page;
-      addPage();
+    if (fPages != null) {
+      for (Page page : fPages) {
+        fCurrentPage = page;
+        addPage();
+      }
     }
     fDocument.close();
   }

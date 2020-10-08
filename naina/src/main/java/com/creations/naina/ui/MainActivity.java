@@ -32,6 +32,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -90,15 +92,19 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
   }
 
   @Override
-  public void onDocumentEventClicked(Object fileName) {
+  public void onDocumentEventClicked(String fileName) {
     toggleProgress(true);
     showToast("Converting!");
     outputFileName = externalStoragePublicDirectory + "/" + fileName + ".pdf";
     Log.d(TAG, outputFileName);
     convertToPdf();
-    writeConfigurations();
     toggleProgress(false);
     showToast("Finished! Please open documents folder.");
+  }
+
+  @Override
+  public void onSaveConfig(String text) {
+    writeConfigurations();
   }
 
   @Override
@@ -149,20 +155,22 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     }
   }
 
-  Configuration configuration;
   List<Page> pages;
 
   private void setClients() {
+    Configuration configuration;
     configuration = sessionContext.getConfig().getConfiguration();
     pages = getPages(lists, configuration);
     Set<Client> clients = getClients(pages, configuration);
-    configuration.setClients(new ArrayList<>(clients));
+    List<Client> clientsList = new ArrayList<>(clients);
+    Collections.sort(clientsList, (o1, o2) -> o1.getClient().compareTo(o2.getClient()));
+    configuration.setClients(clientsList);
     sessionContext.setConfiguration(configuration);
     containerFragment.setFileName(String.format("Document Attached with %d permits", lists.size()));
   }
 
   private void convertToPdf() {
-    convert(pages, configuration, outputFileName);
+    convert(pages, sessionContext.getConfig().getConfiguration(), outputFileName);
     Log.d(TAG, "PDF");
   }
 
@@ -182,8 +190,8 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         return;
       FileOutputStream outputStreamWriter = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
       BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStreamWriter);
-      outputStreamWriter.write(data.getBytes());
-      outputStreamWriter.close();
+      bufferedOutputStream.write(data.getBytes());
+      bufferedOutputStream.close();
     }
     catch (IOException e) {
       Log.e("Exception", "File write failed: " + e.toString());

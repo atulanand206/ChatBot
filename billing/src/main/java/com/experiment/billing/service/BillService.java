@@ -3,6 +3,8 @@ package com.experiment.billing.service;
 import com.experiment.billing.model.components.Client;
 import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.model.components.Page;
+import com.experiment.billing.model.components.Particular;
+import com.experiment.billing.model.components.Target;
 import com.experiment.billing.model.dto.Permit;
 import com.itextpdf.kernel.PdfException;
 
@@ -43,11 +45,15 @@ public class BillService {
         Set<Client> clients = new HashSet<>();
         Set<String> ids = new HashSet<>();
         for (Page page : pages) {
-            String id = page.getTarget().getGstin().trim();
-            String billTo = page.getTarget().getBillTo();
-            if (!ids.contains(id)) {
-                ids.add(id);
-                clients.add(new Client(billTo, id, ""));
+            for (Particular particular : page.getParticulars()) {
+                Target target = particular.getTarget();
+                String id = target.getId().trim();
+                String billTo = target.getBillTo();
+                String gstin = target.getGstin();
+                if (!ids.contains(id)) {
+                    ids.add(id);
+                    clients.add(new Client(billTo, id, gstin));
+                }
             }
         }
         return clients;

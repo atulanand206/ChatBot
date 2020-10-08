@@ -66,6 +66,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @NonNull
   private final LiveEvent.Mutable<String> mDocumentEvent = new LiveEvent.Mutable<>();
   @NonNull
+  private final LiveEvent.Mutable<String> mSaveConfigEvent = new LiveEvent.Mutable<>();
+  @NonNull
   private final MediatorLiveData<Integer> mConfigurationIndex = new MediatorLiveData<>();
 
   @NonNull
@@ -421,6 +423,11 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   }
 
   @Override
+  public void onSaveConfig() {
+    mSaveConfigEvent.postEvent("");
+  }
+
+  @Override
   public void setFileName(String uri) {
     mInputFileName.setValue(uri);
     setClients();
@@ -540,6 +547,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @Override
   public LiveEvent.Mutable<String> getDocumentEvent() {
     return mDocumentEvent;
+  }
+
+  @NonNull
+  @Override
+  public LiveEvent.Mutable<String> getSaveConfigEvent() {
+    return mSaveConfigEvent;
   }
 
   @NonNull

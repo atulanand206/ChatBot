@@ -13,6 +13,7 @@ import com.creations.mvvm.ui.editable.EditableViewModel;
 import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
 import com.example.application.utils.TextUtils;
+import com.experiment.billing.constants.Constants;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,6 @@ public class ContactViewModel extends FormViewModelBase implements ContactContra
     private final MutableLiveData<String> mLabel = new MutableLiveData<>();
     @NonNull
     private final MediatorLiveData<Boolean> mHasError = new MediatorLiveData<>();
-    private String regex;
     @NonNull
     private final LiveRunnable.Mutable mItemDeleteEvent = new LiveRunnable.Mutable();
 
@@ -44,19 +44,16 @@ public class ContactViewModel extends FormViewModelBase implements ContactContra
         super(application, "Contact items");
         Preconditions.requiresNonNull(editableFactory, "EditableFactory");
         mClient = textFactory.create();
-        mClient.setRegex(regex);
+        mClient.setRegex(Constants.REGEX_GSTIN);
         mName = editableFactory.create();
         mEmail = editableFactory.create();
+        mContextCallback.addSource(mClient.getContextCallback());
     }
 
     @NonNull
     @Override
     public TextViewModel getClient() {
         return mClient;
-    }
-
-    public void setRegex(final String regex) {
-        this.regex = regex;
     }
 
     @Override
@@ -66,22 +63,6 @@ public class ContactViewModel extends FormViewModelBase implements ContactContra
         mEmail.setDisabled(disabled);
     }
 
-    private void checkNameError(@Nullable final String name) {
-        if (TextUtils.isEmpty(name)) {
-            mName.postError(R.string.error_name_mandatory);
-        } else {
-            mName.removeError();
-        }
-    }
-
-    private void checkEmailError(@Nullable final String email) {
-        if (TextUtils.isEmpty(email) || !email.matches(regex)) {
-            mEmail.postError(R.string.error_invalid_email);
-        } else {
-            mEmail.removeError();
-        }
-    }
-
     @Override
     public void postContactProps(@NonNull final ContactProps contactProps,
                                  @NonNull final TextChangedCallback textChangedCallback) {
@@ -89,7 +70,7 @@ public class ContactViewModel extends FormViewModelBase implements ContactContra
         mClient.setHeader(contactProps.getName());
         mClient.setText(contactProps.getGstin());
         mClient.setMeaning(contactProps.getId());
-        mClient.setRegex(regex);
+        mClient.setTitle("Enter GSTIN");
         mClient.setAfterTextChangedCallback(textChangedCallback);
     }
 
