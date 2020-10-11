@@ -20,7 +20,7 @@ public interface TextContract {
         int getMaxLength();
 
         @NonNull
-        MutableLiveData<Integer> getHeaderVisibility();
+        LiveData<Integer> getHeaderVisibility();
 
         void setHeaderVisibility(int visibility);
 

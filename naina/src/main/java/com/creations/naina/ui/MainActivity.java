@@ -108,6 +108,11 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
   }
 
   @Override
+  public void onLoadConfig(String toString) {
+    readConfigurations();
+  }
+
+  @Override
   public void onUploadEventClicked() {
     showFileChooser(FileUploadType.PERMITS);
   }
@@ -172,6 +177,10 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
   private void convertToPdf() {
     convert(pages, sessionContext.getConfig().getConfiguration(), outputFileName);
     Log.d(TAG, "PDF");
+  }
+
+  private void readConfigurations() {
+    containerFragment.loadMainLayout();
   }
 
   private void writeConfigurations() {

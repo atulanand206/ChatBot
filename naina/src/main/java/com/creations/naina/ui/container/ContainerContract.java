@@ -12,10 +12,23 @@ import com.creations.mvvm.ui.menu.MenuContract;
 import com.creations.mvvm.ui.text.TextViewModel;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 public interface ContainerContract {
 
   interface ViewModel<T extends Props> extends MenuContract.ViewModel<T> {
+
+    void toggleVisibility(boolean mainLayoutVisibility);
+
+    @NonNull
+    LiveData<Integer> getFrontLayoutVisibility();
+
+    void setFrontLayoutVisibility(final int frontLayoutVisibility);
+
+    @NonNull
+    LiveData<Integer> getMainLayoutVisibility();
+
+    void setMainLayoutVisibility(final int mainLayoutVisibility);
 
     @NonNull
     MutableLiveData<Integer> getConfigurationIndex();
@@ -95,8 +108,13 @@ public interface ContainerContract {
 
     void onSaveConfig();
 
+    void onLoadConfig();
+
     @NonNull
     LiveEvent.Mutable<String> getSaveConfigEvent();
+
+    @NonNull
+    LiveEvent.Mutable<String> getLoadConfigEvent();
 
     @NonNull
     MutableLiveData<Boolean> getEntityExpanded();
@@ -140,5 +158,7 @@ public interface ContainerContract {
     void onDocumentEventClicked(String fileName);
 
     void onSaveConfig(String text);
+
+    void onLoadConfig(String toString);
   }
 }

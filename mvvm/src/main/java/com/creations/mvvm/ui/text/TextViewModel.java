@@ -42,7 +42,7 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
     @NonNull
     private final MutableLiveData<String> mMeaning = new MutableLiveData<>("");
     @NonNull
-    private final MutableLiveData<Integer> mHeaderVisibility = new MutableLiveData<>(View.GONE);
+    private final MutableLiveData<Integer> mHeaderVisibility = new MutableLiveData<>(View.VISIBLE);
     @NonNull
     private final MutableLiveData<String> mSubHeader = new MutableLiveData<>("");
     @NonNull
@@ -66,7 +66,7 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
 
     @NonNull
     @Override
-    public MutableLiveData<Integer> getHeaderVisibility() {
+    public LiveData<Integer> getHeaderVisibility() {
         return mHeaderVisibility;
     }
 

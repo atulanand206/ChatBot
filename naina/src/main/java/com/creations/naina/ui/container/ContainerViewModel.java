@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.creations.bang.ui.bang.BangViewModel;
 import com.creations.condition.Preconditions;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 /**
@@ -68,7 +70,13 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @NonNull
   private final LiveEvent.Mutable<String> mSaveConfigEvent = new LiveEvent.Mutable<>();
   @NonNull
+  private final LiveEvent.Mutable<String> mLoadConfigEvent = new LiveEvent.Mutable<>();
+  @NonNull
   private final MediatorLiveData<Integer> mConfigurationIndex = new MediatorLiveData<>();
+  @NonNull
+  private final MutableLiveData<Integer> mFrontLayoutVisibility = new MutableLiveData<>(GONE);
+  @NonNull
+  private final MutableLiveData<Integer> mMainLayoutVisibility = new MutableLiveData<>(VISIBLE);
 
   @NonNull
   private final MutableLiveData<CharSequence[]> mEntries = new MutableLiveData<>();
@@ -164,6 +172,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     addContextCallbacks();
     setClickListeners();
     setVisibility(VISIBLE);
+    toggleVisibility(false);
     mConfigurationRepository = configurationRepository;
     mItemSelectedListener.postValue(new AdapterView.OnItemSelectedListener() {
       @Override
@@ -221,6 +230,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mIgst.setRegex(Constants.REGEX_DOUBLE_LESS_THAN_100);
     mRate.setHeader("Rate");
     mOutputFileName.setHeader("Output File Name");
+    mOutputFileName.setHeaderVisibility(GONE);
   }
 
   private void addContextCallbacks() {
@@ -350,7 +360,6 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mSgst.setText(String.valueOf(mConfiguration.getRates().getSgstRate()));
     mIgst.setText(String.valueOf(mConfiguration.getRates().getIgstRate()));
     mRate.setText(String.valueOf(mConfiguration.getRates().getRateValue()));
-    refreshOutputFileName();
   }
 
   @Override
@@ -402,6 +411,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   }
 
   private void refreshOutputFileName() {
+    mOutputFileName.setHeaderVisibility(VISIBLE);
     mOutputFileName.setText(getOutputFileNameText());
   }
 
@@ -428,13 +438,45 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   }
 
   @Override
+  public void onLoadConfig() {
+    mLoadConfigEvent.postEvent("");
+  }
+
+  @Override
   public void setFileName(String uri) {
     mInputFileName.setValue(uri);
     setClients();
     refreshOutputFileName();
   }
 
+  @Override
+  public void toggleVisibility(final boolean mainLayoutVisibility) {
+    setFrontLayoutVisibility(mainLayoutVisibility ? GONE : VISIBLE);
+    setMainLayoutVisibility(mainLayoutVisibility ? VISIBLE : GONE);
+  }
   //region Getters
+  @NonNull
+  @Override
+  public LiveData<Integer> getFrontLayoutVisibility() {
+    return mFrontLayoutVisibility;
+  }
+
+  @Override
+  public void setFrontLayoutVisibility(final int frontLayoutVisibility) {
+    mFrontLayoutVisibility.setValue(frontLayoutVisibility);
+  }
+
+  @NonNull
+  @Override
+  public LiveData<Integer> getMainLayoutVisibility() {
+    return mMainLayoutVisibility;
+  }
+
+  @Override
+  public void setMainLayoutVisibility(final int mainLayoutVisibility) {
+    mMainLayoutVisibility.setValue(mainLayoutVisibility);
+  }
+
   @NonNull
   @Override
   public TextViewModel getEntityNameViewModel() {
@@ -553,6 +595,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @Override
   public LiveEvent.Mutable<String> getSaveConfigEvent() {
     return mSaveConfigEvent;
+  }
+
+  @NonNull
+  @Override
+  public LiveEvent.Mutable<String> getLoadConfigEvent() {
+    return mLoadConfigEvent;
   }
 
   @NonNull

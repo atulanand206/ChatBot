@@ -92,6 +92,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         mViewModel.getUploadEvent().listen(getViewLifecycleOwner(), () -> mListener.onUploadEventClicked());
         mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onDocumentEventClicked(text.toString()));
         mViewModel.getSaveConfigEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onSaveConfig(text.toString()));
+        mViewModel.getLoadConfigEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onLoadConfig(text.toString()));
         mViewModel.getEntityExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mEntityExpandableLayout));
         mViewModel.getBankExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mBankExpandableLayout));
         mViewModel.getRateExpandEvent().listen(getViewLifecycleOwner(), () -> expandEntity(mRateExpandableLayout));
@@ -132,5 +133,10 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
     public void setFileName(String uri) {
         Preconditions.verifyNonNull(mViewModel, "ContainerViewModel");
         mViewModel.setFileName(uri);
+    }
+
+    public void loadMainLayout() {
+        Preconditions.verifyNonNull(mViewModel, "ContainerViewModel");
+        mViewModel.toggleVisibility(true);
     }
 }

@@ -31,9 +31,10 @@ public class SessionContext {
   }
 
   public void initConfig() {
-    mConfig.addConfiguration(mGson.fromJson(readFromAssets(mContext, "ies.json"), Configuration.class));
-    mConfig.addConfiguration(mGson.fromJson(readFromAssets(mContext, "sks.json"), Configuration.class));
-    mConfig.setSelectedIndex(0);
+    Config config = mGson.fromJson(readFromAssets(mContext, "configs.json"), Config.class);
+    for (Configuration configuration : config.getConfigurations())
+      mConfig.addConfiguration(configuration);
+    mConfig.setSelectedIndex(config.getSelectedIndex());
     clearClients(mConfig);
   }
 

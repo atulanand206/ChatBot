@@ -8,115 +8,141 @@
             type="com.creations.naina.ui.container.ContainerContract.ViewModel" />
     </data>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
         <RelativeLayout
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.frontLayoutVisibility}">
+
+            <Button
+                android:id="@+id/load_config"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="12dp"
+                android:text="Load Config"
+                android:textColor="@color/white"
+                android:padding="@dimen/padding_large"
+                android:background="@color/message_progress"
+                android:onClick="@{() -> viewmodel.onLoadConfig()}"/>
+        </RelativeLayout>
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/config"
-                android:layout_centerHorizontal="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="10dp"
-                android:spinnerMode="dropdown"
-                android:entries="@{viewmodel.entries}"
-                app:onItemSelected="@{viewmodel.itemSelectedListener}"
-                app:selectedItemPosition="@{viewmodel.configurationIndex}"
-                style="@style/App.Component.Profile.Value" />
-
-            <include
-                android:id="@+id/divider"
-                android:layout_centerHorizontal="true"
-                layout="@layout/content_divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_divider"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/config" />
-
-            <LinearLayout
-                android:id="@+id/content"
+            <RelativeLayout
+                android:visibility="@{viewmodel.mainLayoutVisibility}"
                 android:orientation="vertical"
-                android:layout_below="@id/divider"
-                android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/content_entity_header"
-                    bind:viewmodel="@{viewmodel}"/>
-
-                <include layout="@layout/content_entity_items"
-                    bind:viewmodel="@{viewmodel}"/>
-
-                <include layout="@layout/content_bank_header"
-                    bind:viewmodel="@{viewmodel}"/>
-
-                <include layout="@layout/content_bank_items"
-                    bind:viewmodel="@{viewmodel}"/>
-
-                <include layout="@layout/content_rate_header"
-                    bind:viewmodel="@{viewmodel}"/>
-
-                <include layout="@layout/content_rate_items"
-                    bind:viewmodel="@{viewmodel}"/>
-
-                <Button
-                    android:id="@+id/upload"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:text="Browse"
-                    android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
-
-                <TextView
+                <Spinner
+                    android:id="@+id/config"
+                    android:layout_centerHorizontal="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:text="@{viewmodel.inputFileName}" />
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:spinnerMode="dropdown"
+                    android:entries="@{viewmodel.entries}"
+                    app:onItemSelected="@{viewmodel.itemSelectedListener}"
+                    app:selectedItemPosition="@{viewmodel.configurationIndex}"
+                    style="@style/App.Component.Profile.Value" />
 
-                <include layout="@layout/content_clients_header"
-                    bind:viewmodel="@{viewmodel}"/>
+                <include
+                    android:id="@+id/divider"
+                    android:layout_centerHorizontal="true"
+                    layout="@layout/content_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_divider"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@id/config" />
 
-                <include layout="@layout/content_clients_items"
-                    bind:viewmodel="@{viewmodel}"/>
+                <LinearLayout
+                    android:id="@+id/content"
+                    android:orientation="vertical"
+                    android:layout_below="@id/divider"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/save_config"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginBottom="12dp"
-                    android:text="Save Config"
-                    android:onClick="@{() -> viewmodel.onSaveConfig()}"/>
+                    <include layout="@layout/content_entity_header"
+                        bind:viewmodel="@{viewmodel}"/>
 
-                <include layout="@layout/card_text_view_model"
-                    bind:viewmodel="@{viewmodel.outputFileName}"/>
+                    <include layout="@layout/content_entity_items"
+                        bind:viewmodel="@{viewmodel}"/>
 
-                <Button
-                    android:id="@+id/convert"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Convert"
-                    android:onClick="@{() -> viewmodel.onDocumentClicked()}"/>
+                    <include layout="@layout/content_bank_header"
+                        bind:viewmodel="@{viewmodel}"/>
 
-            </LinearLayout>
+                    <include layout="@layout/content_bank_items"
+                        bind:viewmodel="@{viewmodel}"/>
 
-        </RelativeLayout>
-    </ScrollView>
+                    <include layout="@layout/content_rate_header"
+                        bind:viewmodel="@{viewmodel}"/>
+
+                    <include layout="@layout/content_rate_items"
+                        bind:viewmodel="@{viewmodel}"/>
+
+                    <Button
+                        android:id="@+id/upload"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        android:text="Browse"
+                        android:textColor="@color/white"
+                        android:padding="@dimen/padding_large"
+                        android:background="@color/message_progress"
+                        android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
+
+                    <include layout="@layout/content_clients_header"
+                        bind:viewmodel="@{viewmodel}"/>
+
+                    <include layout="@layout/content_clients_items"
+                        bind:viewmodel="@{viewmodel}"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:layout_marginEnd="@dimen/margin_normal"
+                        android:text="@{viewmodel.inputFileName}" />
+
+                    <Button
+                        android:id="@+id/save_config"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginBottom="12dp"
+                        android:text="Save Config"
+                        android:visibility="gone"
+                        android:textColor="@color/white"
+                        android:padding="@dimen/padding_large"
+                        android:background="@color/message_progress"
+                        android:onClick="@{() -> viewmodel.onSaveConfig()}"/>
+
+                    <include layout="@layout/card_text_view_model_output"
+                        bind:outerViewModel="@{viewmodel}"
+                        bind:viewmodel="@{viewmodel.outputFileName}"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
 </layout>
