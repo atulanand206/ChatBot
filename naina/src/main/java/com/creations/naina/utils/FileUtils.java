@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileUtils {
 
@@ -25,6 +26,20 @@ public class FileUtils {
       }
     }
     return records;
+  }
+
+  public static String readFromString(final InputStream systemResourceAsStream) throws IOException {
+    List<Character> characters = new ArrayList<>();
+    if (systemResourceAsStream != null) {
+      final InputStreamReader templateResource = new InputStreamReader(systemResourceAsStream);
+      try (BufferedReader br = new BufferedReader(templateResource)) {
+        int line;
+        while ((line = br.read()) != -1) {
+          characters.add((char) line);
+        }
+      }
+    }
+    return characters.stream().map(String::valueOf).collect(Collectors.joining());
   }
 
   public static String readFromAssets(final Context context, final String inputFileName) {

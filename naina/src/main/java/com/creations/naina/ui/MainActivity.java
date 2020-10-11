@@ -1,11 +1,14 @@
 package com.creations.naina.ui;
 
 import android.Manifest;
+import android.content.ContentProviderClient;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.os.RemoteException;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +19,7 @@ import androidx.annotation.NonNull;
 
 import com.creations.naina.R;
 import com.creations.naina.models.CanvasP;
+import com.creations.naina.models.Config;
 import com.creations.naina.models.FileUploadType;
 import com.creations.naina.services.SessionContext;
 import com.creations.naina.ui.container.ContainerContract;
@@ -27,13 +31,10 @@ import com.experiment.billing.model.components.Configuration;
 import com.experiment.billing.model.components.Page;
 import com.google.gson.Gson;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +46,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
 import static com.creations.naina.models.FileUploadType.FILE_UPLOAD_TYPE;
+import static com.creations.naina.utils.FileUtils.readFromString;
 import static com.creations.naina.utils.FileUtils.readFromTsv;
 import static com.creations.naina.utils.FragmentHelper.getContainerFragment;
 import static com.experiment.billing.service.BillService.*;
@@ -76,10 +78,12 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     containerFragment = (ContainerFragment) getContainerFragment(preset, MainActivity.this);
     getSupportFragmentManager().beginTransaction().add(R.id.main_pager, containerFragment).commit();
     externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+    externalStoragePublicDirectoryConfig = new File(externalStoragePublicDirectory.getPath() + "/config.txt");
     outputFileName = externalStoragePublicDirectory + "/result.pdf";
   }
 
   File externalStoragePublicDirectory;
+  File externalStoragePublicDirectoryConfig;
 
   public void toggleProgress(boolean show) {
     if (show) {
@@ -109,22 +113,38 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
   @Override
   public void onLoadConfig(String toString) {
-    readConfigurations();
+    showConfigChooser();
   }
 
   @Override
   public void onUploadEventClicked() {
-    showFileChooser(FileUploadType.PERMITS);
+    showFileChooser();
   }
 
   private static final int FILE_SELECT_CODE = 0;
+  private static final int CONFIG_SELECT_CODE = 1;
   private String outputFileName;
   private List<List<String>> lists = new ArrayList<>();
 
-  private void showFileChooser(FileUploadType type) {
+  private void showConfigChooser() {
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
     intent.setType("*/*");
-    intent.putExtra(FILE_UPLOAD_TYPE, type.name());
+    intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+    try {
+      startActivityForResult(
+              Intent.createChooser(intent, "Select a Config File to Upload"),
+              CONFIG_SELECT_CODE);
+    } catch (android.content.ActivityNotFoundException ex) {
+      // Potentially direct the user to the Market with a Dialog
+      Toast.makeText(this, "Please install a File Manager.",
+              Toast.LENGTH_SHORT).show();
+    }
+  }
+
+  private void showFileChooser() {
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+    intent.setType("*/*");
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     try {
@@ -140,15 +160,32 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK) {
-      processData(data);
+    if (resultCode == RESULT_OK) {
+      if (requestCode == FILE_SELECT_CODE)
+        processData(data);
+      else if (requestCode == CONFIG_SELECT_CODE)
+        processConfig(data);
     }
     super.onActivityResult(requestCode, resultCode, data);
   }
 
+  private void processConfig(Intent data) {
+    try {
+      Uri uri = data.getData();
+      if (uri != null) {
+        String string = readFromString(getContentResolver().openInputStream(uri));
+        Config config = gson.fromJson(string, Config.class);
+//        sessionContext.setConfiguration(config);
+        loadConfigurations();
+        Log.d(TAG, gson.toJson(config));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   private void processData(Intent data) {
     try {
-      String fileType = data.getStringExtra(FILE_UPLOAD_TYPE);
       Uri uri = data.getData();
       if (uri != null) {
           lists.clear();
@@ -179,7 +216,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     Log.d(TAG, "PDF");
   }
 
-  private void readConfigurations() {
+  private void loadConfigurations() {
     containerFragment.loadMainLayout();
   }
 
@@ -188,21 +225,32 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     writeConfigurationsToFile(data);
   }
 
+  private String getPath(final Uri uri) {
+    String documentId = DocumentsContract.getDocumentId(uri);
+    final String[] split = documentId.split(":");
+    final String type = split[0];
+
+    if ("primary".equalsIgnoreCase(type)) {
+      return Environment.getExternalStorageDirectory() + "/" + split[1];
+    }
+    return null;
+  }
+
   private void writeConfigurationsToFile(String data) {
     try {
-      String path = String.format("content://%s/%s",externalStoragePublicDirectory, "config.txt");
-//      Uri parse = Uri.fromFile(new File(path));
-      Uri parse = Uri.parse(path);
-      Log.d(TAG, parse.getPath());
-      ParcelFileDescriptor parcelFileDescriptor = getApplicationContext().getContentResolver().openFileDescriptor(parse, "r", null);
-      if (parcelFileDescriptor == null)
-        return;
-      FileOutputStream outputStreamWriter = new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
-      BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStreamWriter);
-      bufferedOutputStream.write(data.getBytes());
-      bufferedOutputStream.close();
+      if (!externalStoragePublicDirectoryConfig.exists())
+        externalStoragePublicDirectoryConfig.createNewFile();
+      Uri parse = Uri.parse(externalStoragePublicDirectoryConfig.getPath());
+      ContentProviderClient contentProviderClient = getContentResolver().acquireContentProviderClient(parse);
+      ParcelFileDescriptor outputStream = contentProviderClient.openFile(parse, "w");
+//      if (outputStream == null)
+//        return;
+//      FileOutputStream outputStreamWriter = new FileOutputStream(outputStream);
+//      outputStream.write(data.getBytes());
+//      outputStream.close();
+//      pfd.close();
     }
-    catch (IOException e) {
+    catch (IOException | RemoteException e) {
       Log.e("Exception", "File write failed: " + e.toString());
     }
   }
@@ -220,7 +268,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
   private void requestStoragePermission() {
     EasyPermissions.requestPermissions(
-            new PermissionRequest.Builder(this, STORAGE_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            new PermissionRequest.Builder(this, STORAGE_PERMISSION_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission_group.STORAGE)
                     .setRationale(getString(R.string.storage_rationale))
                     .setPositiveButtonText("ok")
                     .setNegativeButtonText("cancel")

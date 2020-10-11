@@ -105,23 +105,6 @@
                         android:background="@color/message_progress"
                         android:onClick="@{() -> viewmodel.onUploadClicked()}"/>
 
-                    <include layout="@layout/content_clients_header"
-                        bind:viewmodel="@{viewmodel}"/>
-
-                    <include layout="@layout/content_clients_items"
-                        bind:viewmodel="@{viewmodel}"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginStart="@dimen/margin_normal"
-                        android:layout_marginEnd="@dimen/margin_normal"
-                        android:text="@{viewmodel.inputFileName}" />
-
                     <Button
                         android:id="@+id/save_config"
                         android:layout_gravity="center_horizontal"
@@ -130,7 +113,6 @@
                         android:layout_marginTop="@dimen/margin_large"
                         android:layout_marginBottom="12dp"
                         android:text="Save Config"
-                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:padding="@dimen/padding_large"
                         android:background="@color/message_progress"
