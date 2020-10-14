@@ -1,6 +1,8 @@
 package com.creations.naina.ui;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentProviderClient;
 import android.content.Intent;
 import android.net.Uri;
@@ -222,7 +224,10 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
   private void writeConfigurations() {
     String data = gson.toJson(sessionContext.getConfig());
-    writeConfigurationsToFile(data);
+    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+    ClipData clip = ClipData.newPlainText("Copy Configuration", data);
+    clipboard.setPrimaryClip(clip);
+    showToast("Configuration copied to clipboard");
   }
 
   private String getPath(final Uri uri) {

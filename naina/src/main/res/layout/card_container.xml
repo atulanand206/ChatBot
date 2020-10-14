@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_large"
                         android:layout_marginBottom="12dp"
-                        android:text="Save Config"
+                        android:text="Copy Config"
                         android:textColor="@color/white"
                         android:padding="@dimen/padding_large"
                         android:background="@color/message_progress"
