@@ -47,7 +47,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   @NonNull
   IConfigurationRepository mConfigurationRepository;
   @NonNull
-  private final LiveRunnable.Mutable mUploadEvent = new LiveRunnable.Mutable();
+  private final LiveEvent.Mutable<Integer> mUploadEvent = new LiveEvent.Mutable<>();
   @NonNull
   private final LiveRunnable.Mutable mEntityExpandEvent = new LiveRunnable.Mutable();
   @NonNull
@@ -127,6 +127,9 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
   private final TextViewModel mRate;
 
   @NonNull
+  private final TextViewModel mStartingInvoiceNumber;
+
+  @NonNull
   private final List<ContactContract.ViewModel> mClients = new ArrayList<>();
 
   @NonNull
@@ -167,12 +170,13 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mCgst = factory.create();
     mIgst = factory.create();
     mRate = factory.create();
+    mStartingInvoiceNumber = factory.create();
     mOutputFileName = factory.create();
     setTextHeaders();
     addContextCallbacks();
     setClickListeners();
     setVisibility(VISIBLE);
-    toggleVisibility(false);
+    toggleVisibility(true);
     mConfigurationRepository = configurationRepository;
     mItemSelectedListener.postValue(new AdapterView.OnItemSelectedListener() {
       @Override
@@ -229,6 +233,8 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mIgst.setHeader("IGST");
     mIgst.setRegex(Constants.REGEX_DOUBLE_LESS_THAN_100);
     mRate.setHeader("Rate");
+    mStartingInvoiceNumber.setHeader("Invoice Begin");
+    mStartingInvoiceNumber.setRegex(Constants.REGEX_INTEGER);
     mOutputFileName.setHeader("Output File Name");
     mOutputFileName.setHeaderVisibility(GONE);
   }
@@ -249,6 +255,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mContextCallback.addSource(mCgst.getContextCallback());
     mContextCallback.addSource(mIgst.getContextCallback());
     mContextCallback.addSource(mRate.getContextCallback());
+    mContextCallback.addSource(mStartingInvoiceNumber.getContextCallback());
     mContextCallback.addSource(mOutputFileName.getContextCallback());
   }
 
@@ -291,6 +298,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     });
     mAuthorisedSignatory.setAfterTextChangedCallback(enteredString -> {
       mConfiguration.setAuthorisedSignatory(enteredString);
+      saveConfiguration();
+    });
+    mStartingInvoiceNumber.setAfterTextChangedCallback(enteredString -> {
+      if (enteredString == null)
+        return;
+      mConfiguration.setInvoiceBegin(Integer.parseInt(enteredString));
       saveConfiguration();
     });
     mGst.setAfterTextChangedCallback(enteredString -> {
@@ -360,6 +373,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
     mSgst.setText(String.valueOf(mConfiguration.getRates().getSgstRate()));
     mIgst.setText(String.valueOf(mConfiguration.getRates().getIgstRate()));
     mRate.setText(String.valueOf(mConfiguration.getRates().getRateValue()));
+    mStartingInvoiceNumber.setText(String.valueOf(1));
   }
 
   @Override
@@ -423,7 +437,14 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
   @Override
   public void onUploadClicked() {
-    mUploadEvent.postEvent();
+    Object obj = mStartingInvoiceNumber.getText().getValue();
+    if (obj == null) {
+      mUploadEvent.postEvent(1);
+      return;
+    }
+    String value = obj.toString();
+    int invoice = Integer.parseInt(value);
+    mUploadEvent.postEvent(invoice);
   }
 
   @Override
@@ -569,6 +590,12 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
   @NonNull
   @Override
+  public TextViewModel getStartingInvoiceNumber() {
+    return mStartingInvoiceNumber;
+  }
+
+  @NonNull
+  @Override
   public MutableLiveData<String> getInputFileName() {
     return mInputFileName;
   }
@@ -581,7 +608,7 @@ public class ContainerViewModel extends MenuViewModel<CanvasP> implements Contai
 
   @NonNull
   @Override
-  public LiveRunnable getUploadEvent() {
+  public LiveEvent.Mutable<Integer> getUploadEvent() {
     return mUploadEvent;
   }
 

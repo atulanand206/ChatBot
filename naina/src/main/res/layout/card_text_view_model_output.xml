@@ -24,6 +24,9 @@
         <include layout="@layout/content_clients_items"
             bind:viewmodel="@{outerViewModel}"/>
 
+        <include layout="@layout/card_text_view_model"
+            bind:viewmodel="@{outerViewModel.startingInvoiceNumber}"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

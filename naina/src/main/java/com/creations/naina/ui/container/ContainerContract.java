@@ -91,13 +91,16 @@ public interface ContainerContract {
     ContactAdapter getContactAdapter();
 
     @NonNull
+    TextViewModel getStartingInvoiceNumber();
+
+    @NonNull
     MutableLiveData<String> getInputFileName();
 
     @NonNull
     TextViewModel getOutputFileName();
 
     @NonNull
-    LiveRunnable getUploadEvent();
+    LiveEvent.Mutable<Integer> getUploadEvent();
 
     void onUploadClicked();
 
@@ -153,7 +156,7 @@ public interface ContainerContract {
 
   interface InteractionListener {
 
-    void onUploadEventClicked();
+    void onUploadEventClicked(int text);
 
     void onDocumentEventClicked(String fileName);
 

@@ -22,7 +22,6 @@ import androidx.annotation.NonNull;
 import com.creations.naina.R;
 import com.creations.naina.models.CanvasP;
 import com.creations.naina.models.Config;
-import com.creations.naina.models.FileUploadType;
 import com.creations.naina.services.SessionContext;
 import com.creations.naina.ui.container.ContainerContract;
 import com.creations.naina.ui.container.ContainerFragment;
@@ -47,7 +46,6 @@ import dagger.android.support.HasSupportFragmentInjector;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
-import static com.creations.naina.models.FileUploadType.FILE_UPLOAD_TYPE;
 import static com.creations.naina.utils.FileUtils.readFromString;
 import static com.creations.naina.utils.FileUtils.readFromTsv;
 import static com.creations.naina.utils.FragmentHelper.getContainerFragment;
@@ -118,8 +116,10 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     showConfigChooser();
   }
 
+  private int invoiceBegin = 1;
   @Override
-  public void onUploadEventClicked() {
+  public void onUploadEventClicked(int text) {
+    invoiceBegin = text;
     showFileChooser();
   }
 
@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         loadConfigurations();
         Log.d(TAG, gson.toJson(config));
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
           lists.addAll(readFromTsv(getContentResolver().openInputStream(uri)));
           setClients();
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -204,7 +204,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
   private void setClients() {
     Configuration configuration;
     configuration = sessionContext.getConfig().getConfiguration();
-    pages = getPages(lists, configuration);
+    pages = getPages(lists, configuration, 1);
     Set<Client> clients = getClients(pages, configuration);
     List<Client> clientsList = new ArrayList<>(clients);
     Collections.sort(clientsList, (o1, o2) -> o1.getClient().compareTo(o2.getClient()));
@@ -214,6 +214,9 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
   }
 
   private void convertToPdf() {
+    Configuration configuration;
+    configuration = sessionContext.getConfig().getConfiguration();
+    pages = getPages(lists, configuration, invoiceBegin);
     convert(pages, sessionContext.getConfig().getConfiguration(), outputFileName);
     Log.d(TAG, "PDF");
   }

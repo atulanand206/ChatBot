@@ -38,6 +38,7 @@ public class Constants {
   public static final String REGEX_DOUBLE_LESS_THAN_100 = "^(?!0?0\\.00$)\\d{1,2}\\.\\d{2}$";
   public static final String REGEX_MOBILE_NUMBER = "^[6-9]\\d{9}$";
   public static final String REGEX_IFSC = "^[A-Z]{4}0[A-Z0-9]{6}$";
+  public static final String REGEX_INTEGER = "\\d+";
 
   public static final String STATE_NAME = "Jharkhand";
   public static final int STATE_CODE = 20;

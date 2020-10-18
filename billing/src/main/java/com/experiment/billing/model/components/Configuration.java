@@ -15,6 +15,7 @@ public class Configuration {
   public static final String BANK_DETAILS = "bank_details";
   public static final String AUTHORISED_SIGNATORY = "authorised_signatory";
   public static final String CLIENTS = "clients";
+  public static final String INVOICE_BEGIN = "invoice_begin";
 
   @SerializedName(ENTITY)
   private Entity entity;
@@ -27,6 +28,9 @@ public class Configuration {
 
   @SerializedName(AUTHORISED_SIGNATORY)
   private String authorisedSignatory;
+
+  @SerializedName(INVOICE_BEGIN)
+  private int invoiceBegin;
 
   private List<Client> clients;
 
@@ -57,5 +61,13 @@ public class Configuration {
   public void setClients(List<Client> clients) {
     this.clients.clear();
     this.clients.addAll(clients);
+  }
+
+  public int getInvoiceBegin() {
+    return invoiceBegin;
+  }
+
+  public void setInvoiceBegin(int invoiceBegin) {
+    this.invoiceBegin = invoiceBegin;
   }
 }

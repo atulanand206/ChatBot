@@ -89,7 +89,7 @@ public class ContainerFragment extends MVVMFragmentView<ContainerContract.ViewMo
         Preconditions.verifyNonNull(mViewModel, "ContainerViewModel");
         Preconditions.verifyNonNull(mRootView, "RootView");
         Preconditions.verifyNonNull(mListener, "ContainerInteractionListener");
-        mViewModel.getUploadEvent().listen(getViewLifecycleOwner(), () -> mListener.onUploadEventClicked());
+        mViewModel.getUploadEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onUploadEventClicked((Integer) text));
         mViewModel.getDocumentEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onDocumentEventClicked(text.toString()));
         mViewModel.getSaveConfigEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onSaveConfig(text.toString()));
         mViewModel.getLoadConfigEvent().listen(getViewLifecycleOwner(), (text) -> mListener.onLoadConfig(text.toString()));

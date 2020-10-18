@@ -27,14 +27,15 @@ public class BillService {
     }
 
     public static List<Page> getPages(final List<List<String>> lists,
-                                      final Configuration configuration) {
+                                      final Configuration configuration,
+                                      final int invoiceBegin) {
         List<Permit> permits = new ArrayList<>();
         for (int i = 1; i < lists.size(); i++) {
             List<String> item = lists.get(i);
             permits.add(new Permit(item));
         }
         permits.forEach(System.out::println);
-        List<Page> pages = PermitToBillConvertor.convert(permits, 1, configuration);
+        List<Page> pages = PermitToBillConvertor.convert(permits, configuration.getInvoiceBegin(), configuration);
         for (Page page : pages) {
             page.calculateTotals(configuration);
         }

@@ -140,7 +140,7 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
             text = editable.toString();
         }
         if (TextUtils.isEmpty(text)) {
-            text = null;
+            text = "";
         }
         mText.setValue(text);
     }
@@ -191,9 +191,7 @@ public class TextViewModel<T extends Props> extends EditViewModel<T> implements 
 
     private void setEditedText(Context context, EditText input) {
         String txt = input.getText().toString();
-        if (txt.isEmpty())
-            Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
-        else if (regex != null && !regex.isEmpty()) {
+        if (regex != null && !regex.isEmpty()) {
             if (!txt.matches(regex))
                 Toast.makeText(context, "Invalid Entry. Try again.", Toast.LENGTH_SHORT).show();
             else
