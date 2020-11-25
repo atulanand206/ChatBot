@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.creations.script"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.vc_nainaVc
+        versionName rootProject.ext.vc_nainaVn
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = rootProject.ext.sourceCompatibility
+        targetCompatibility = rootProject.ext.targetCompatibility
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "android.arch.lifecycle:extensions:${lifecycleExtensions}"
+
+    implementation "com.google.firebase:firebase-analytics:${firebaseAnalyticsVersion}"
+    implementation "com.google.firebase:firebase-crashlytics:${firebaseCrashlyticsVersion}"
+
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    implementation "com.google.dagger:dagger:${dagger}"
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
+    implementation "androidx.core:core:${androidXCore}"
+    implementation "com.google.android.material:material:${supportLibraryVersion}"
+
+    implementation "pub.devrel:easypermissions:$rootProject.ext.easyPermissions"
+    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
+    testImplementation "junit:junit:${jUnit}"
+    androidTestImplementation "androidx.test.ext:junit:${jUnitAndroid}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${espresso}"
+
+    implementation project(path: ':condition')
+    implementation project(path: ':dagger')
+    implementation project(path: ':application')
+    implementation project(path: ':network')
+    implementation project(path: ':mvvm')
+}

@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/mvvm" />
             <option value="$PROJECT_DIR$/naina" />
             <option value="$PROJECT_DIR$/network" />
+            <option value="$PROJECT_DIR$/script" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
