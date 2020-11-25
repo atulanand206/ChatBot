@@ -11,6 +11,7 @@ import com.creations.mvvm.ui.editable.EditableViewModel;
 import com.creations.mvvm.ui.text.TextModule;
 import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMModule;
+import com.creations.script.models.ContactProps;
 
 import dagger.Binds;
 import dagger.Module;

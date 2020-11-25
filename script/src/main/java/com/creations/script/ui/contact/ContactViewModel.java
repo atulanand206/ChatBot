@@ -6,23 +6,23 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.creations.condition.Preconditions;
-import com.creations.mvvm.R;
 import com.creations.mvvm.live.LiveRunnable;
 import com.creations.mvvm.live.MediatorLiveData;
 import com.creations.mvvm.live.MutableLiveData;
 import com.creations.mvvm.models.props.Props;
-import com.creations.mvvm.ui.FormViewModelBase;
 import com.creations.mvvm.ui.editable.EditableViewModel;
 import com.creations.mvvm.ui.menu.MenuViewModel;
 import com.creations.mvvm.ui.text.TextViewModel;
 import com.creations.mvvm.viewmodel.MVVMViewModel;
-import com.creations.script.models.CanvasP;
 import com.creations.script.models.ContactProps;
+import com.creations.script.models.State;
 
 /**
  * This ViewModel works with a Contact and is to be used for creating forms.
  */
-public class ContactViewModel extends MenuViewModel<Props> implements ContactContract.ViewModel {
+public class ContactViewModel<T extends Props> extends MenuViewModel<T> implements ContactContract.ViewModel<T> {
+
+    private MutableLiveData<Boolean> mPreview = new MutableLiveData<>(true);
 
     private ContactProps mContactProps;
 
@@ -33,11 +33,8 @@ public class ContactViewModel extends MenuViewModel<Props> implements ContactCon
     @NonNull
     private final LiveRunnable.Mutable mItemDeleteEvent = new LiveRunnable.Mutable();
 
-    public ContactViewModel(@NonNull final Application application,
-                            @NonNull final TextViewModel.Factory textFactory,
-                            @NonNull final EditableViewModel.Factory editableFactory) {
-        super(application, new CanvasP());
-        Preconditions.requiresNonNull(editableFactory, "EditableFactory");
+    public ContactViewModel(@NonNull final Application application) {
+        super(application, null);
     }
 
     @Override
@@ -45,6 +42,16 @@ public class ContactViewModel extends MenuViewModel<Props> implements ContactCon
                                  @NonNull final ContactContract.TextChangedCallback textChangedCallback) {
         Preconditions.requiresNonNull(contactProps, "ContactProps");
         mContactProps = contactProps;
+    }
+
+    @Override
+    public LiveData<Boolean> getPreview() {
+        return mPreview;
+    }
+
+    @Override
+    public void setPreview(State state) {
+        mPreview.setValue(state == State.PREVIEW);
     }
 
     @NonNull
@@ -92,7 +99,7 @@ public class ContactViewModel extends MenuViewModel<Props> implements ContactCon
         @NonNull
         @Override
         public ContactViewModel create() {
-            return new ContactViewModel(mApplication, mTextFactory, mEditableFactory);
+            return new ContactViewModel(mApplication);
         }
     }
 }
